@@ -1,22 +1,17 @@
 import React, { useState, useContext } from 'react';
-import { useHistory, NavLink } from 'react-router-dom';
-import { AuthContext } from 'pantanal-client/src/contexts/authContext';
-
-import Loader from 'pantanal-client/src/components/Loader';
+import { useNavigate, NavLink } from 'react-router-dom';
 import styled from 'styled-components';
-import { api } from 'pantanal-client/src/apis/api';
-
-import bgRegister from '../images/bg/bgRegister.jpg';
+import { AuthContext } from '../contexts/AuthContext';
+import { Loading } from '../components/Loading';
+import { api } from '../Services/api';
+import bgRegister from '../assets/images/bg/bgRegister.jpg';
 
 const Content = styled.div`
   background-color: white;
   width: 100%;
-  height: var(--main-height);
+  height: 100%;
   box-sizing: border-box;
   padding: 0px;
-  position: absolute;
-  top: var(--header-height);
-  z-index: 5000;
 `;
 
 const InnerContent = styled.div`
@@ -176,8 +171,8 @@ const ErrorMessage = styled.div`
 `;
 
 export function Register() {
-  const history = useHistory();
-  const authContext = useContext(AuthContext);
+  const navigate = useNavigate();
+  const { setAuthenticatedUser } = useContext(AuthContext);
 
   const [state, setState] = useState({
     name: '',
@@ -193,7 +188,7 @@ export function Register() {
 
   const [step, setStep] = useState('register');
 
-  function handleChange(event) {
+  function handleChange(event: any) {
     setError({ error: '' });
     if (event.currentTarget.name === 'name') {
       setState({
@@ -213,9 +208,9 @@ export function Register() {
     }
   }
 
-  function isValidCPF(cpf) {
-    if (typeof cpf !== 'string') return false;
-    cpf = cpf.replace(/[\s.-]*/gim, '');
+  function isValidCPF(cpfNumber: any) {
+    if (typeof cpfNumber !== 'string') return false;
+    const cpf = cpfNumber.replace(/[\s.-]*/gim, '');
     if (
       !cpf
       || cpf.length !== 11
@@ -234,19 +229,19 @@ export function Register() {
     }
     let soma = 0;
     let resto;
-    for (let i = 1; i <= 9; i++) soma += parseInt(cpf.substring(i - 1, i)) * (11 - i);
+    for (let i = 1; i <= 9; i++) soma += parseInt(cpf.substring(i - 1, i), 10) * (11 - i);
     resto = (soma * 10) % 11;
     if (resto === 10 || resto === 11) resto = 0;
-    if (resto !== parseInt(cpf.substring(9, 10))) return false;
+    if (resto !== parseInt(cpf.substring(9, 10), 10)) return false;
     soma = 0;
-    for (let i = 1; i <= 10; i++) soma += parseInt(cpf.substring(i - 1, i)) * (12 - i);
+    for (let i = 1; i <= 10; i++) soma += parseInt(cpf.substring(i - 1, i), 10) * (12 - i);
     resto = (soma * 10) % 11;
     if (resto === 10 || resto === 11) resto = 0;
-    if (resto !== parseInt(cpf.substring(10, 11))) return false;
+    if (resto !== parseInt(cpf.substring(10, 11), 10)) return false;
     return true;
   }
 
-  async function handleRegister(event) {
+  async function handleRegister(event: any) {
     event.preventDefault();
 
     if (!state.name || state.name.length > 50) {
@@ -293,7 +288,7 @@ export function Register() {
     }
   }
 
-  async function handleActivate(event) {
+  async function handleActivate(event: any) {
     event.preventDefault();
 
     if (!state.registerTokenConfirmation) {
@@ -305,15 +300,15 @@ export function Register() {
       try {
         const response = await api.post('/activate', state);
 
-        authContext.setAuthenticatedUser({ ...response.data });
+        setAuthenticatedUser({ ...response.data });
         localStorage.setItem(
           'authenticatedUser',
           JSON.stringify({ ...response.data }),
         );
         setNegotiating(false);
 
-        history.push('/profile');
-      } catch (err) {
+        navigate('../profile');
+      } catch (err: any) {
         setNegotiating(false);
 
         // console.error(err.response.data);
@@ -324,7 +319,7 @@ export function Register() {
 
   return (
     <Content>
-      {negotiating && <Loader />}
+      {negotiating && <Loading />}
       <InnerContent>
         {step === 'register' && (
           <RegisterForm onSubmit={handleRegister}>
@@ -342,7 +337,7 @@ export function Register() {
                     value={state.name}
                     onChange={handleChange}
                     placeholder="Nome completo"
-                    maxLength="50"
+                    maxLength={50}
                     autoComplete="off"
                   />
                 </Column>
@@ -357,7 +352,7 @@ export function Register() {
                     value={state.cpf}
                     onChange={handleChange}
                     placeholder="CPF"
-                    maxLength="11"
+                    maxLength={11}
                     autoComplete="off"
                   />
                 </Column>
@@ -372,7 +367,7 @@ export function Register() {
                     value={state.email}
                     onChange={handleChange}
                     placeholder="E-mail"
-                    maxLength="50"
+                    maxLength={50}
                     autoComplete="off"
                   />
                 </Column>
@@ -387,7 +382,7 @@ export function Register() {
                     value={state.password}
                     onChange={handleChange}
                     placeholder="Senha"
-                    maxLength="22"
+                    maxLength={22}
                     autoComplete="off"
                   />
                 </Column>
@@ -401,7 +396,7 @@ export function Register() {
                     value={state.passwordConfirmation}
                     onChange={handleChange}
                     placeholder="Confirmar senha"
-                    maxLength="22"
+                    maxLength={22}
                     autoComplete="off"
                   />
                 </Column>
@@ -436,7 +431,7 @@ export function Register() {
                     value={state.registerTokenConfirmation}
                     onChange={handleChange}
                     placeholder="Código de verificação"
-                    maxLength="6"
+                    maxLength={6}
                     autoComplete="off"
                   />
                 </Column>

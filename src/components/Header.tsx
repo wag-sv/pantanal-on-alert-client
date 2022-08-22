@@ -1,12 +1,12 @@
 import React from 'react';
 
-// import { useHistory, NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 // import { AppContext } from '../../contexts/AppContext';
 import logoPantanalSrc from '../assets/images/logo/logoPantanal.svg';
 import brasaoCMBSrc from '../assets/images/logo/logoCMB.svg';
 import logo193Src from '../assets/images/logo/logo193.svg';
-// import userSrc from '../images/icon/user.svg';
+import userSrc from '../assets/images/icon/user.svg';
 
 const MainDiv = styled.div`
   background-color: var(--red);
@@ -88,6 +88,16 @@ const UlMenu = styled.ul`
     cursor: pointer;
     padding: 3px;
   }
+
+  a {
+      &:hover {
+      border-bottom: dashed 2px var(--yellow);
+    }
+
+    &.active {
+      border-bottom: solid 2px var(--yellow);
+    }
+    }
 `;
 
 // const StyledLink = styled(NavLink)`
@@ -105,10 +115,10 @@ const UlMenu = styled.ul`
 //   }
 // `;
 
-// const ImageUser = styled.img`
-//   width: 30px;
-//   height: 30px;
-// `;
+const ImageUser = styled.img`
+  width: 30px;
+  height: 30px;
+`;
 
 // const UserLink = styled(NavLink)`
 //   text-decoration: none;
@@ -132,7 +142,6 @@ export function Header() {
       <DivLogos>
         <DivLogoPantanal>
           <LogoPantanal src={logoPantanalSrc} />
-          {/* <LogoPantanal src={logoPantanalSrc} onClick={goHome} /> */}
         </DivLogoPantanal>
         <DivLogoBombeiros>
           <LogoCMB src={brasaoCMBSrc} />
@@ -142,8 +151,14 @@ export function Header() {
 
       <DivMenu>
         <Divlist>
-          {/* prettier-ignore */}
           <UlMenu>
+            <li><Link to="/">Mapa</Link></li>
+            <li><Link to="/about">Sobre</Link></li>
+            <li>Dashboard</li>
+            <li><ImageUser src={userSrc} /></li>
+            <li>Entrar</li>
+            <li><Link to="/register">Cadastrar</Link></li>
+
             {/* <li><StyledLink to="/">Mapa</StyledLink></li>
             <li><StyledLink to="/about">Sobre</StyledLink></li> */}
             {/* {token && user.isAdmin && <li><StyledLink to="/dashboard">Dashboard</StyledLink></li>}

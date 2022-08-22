@@ -1,4 +1,5 @@
 import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
 import { AppContext } from './contexts/AppContext';
 import { GlobalStyle } from './globalStyle';
 import { api } from './Services/api';
@@ -7,7 +8,7 @@ import { Header } from './components/Header';
 import { Main } from './components/Main';
 import { Footer } from './components/Footer';
 import { Router } from './router/Router';
-import { Error } from './pages/Error/Error';
+import { Error } from './pages/Error';
 
 export function App() {
   const { setAppState }: any = React.useContext(AppContext);
@@ -97,7 +98,7 @@ export function App() {
   }, []);
 
   return (
-    <>
+    <BrowserRouter>
       <GlobalStyle />
       <Header />
       <Main>
@@ -106,6 +107,6 @@ export function App() {
         {ready && !error && <Router /> }
       </Main>
       <Footer />
-    </>
+    </BrowserRouter>
   );
 }

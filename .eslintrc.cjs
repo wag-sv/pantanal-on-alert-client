@@ -24,7 +24,8 @@ module.exports = {
   rules: {
     'import/prefer-default-export': 'off',
     'max-len': 'off',
-    // 'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
+    'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
     'no-underscore-dangle': 'off',
+    'no-plusplus': 'off',
   },
 };

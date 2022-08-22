@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
-import bgAbout from '../../assets/images/bg/bgAbout.jpg';
-import bgFireFighter from '../../assets/images/bg/bgFireFighter.jpg';
-import bgForest from '../../assets/images/bg/bgForest.jpg';
+import bgAbout from '../assets/images/bg/bgAbout.jpg';
+import bgFireFighter from '../assets/images/bg/bgFireFighter.jpg';
+import bgForest from '../assets/images/bg/bgForest.jpg';
 
 export const AboutSection1 = styled.div`
   background: url(${bgAbout});
