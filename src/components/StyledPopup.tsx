@@ -5,7 +5,7 @@ import { Popup } from 'react-leaflet';
 import { AuthContext } from '../contexts/AuthContext';
 import { api } from '../Services/api';
 import { Loading } from './Loading';
-import { GreenButton } from './GreenButton';
+import { GreenButton } from './Button';
 
 // TODO colocar tamanho de fontes em REM
 const Wrapper = styled.div`
@@ -45,7 +45,7 @@ const Wrapper = styled.div`
 `;
 
 export function StyledPopup({ property } : any) {
-  const { authenticatedUser, setAuthenticatedUser }: any = React.useContext(AuthContext);
+  const { authenticatedUser, setAuthenticatedUser } = React.useContext(AuthContext);
   const [loading, setLoading] = React.useState(false);
   const navigate = useNavigate();
 

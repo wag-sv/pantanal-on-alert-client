@@ -5,17 +5,12 @@ type AuthContextProviderPropsType = {
 };
 
 type AuthContextType = {
-  authenticatedUser: AuthenticatedUserType,
-  setAuthenticatedUser: (newState: AuthenticatedUserType) => void
-};
-
-type AuthenticatedUserType = {
-  token: string,
-  user: object
+  authenticatedUser: any,
+  setAuthenticatedUser: (newState: any) => void
 };
 
 const authContextInitialValue = {
-  authenticatedUser: { token: '', user: {} },
+  authenticatedUser: { token: '', user: { isAdmin: false } },
   setAuthenticatedUser: () => {},
 };
 
@@ -28,8 +23,9 @@ export function AuthContextProvider({ children }: AuthContextProviderPropsType) 
   React.useEffect(() => {
     const storedUser = localStorage.getItem('authenticatedUser');
     const parsedStoredUser = JSON.parse(storedUser || '""');
-    if (parsedStoredUser.user) {
-      setAuthenticatedUser({ ...parsedStoredUser });
+    const { user, token } = parsedStoredUser;
+    if (user && token) {
+      setAuthenticatedUser({ user, token });
     }
   }, []);
 

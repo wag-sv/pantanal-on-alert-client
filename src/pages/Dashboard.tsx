@@ -2,21 +2,18 @@ import React, { useState } from 'react';
 
 import styled from 'styled-components';
 
-import DashboardSummary from './DashboardSummary';
-import DashboardProperties from './DashboardProperties';
-import DashboardUsers from './DashboardUsers';
-import DashboardAlerts from './DashboardAlerts';
-import DashboardPropertiesLoader from './DashboardPropertiesLoader';
+import DashboardSummary from '../components/DashboardSummary';
+import DashboardProperties from '../components/DashboardProperties';
+import DashboardUsers from '../components/DashboardUsers';
+import DashboardAlerts from '../components/DashboardAlerts';
+import DashboardPropertiesLoader from '../components/DashboardPropertiesLoader';
 
 const Content = styled.div`
   background-color: white;
   width: 100%;
-  height: var(--main-height);
+  height: 100%;
   box-sizing: border-box;
   padding: 0px;
-  position: absolute;
-  top: var(--header-height);
-  z-index: 5000;
 `;
 
 const InnerContent = styled.div`
@@ -123,7 +120,7 @@ const Option = styled.div`
   }
 `;
 
-export function Dashboard(props) {
+export function Dashboard({ properties, getProperties }: any) {
   const [option, setOption] = useState('summary');
 
   return (
@@ -157,14 +154,14 @@ export function Dashboard(props) {
         {option === 'summary' && <DashboardSummary />}
         {option === 'properties' && (
           <DashboardProperties
-            properties={props.properties}
-            getProperties={props.getProperties}
+            properties={properties}
+            getProperties={getProperties}
           />
         )}
         {option === 'users' && <DashboardUsers />}
         {option === 'alerts' && <DashboardAlerts />}
         {option === 'loader' && (
-          <DashboardPropertiesLoader getProperties={props.getProperties} />
+          <DashboardPropertiesLoader getProperties={getProperties} />
         )}
       </InnerContent>
     </Content>

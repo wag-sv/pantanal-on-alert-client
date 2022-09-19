@@ -1,173 +1,63 @@
 import React from 'react';
-
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-// import { AppContext } from '../../contexts/AppContext';
-import logoPantanalSrc from '../assets/images/logo/logoPantanal.svg';
-import brasaoCMBSrc from '../assets/images/logo/logoCMB.svg';
-import logo193Src from '../assets/images/logo/logo193.svg';
-import userSrc from '../assets/images/icon/user.svg';
+import { useNavigate } from 'react-router-dom';
+import wetlandLogoPath from '../assets/images/wetlandLogo.svg';
+import firefightersArmsPath from '../assets/images/firefightersArms.svg';
+import firefightersLogoPath from '../assets/images/firefightersLogo.svg';
+import { devices } from '../resources/devices';
 
-const MainDiv = styled.div`
+const Wrapper = styled.div`
   background-color: var(--red);
   height: var(--header-height);
   width: 100%;
   display: flex;
-  flex-direction: column;
-`;
-
-const DivLogos = styled.div`
-  display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
-  height: 80px;
+  padding: 0px 5%;
 `;
 
-const DivLogoPantanal = styled.div`
-  height: 100%;
-  width: 45%;
-  margin-left: 5%;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-`;
-
-const DivLogoBombeiros = styled.div`
-  height: 100%;
-  width: 45%;
-  margin-right: 5%;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-`;
-
-const LogoPantanal = styled.img`
-  height: 85%;
+const WetlandLogo = styled.img`
+  height: 80%;
   cursor: pointer;
 `;
 
-const LogoCMB = styled.img`
-  height: 85%;
+const FirefightersImages = styled.div`
+  height: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
 `;
 
-const Logo193 = styled.img`
-  height: 65%;
-  margin-left: 10px;
+const FirefightersArms = styled.img`
+  height: 80%;
+`;
 
-  @media (max-width: 800px) {
-    display: none;
+const FirefightersLogo = styled.img`
+  height: 80%;
+  display: none;
+
+  @media ${devices.tablet} {
+    display: block;
   }
 `;
-
-const DivMenu = styled.div`
-  height: var(--menu-height);
-  width: 100%;
-  border-top: solid 1px var(--yellow);
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-`;
-
-const Divlist = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  margin-right: 5%;
-`;
-
-const UlMenu = styled.ul`
-  padding: 0px;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  color: var(--yellow);
-
-  li {
-    list-style: none;
-    margin-left: 15px;
-    cursor: pointer;
-    padding: 3px;
-  }
-
-  a {
-      &:hover {
-      border-bottom: dashed 2px var(--yellow);
-    }
-
-    &.active {
-      border-bottom: solid 2px var(--yellow);
-    }
-    }
-`;
-
-// const StyledLink = styled(NavLink)`
-//   text-decoration: none;
-//   color: var(--yellow);
-//   padding: 3px;
-//   /* border-bottom: solid 2px var(--red); */
-
-//   &:hover {
-//     border-bottom: dashed 2px var(--yellow);
-//   }
-
-//   &.active {
-//     border-bottom: solid 2px var(--yellow);
-//   }
-// `;
-
-const ImageUser = styled.img`
-  width: 30px;
-  height: 30px;
-`;
-
-// const UserLink = styled(NavLink)`
-//   text-decoration: none;
-//   margin-left: 15px;
-//   width: 30px;
-//   height: 30px;
-// `;
 
 export function Header() {
-  // const appContext = useContext(AppContext);
-  // const { authenticatedUser } = appContext;
-  // const { token, user } = authenticatedUser;
+  const navigate = useNavigate();
 
-  // const history = useHistory();
-  // function goHome() {
-  //   history.push('/');
-  // }
+  const goHome = () => {
+    navigate('/');
+  };
 
   return (
-    <MainDiv>
-      <DivLogos>
-        <DivLogoPantanal>
-          <LogoPantanal src={logoPantanalSrc} />
-        </DivLogoPantanal>
-        <DivLogoBombeiros>
-          <LogoCMB src={brasaoCMBSrc} />
-          <Logo193 src={logo193Src} />
-        </DivLogoBombeiros>
-      </DivLogos>
-
-      <DivMenu>
-        <Divlist>
-          <UlMenu>
-            <li><Link to="/">Mapa</Link></li>
-            <li><Link to="/about">Sobre</Link></li>
-            <li>Dashboard</li>
-            <li><ImageUser src={userSrc} /></li>
-            <li>Entrar</li>
-            <li><Link to="/register">Cadastrar</Link></li>
-
-            {/* <li><StyledLink to="/">Mapa</StyledLink></li>
-            <li><StyledLink to="/about">Sobre</StyledLink></li> */}
-            {/* {token && user.isAdmin && <li><StyledLink to="/dashboard">Dashboard</StyledLink></li>}
-            {token && <UserLink to="/profile"><ImageUser src={userSrc} /></UserLink>}
-            {!token && <li><StyledLink to="/authenticate">Entrar</StyledLink></li>}
-            {!token && <li><StyledLink to="/register">Cadastrar</StyledLink></li>} */}
-          </UlMenu>
-        </Divlist>
-      </DivMenu>
-    </MainDiv>
+    <Wrapper>
+      <WetlandLogo src={wetlandLogoPath} onClick={goHome} />
+      <FirefightersImages>
+        <FirefightersArms src={firefightersArmsPath} />
+        <FirefightersLogo src={firefightersLogoPath} />
+      </FirefightersImages>
+    </Wrapper>
   );
 }
+
+// TODO: colocar link em WetlandLogo

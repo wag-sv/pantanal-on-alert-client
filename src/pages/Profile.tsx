@@ -1,278 +1,296 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
-import { AuthContext } from 'pantanal-client/src/contexts/authContext';
-
-import styled from 'styled-components';
-
-import PersonalData from 'pantanal-client/src/components/PersonalData';
-import MyEmail from 'pantanal-client/src/components/MyEmail';
-import MyCellPhone from 'pantanal-client/src/components/MyCellPhone';
-import MySubscriptions from 'pantanal-client/src/components/MySubscriptions';
-import { api } from 'pantanal-client/src/apis/api';
-import bgProfile from '../images/bg/bgProfile.jpg';
-
-const Content = styled.div`
-  background-color: white;
-  width: 100%;
-  height: var(--main-height);
-  box-sizing: border-box;
-  padding: 0px;
-  position: absolute;
-  top: var(--header-height);
-  z-index: 5000;
-`;
-
-const InnerContent = styled.div`
-  background-image: url(${bgProfile});
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center center;
-  width: 100%;
-  height: 100%;
-  box-sizing: border-box;
-  padding: 40px 5%;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  overflow: auto;
-  gap: 30px;
-
-  &::-webkit-scrollbar {
-    width: 7px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background-color: rgba(0, 0, 0, 0.3);
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background-color: var(--red);
-    background-image: -webkit-linear-gradient(
-      90deg,
-      transparent,
-      rgba(0, 0, 0, 0.3) 50%,
-      transparent,
-      transparent
-    );
-  }
-
-  @media (max-width: 900px) {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-  }
-`;
-
-const Menu = styled.div`
-  background-color: var(--red);
-  width: 300px;
-  min-width: 270px;
-  box-sizing: border-box;
-  padding: 30px 50px 30px 50px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-
-  @media (max-width: 900px) {
-    width: 100%;
-  }
-
-  @media (max-width: 600px) {
-    padding: 20px 50px 20px 50px;
-  }
-
-  @media (max-width: 400px) {
-    padding: 20px 30px 20px 30px;
-  }
-`;
-
-const H1 = styled.h1`
-  color: white;
-  font-weight: 500;
-  margin: 15px 0px 5px 0px;
-`;
-
-const Line = styled.div`
-  width: 90px;
-  background-color: var(--yellow);
-  height: 1px;
-`;
-
-const Options = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  gap: 5px;
-  margin: 25px 0px 20px 0px;
-`;
-
-const Option = styled.div`
-  height: 40px;
-  width: 100%;
-  color: white;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  cursor: pointer;
-
-  div {
-    width: 150px;
-    padding-left: 10px;
-  }
-
-  &:hover {
-    background-color: var(--hover);
-  }
-`;
-
-const ExitOption = styled.div`
-  height: 40px;
-  width: 100%;
-  color: var(--yellow);
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  cursor: pointer;
-
-  div {
-    width: 150px;
-    padding-left: 10px;
-  }
-
-  &:hover {
-    background-color: var(--hover);
-  }
-`;
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Loading } from '../components/Loading';
+// import MySubscriptions from '../components/MySubscriptions';
+import { AuthContext } from '../contexts/AuthContext';
+import bgProfile from '../assets/images/bg/bgProfile.jpg';
+import { Background } from '../components/Background';
+import { Box } from '../components/Box';
+import { WhiteH1 } from '../components/H1';
+import { Form } from '../components/Form';
+import { NonEditableItem } from '../components/NonEditableItem';
+import { EditableItem } from '../components/EditableItem';
+import { VerificationInput } from '../components/VerificationInput';
+import { api } from '../Services/api';
 
 export function Profile() {
-  const history = useHistory();
+  const navigate = useNavigate();
+  const { authenticatedUser, setAuthenticatedUser } = React.useContext(AuthContext);
+  const [negotiating, setNegotiating] = React.useState(false);
+  const [editName, setEditName] = React.useState(false);
+  const [editEmail, setEditEmail] = React.useState(false);
+  const [editCellPhone, setEditCellPhone] = React.useState(false);
+  const [emailUpdateStep, setEmailUpdateStep] = React.useState('edit');
+  const [cellPhoneUpdateStep, setCellPhoneUpdateStep] = React.useState('edit');
+  const [nameUpdateError, setNameUpdateError] = React.useState('');
+  const [emailUpdateError, setEmailUpdateError] = React.useState('');
+  const [cellPhonelUpdateError, setCellPhoneUpdateError] = React.useState('');
+  const [user, setUser] = React.useState({
+    cpf: authenticatedUser.user.cpf,
+    name: authenticatedUser.user.name,
+    email: authenticatedUser.user.email,
+    cellPhone: authenticatedUser.user.cellPhone,
+    emailToken: '',
+    cellPhoneToken: '',
+  });
 
-  const authContext = useContext(AuthContext);
+  const handleChange = (event: any) => {
+    const { name, value } = event.target;
+    if (name === 'name') setNameUpdateError('');
+    if (name === 'email') setEmailUpdateError('');
+    if (name === 'cellPhone') setCellPhoneUpdateError('');
+    setUser({ ...user, [name]: value });
+  };
 
-  const refreshUser = async () => {
-    if (authContext.authenticatedUser.token) {
+  const handleNameUpdate = async (event: any) => {
+    event.preventDefault();
+    if (!user.name || user.name.length > 50) setNameUpdateError('O nome é obrigatório e deve ter no máximo 50 caracteres.');
+    else {
       try {
-        const response = await api.post(
-          '/refresh_user',
-          authContext.authenticatedUser.user,
-        );
-
-        authContext.setAuthenticatedUser({ ...response.data });
-        localStorage.setItem(
-          'authenticatedUser',
-          JSON.stringify({ ...response.data }),
-        );
-      } catch (err) {
-        console.error(err.response.data);
+        setNegotiating(true);
+        const response = await api.post('/update_name', { name: user.name });
+        const { updatedUser }: any = response.data;
+        setAuthenticatedUser({ ...authenticatedUser, user: updatedUser });
+        localStorage.setItem('authenticatedUser', JSON.stringify({ ...authenticatedUser, user: updatedUser }));
+        setEditName(false);
+        setNegotiating(false);
+      } catch (catched: any) {
+        setNegotiating(false);
+        setNameUpdateError(catched.response.data.error);
       }
     }
   };
 
-  useEffect(() => {
-    refreshUser();
-  }, []);
+  const handleCancelNameUpdate = () => {
+    setUser({ ...user, name: authenticatedUser.user.name });
+    setNameUpdateError('');
+  };
 
-  const [state, setState] = useState({
-    name: '',
-    cpf: '',
-    email: '',
-    cellPhone: '',
-    password: '',
-    passwordConfirmation: '',
-    emailToken: '',
-    cellPhoneToken: '',
-    provisionalEmail: '',
-    provisionalCellPhone: '',
-  });
+  const handleEmailUpdate = async (event: any) => {
+    event.preventDefault();
+    if (emailUpdateStep === 'edit') {
+      if (!user.email || !user.email.match(/[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/)) setEmailUpdateError('O e-mail é obrigatório e deve ser um endereço de e-mail válido.');
+      else {
+        try {
+          setNegotiating(true);
+          await api.post('/update_email', { email: user.email });
+          setEditEmail(false);
+          setUser({ ...user, emailToken: '' });
+          setEmailUpdateStep('verify');
+          setEmailUpdateError('');
+          setNegotiating(false);
+        } catch (catched: any) {
+          setNegotiating(false);
+          setEmailUpdateError(catched.response.data.error);
+        }
+      }
+    }
+    if (emailUpdateStep === 'verify') {
+      if (!user.emailToken) setEmailUpdateError('O código de verificação é obrigatório.');
+      else {
+        try {
+          setNegotiating(true);
+          const response = await api.post('/verify_email', { email: user.email, emailToken: user.emailToken });
+          const { updatedUser }: any = response.data;
+          setAuthenticatedUser({ ...authenticatedUser, user: updatedUser });
+          localStorage.setItem('authenticatedUser', JSON.stringify({ ...authenticatedUser, user: updatedUser }));
+          setEmailUpdateStep('edit');
+          setEmailUpdateError('');
+          setNegotiating(false);
+        } catch (catched: any) {
+          setNegotiating(false);
+          setEmailUpdateError(catched.response.data.error);
+        }
+      }
+    }
+  };
 
-  const [error, setError] = useState({ error: '' });
-  const [option, setOption] = useState('personalData');
+  const handleResendEmailToken = async (event: any) => {
+    event.preventDefault();
+    try {
+      setNegotiating(true);
+      await api.post('/resend_email_token', { email: user.email });
+      setNegotiating(false);
+    } catch (catched: any) {
+      setNegotiating(false);
+      setEmailUpdateError(catched.response.data.error);
+    }
+  };
 
-  function handleChange(event) {
-    setError({ error: '' });
-    setState({
-      ...state,
-      [event.currentTarget.name]: event.currentTarget.value,
-    });
-  }
+  const handleCancelEmailUpdate = () => {
+    setUser({ ...user, email: authenticatedUser.user.email, emailToken: '' });
+    setEmailUpdateStep('edit');
+    setEmailUpdateError('');
+  };
 
-  function handleLogout() {
+  const handleCellPhoneUpdate = async (event: any) => {
+    event.preventDefault();
+    if (cellPhoneUpdateStep === 'edit') {
+      if (!user.cellPhone || user.cellPhone.length !== 11) setCellPhoneUpdateError('O telefone celular deve ter 11 números.');
+      else {
+        try {
+          setNegotiating(true);
+          await api.post('/update_cell_phone', { cellPhone: user.cellPhone });
+          setEditCellPhone(false);
+          setUser({ ...user, cellPhoneToken: '' });
+          setCellPhoneUpdateStep('verify');
+          setCellPhoneUpdateError('');
+          setNegotiating(false);
+        } catch (catched: any) {
+          setNegotiating(false);
+          setCellPhoneUpdateError(catched.response.data.error);
+        }
+      }
+    }
+    if (cellPhoneUpdateStep === 'verify') {
+      if (!user.cellPhoneToken) setCellPhoneUpdateError('O código de verificação é obrigatório.');
+      else {
+        try {
+          setNegotiating(true);
+          const response = await api.post('/verify_cellphone', { cellPhone: user.cellPhone, cellPhoneToken: user.cellPhoneToken });
+          const { updatedUser }: any = response.data;
+          setAuthenticatedUser({ ...authenticatedUser, user: updatedUser });
+          localStorage.setItem('authenticatedUser', JSON.stringify({ ...authenticatedUser, user: updatedUser }));
+          setCellPhoneUpdateStep('edit');
+          setCellPhoneUpdateError('');
+          setNegotiating(false);
+        } catch (catched: any) {
+          setNegotiating(false);
+          setCellPhoneUpdateError(catched.response.data.error);
+        }
+      }
+    }
+  };
+
+  const handleResendCellPhoneToken = async (event: any) => {
+    event.preventDefault();
+    try {
+      setNegotiating(true);
+      await api.post('/resend_cellphone_token', { cellPhone: user.cellPhone });
+      setNegotiating(false);
+    } catch (catched: any) {
+      setNegotiating(false);
+      setCellPhoneUpdateError(catched.response.data.error);
+    }
+  };
+
+  const handleCancelCellPhoneUpdate = () => {
+    setUser({ ...user, cellPhone: authenticatedUser.user.cellPhone, cellPhoneToken: '' });
+    setCellPhoneUpdateStep('edit');
+    setCellPhoneUpdateError('');
+  };
+
+  const handleLogout = () => {
     localStorage.removeItem('authenticatedUser');
-    authContext.setAuthenticatedUser({});
-
-    history.push('/');
-  }
+    setAuthenticatedUser({ token: '', user: {} });
+    navigate('/');
+  };
 
   return (
-    <Content>
-      <InnerContent>
-        <Menu>
-          <H1>Meu Perfil</H1>
-          <Line />
-          <Options>
-            <Option onClick={() => setOption('personalData')}>
-              <div>Dados Pessoais</div>
-            </Option>
-            <Option onClick={() => setOption('myEmail')}>
-              <div>Meu E-mail</div>
-            </Option>
+    <Background backgroundImage={bgProfile}>
+      {negotiating && <Loading />}
+      <Box bgColor="var(--red)" width="700px">
+        <WhiteH1>MEU PERFIL</WhiteH1>
+        <button type="button" onClick={handleLogout}>SAIR</button>
 
-            <Option onClick={() => setOption('myCellPhone')}>
-              <div>Meu Celular</div>
-            </Option>
+        <NonEditableItem
+          label="CPF"
+          value={user.cpf}
+        />
 
-            <Option onClick={() => setOption('mySubscriptions')}>
-              <div>Minhas Inscrições</div>
-            </Option>
-
-            {/* <Option>
-              <div>Meus Alertas</div>
-            </Option>
-            <Option>
-              <div>Alterar Senha</div>
-            </Option> */}
-            <ExitOption onClick={handleLogout}>
-              <div>Sair</div>
-            </ExitOption>
-          </Options>
-        </Menu>
-
-        {option === 'personalData' && (
-          <PersonalData
-            state={state}
-            setState={setState}
-            error={error}
-            setError={setError}
-            handleChange={handleChange}
+        <Form onSubmit={handleNameUpdate}>
+          <EditableItem
+            label="Nome"
+            id="name"
+            name="name"
+            type="text"
+            maxLength={50}
+            placeholder="Nome completo"
+            autoComplete="off"
+            value={user.name}
+            onChange={handleChange}
+            edit={editName}
+            setEdit={setEditName}
+            onCancel={handleCancelNameUpdate}
           />
+          <span>{nameUpdateError}</span>
+        </Form>
+        {emailUpdateStep === 'edit' && (
+          <Form onSubmit={handleEmailUpdate}>
+            <EditableItem
+              label="E-mail"
+              id="email"
+              name="email"
+              type="text"
+              maxLength={50}
+              placeholder="Email"
+              autoComplete="off"
+              value={user.email}
+              onChange={handleChange}
+              edit={editEmail}
+              setEdit={setEditEmail}
+              onCancel={handleCancelEmailUpdate}
+            />
+            <span>{emailUpdateError}</span>
+          </Form>
         )}
-
-        {option === 'myEmail' && (
-          <MyEmail
-            state={state}
-            setState={setState}
-            error={error}
-            setError={setError}
-            handleChange={handleChange}
+        {emailUpdateStep === 'verify' && (
+          <Form onSubmit={handleEmailUpdate}>
+            <VerificationInput
+              label="Código de verificação"
+              id="emailToken"
+              name="emailToken"
+              type="tel"
+              maxLength={6}
+              placeholder="Código de verificação"
+              autoComplete="off"
+              value={user.emailToken}
+              onChange={handleChange}
+              resend={handleResendEmailToken}
+              onCancel={handleCancelEmailUpdate}
+            />
+            <span>{emailUpdateError}</span>
+          </Form>
+        )}
+        {cellPhoneUpdateStep === 'edit' && (
+        <Form onSubmit={handleCellPhoneUpdate}>
+          <EditableItem
+            label="Celular"
+            id="cellPhone"
+            name="cellPhone"
+            type="cellPhone"
+            maxLength={11}
+            placeholder="Celular"
+            autoComplete="off"
+            value={user.cellPhone}
+            onChange={handleChange}
+            edit={editCellPhone}
+            setEdit={setEditCellPhone}
+            onCancel={handleCancelCellPhoneUpdate}
           />
+          <span>{cellPhonelUpdateError}</span>
+        </Form>
         )}
-
-        {option === 'myCellPhone' && (
-          <MyCellPhone
-            state={state}
-            setState={setState}
-            error={error}
-            setError={setError}
-            handleChange={handleChange}
-          />
+        {cellPhoneUpdateStep === 'verify' && (
+          <Form onSubmit={handleCellPhoneUpdate}>
+            <VerificationInput
+              label="Código de verificação"
+              id="cellPhoneToken"
+              name="cellPhoneToken"
+              type="tel"
+              maxLength={6}
+              placeholder="Código de verificação"
+              autoComplete="off"
+              value={user.cellPhoneToken}
+              onChange={handleChange}
+              resend={handleResendCellPhoneToken}
+              onCancel={handleCancelCellPhoneUpdate}
+            />
+            <span>{cellPhonelUpdateError}</span>
+          </Form>
         )}
-
-        {option === 'mySubscriptions' && <MySubscriptions />}
-      </InnerContent>
-    </Content>
+        {/* <MySubscriptions /> */}
+      </Box>
+    </Background>
   );
 }

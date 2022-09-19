@@ -1,447 +1,213 @@
-import React, { useState, useContext } from 'react';
-import { useNavigate, NavLink } from 'react-router-dom';
-import styled from 'styled-components';
+import React from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthContext';
+import { isValidCPF } from '../modules/isValidCPF';
 import { Loading } from '../components/Loading';
 import { api } from '../Services/api';
+import { Background } from '../components/Background';
+import { Box } from '../components/Box';
+import { Form } from '../components/Form';
+import { GridLayout } from '../components/GridLayout';
+import { Input } from '../components/Input';
+import { AHundredPerCentButton } from '../components/Buttons';
+import { GreenButton, YellowButton } from '../components/Button';
 import bgRegister from '../assets/images/bg/bgRegister.jpg';
-
-const Content = styled.div`
-  background-color: white;
-  width: 100%;
-  height: 100%;
-  box-sizing: border-box;
-  padding: 0px;
-`;
-
-const InnerContent = styled.div`
-  background-image: url(${bgRegister});
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center center;
-  width: 100%;
-  height: 100%;
-  box-sizing: border-box;
-  padding: 40px 5%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-end;
-  overflow: auto;
-
-  &::-webkit-scrollbar {
-    width: 7px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background-color: rgba(0, 0, 0, 0.3);
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background-color: var(--red);
-    background-image: -webkit-linear-gradient(
-      90deg,
-      transparent,
-      rgba(0, 0, 0, 0.3) 50%,
-      transparent,
-      transparent
-    );
-  }
-
-  @media (max-width: 900px) {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-  }
-`;
-
-const RegisterForm = styled.form`
-  background-color: var(--red);
-  width: 600px;
-  box-sizing: border-box;
-  padding: 30px 50px 30px 50px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-
-  @media (max-width: 800px) {
-    width: 100%;
-    padding: 20px 50px 20px 50px;
-  }
-
-  @media (max-width: 400px) {
-    padding: 20px 30px 20px 30px;
-  }
-`;
-
-const H1 = styled.h1`
-  color: white;
-  font-weight: 500;
-  margin: 15px 0px 5px 0px;
-`;
-
-const Line = styled.div`
-  width: 90px;
-  background-color: var(--yellow);
-  height: 1px;
-`;
-
-const P = styled.p`
-  color: white;
-  font-size: medium;
-  font-weight: 400;
-  margin: 25px 0px 0px 0px;
-`;
-
-const Inputs = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  gap: 15px;
-  margin: 25px 0px 20px 0px;
-`;
-
-const Row = styled.div`
-  width: 100%;
-  box-sizing: border-box;
-  display: flex;
-  gap: 15px;
-
-  @media (max-width: 600px) {
-    display: flex;
-    flex-direction: column;
-  }
-`;
-
-const Column = styled.div`
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-`;
-
-const Label = styled.label`
-  font-size: smaller;
-  color: white;
-`;
-
-const Input = styled.input`
-  width: 100%;
-  height: 40px;
-  box-sizing: border-box;
-  border: none;
-  padding-left: 15px;
-`;
-
-const GreenButton = styled.button`
-  background-color: var(--green);
-  width: 100%;
-  height: 40px;
-  color: white;
-  border: none;
-  cursor: pointer;
-  margin-bottom: 10px;
-`;
-
-const Redirect = styled.div`
-  color: white;
-  font-size: 14px;
-  margin-top: 10px;
-`;
-
-const StyledFormLink = styled(NavLink)`
-  color: var(--yellow);
-  text-decoration: none;
-  font-weight: 700;
-  padding: 3px;
-`;
-
-const ErrorMessage = styled.div`
-  background-color: var(--red);
-  color: yellow;
-  width: 100%;
-  text-align: center;
-  font-size: small;
-  margin-bottom: 5px;
-`;
+import { WhiteH1 } from '../components/H1';
+import { WhiteParagraph } from '../components/Paragraph';
 
 export function Register() {
   const navigate = useNavigate();
-  const { setAuthenticatedUser } = useContext(AuthContext);
-
-  const [state, setState] = useState({
+  const { setAuthenticatedUser } = React.useContext(AuthContext);
+  const [error, setError] = React.useState('');
+  const [negotiating, setNegotiating] = React.useState(false);
+  const [step, setStep] = React.useState('register');
+  const [newUser, setNewUser] = React.useState({
     name: '',
     cpf: '',
     email: '',
     password: '',
     passwordConfirmation: '',
-    registerTokenConfirmation: '',
+    emailToken: '',
   });
 
-  const [error, setError] = useState({ error: '' });
-  const [negotiating, setNegotiating] = useState(false);
+  const handleChange = (event: any) => {
+    setError('');
+    const { name, value } = event.target;
+    if (name === 'name') setNewUser({ ...newUser, [name]: value.toUpperCase() });
+    else if (name === 'email') setNewUser({ ...newUser, [name]: value.toLowerCase() });
+    else setNewUser({ ...newUser, [name]: value });
+  };
 
-  const [step, setStep] = useState('register');
-
-  function handleChange(event: any) {
-    setError({ error: '' });
-    if (event.currentTarget.name === 'name') {
-      setState({
-        ...state,
-        [event.currentTarget.name]: event.currentTarget.value.toUpperCase(),
-      });
-    } else if (event.currentTarget.name === 'email') {
-      setState({
-        ...state,
-        [event.currentTarget.name]: event.currentTarget.value.toLowerCase(),
-      });
-    } else {
-      setState({
-        ...state,
-        [event.currentTarget.name]: event.currentTarget.value,
-      });
-    }
-  }
-
-  function isValidCPF(cpfNumber: any) {
-    if (typeof cpfNumber !== 'string') return false;
-    const cpf = cpfNumber.replace(/[\s.-]*/gim, '');
-    if (
-      !cpf
-      || cpf.length !== 11
-      || cpf === '00000000000'
-      || cpf === '11111111111'
-      || cpf === '22222222222'
-      || cpf === '33333333333'
-      || cpf === '44444444444'
-      || cpf === '55555555555'
-      || cpf === '66666666666'
-      || cpf === '77777777777'
-      || cpf === '88888888888'
-      || cpf === '99999999999'
-    ) {
-      return false;
-    }
-    let soma = 0;
-    let resto;
-    for (let i = 1; i <= 9; i++) soma += parseInt(cpf.substring(i - 1, i), 10) * (11 - i);
-    resto = (soma * 10) % 11;
-    if (resto === 10 || resto === 11) resto = 0;
-    if (resto !== parseInt(cpf.substring(9, 10), 10)) return false;
-    soma = 0;
-    for (let i = 1; i <= 10; i++) soma += parseInt(cpf.substring(i - 1, i), 10) * (12 - i);
-    resto = (soma * 10) % 11;
-    if (resto === 10 || resto === 11) resto = 0;
-    if (resto !== parseInt(cpf.substring(10, 11), 10)) return false;
-    return true;
-  }
-
-  async function handleRegister(event: any) {
+  const handleSubmit = async (event: any) => {
     event.preventDefault();
-
-    if (!state.name || state.name.length > 50) {
-      setError({
-        error: 'O nome é obrigatório e deve ter no máximo 50 caracteres.',
-      });
-    } else if (!state.name.includes(' ')) {
-      setError({ error: 'Digite o seu nome completo.' });
-    } else if (!state.cpf || state.cpf.length !== 11) {
-      setError({ error: 'O CPF é obrigatório e deve conter 11 números.' });
-    } else if (!isValidCPF(state.cpf)) {
-      setError({ error: 'CPF inválido.' });
-    } else if (
-      !state.email
-      || !state.email.match(/[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/)
-    ) {
-      setError({
-        error:
-          'O e-mail é obrigatório e deve ser um endereço de e-mail válido.',
-      });
-    } else if (
-      !state.password
-      || !state.password.match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&.]{8,}$/)
-    ) {
-      setError({
-        error:
-          'A senha é obrigatória, deve ter pelo menos 8 caracteres, uma letra e um número.',
-      });
-    } else if (state.password !== state.passwordConfirmation) {
-      setError({ error: 'As senhas digitadas são diferentes.' });
-    } else {
-      setNegotiating(true);
+    if (!newUser.name || newUser.name.length > 50) setError('O nome é obrigatório e deve ter no máximo 50 caracteres.');
+    else if (!newUser.name.includes(' ')) setError('Digite o seu nome completo.');
+    else if (!newUser.cpf || newUser.cpf.length !== 11) setError('O CPF é obrigatório e deve conter 11 números.');
+    else if (!isValidCPF(newUser.cpf)) setError('CPF inválido.');
+    else if (!newUser.email || !newUser.email.match(/[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/)) setError('O e-mail é obrigatório e deve ser um endereço de e-mail válido.');
+    else if (!newUser.password || !newUser.password.match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&.]{8,}$/)) setError('A senha é obrigatória, deve ter pelo menos 8 caracteres, uma letra e um número.');
+    else if (newUser.password !== newUser.passwordConfirmation) setError('As senhas digitadas são diferentes.');
+    else {
       try {
-        await api.post('/register', state);
-
+        setNegotiating(true);
+        await api.post('/register', newUser);
         setNegotiating(false);
+        setNewUser({ ...newUser, emailToken: '' });
         setStep('activate');
-      } catch (err) {
+      } catch (registrationError: any) {
         setNegotiating(false);
-
-        // console.error(err.response.data);
-        // setError({ ...err.response.data });
+        setError(registrationError.response.data.error);
       }
     }
-  }
+  };
 
-  async function handleActivate(event: any) {
+  const handleActivate = async (event: any) => {
     event.preventDefault();
-
-    if (!state.registerTokenConfirmation) {
-      setError({
-        error: 'O código de verificação é obrigatório.',
-      });
-    } else {
-      setNegotiating(true);
+    if (!newUser.emailToken) setError('O código de verificação é obrigatório.');
+    else {
       try {
-        const response = await api.post('/activate', state);
-
-        setAuthenticatedUser({ ...response.data });
-        localStorage.setItem(
-          'authenticatedUser',
-          JSON.stringify({ ...response.data }),
-        );
+        setNegotiating(true);
+        const response = await api.post('/activate', newUser);
+        const { user, token } = response.data;
+        setAuthenticatedUser({ user, token });
+        localStorage.setItem('authenticatedUser', JSON.stringify({ user, token }));
         setNegotiating(false);
-
-        navigate('../profile');
-      } catch (err: any) {
+        setError('');
+        navigate('/profile');
+      } catch (activationError: any) {
         setNegotiating(false);
-
-        // console.error(err.response.data);
-        setError({ ...err.response.data });
+        setError(activationError.response.data.error);
       }
     }
-  }
+  };
 
   return (
-    <Content>
+    <Background backgroundImage={bgRegister}>
       {negotiating && <Loading />}
-      <InnerContent>
-        {step === 'register' && (
-          <RegisterForm onSubmit={handleRegister}>
-            <H1>Cadastrar</H1>
-            <Line />
-            <P>Cadastre-se para receber alertas de possíveis incêndios.</P>
-            <Inputs>
-              <Row>
-                <Column>
-                  <Label>Nome</Label>
-                  <Input
-                    id="name"
-                    name="name"
-                    type="text"
-                    value={state.name}
-                    onChange={handleChange}
-                    placeholder="Nome completo"
-                    maxLength={50}
-                    autoComplete="off"
-                  />
-                </Column>
-              </Row>
-              <Row>
-                <Column>
-                  <Label>CPF</Label>
-                  <Input
-                    id="cpf"
-                    name="cpf"
-                    type="tel"
-                    value={state.cpf}
-                    onChange={handleChange}
-                    placeholder="CPF"
-                    maxLength={11}
-                    autoComplete="off"
-                  />
-                </Column>
-              </Row>
-              <Row>
-                <Column>
-                  <Label>E-mail</Label>
-                  <Input
-                    id="email"
-                    name="email"
-                    type="email"
-                    value={state.email}
-                    onChange={handleChange}
-                    placeholder="E-mail"
-                    maxLength={50}
-                    autoComplete="off"
-                  />
-                </Column>
-              </Row>
-              <Row>
-                <Column>
-                  <Label>Senha</Label>
-                  <Input
-                    id="password"
-                    name="password"
-                    type="password"
-                    value={state.password}
-                    onChange={handleChange}
-                    placeholder="Senha"
-                    maxLength={22}
-                    autoComplete="off"
-                  />
-                </Column>
-
-                <Column>
-                  <Label>Confirmar senha</Label>
-                  <Input
-                    id="passwordConfirmation"
-                    name="passwordConfirmation"
-                    type="password"
-                    value={state.passwordConfirmation}
-                    onChange={handleChange}
-                    placeholder="Confirmar senha"
-                    maxLength={22}
-                    autoComplete="off"
-                  />
-                </Column>
-              </Row>
-            </Inputs>
-            {error.error && <ErrorMessage>{error.error}</ErrorMessage>}
-            <GreenButton type="submit">CADASTRAR</GreenButton>
-
-            <Redirect>
+      {step === 'register' && (
+        <Box bgColor="var(--red)" width="700px">
+          <WhiteH1>CADASTRAR</WhiteH1>
+          <WhiteParagraph>Cadastre-se para receber alertas de possíveis incêndios.</WhiteParagraph>
+          <Form onSubmit={handleSubmit}>
+            <GridLayout
+              gridTemplateColumns="1fr 1fr"
+              gridTemplateAreas='
+                "area1 area1"
+                "area2 area2"
+                "area3 area3"
+                "area4 area5"
+              '
+            >
+              <Input
+                label="Nome"
+                id="name"
+                name="name"
+                type="text"
+                maxLength={50}
+                placeholder="Nome completo"
+                autoComplete="off"
+                value={newUser.name}
+                onChange={handleChange}
+                gridArea="area1"
+              />
+              <Input
+                label="CPF"
+                id="cpf"
+                name="cpf"
+                type="tel"
+                maxLength={11}
+                placeholder="CPF"
+                autoComplete="off"
+                value={newUser.cpf}
+                onChange={handleChange}
+                gridArea="area2"
+              />
+              <Input
+                label="E-mail"
+                id="email"
+                name="email"
+                type="email"
+                maxLength={50}
+                placeholder="E-mail"
+                autoComplete="off"
+                value={newUser.email}
+                onChange={handleChange}
+                gridArea="area3"
+              />
+              <Input
+                label="Senha"
+                id="password"
+                name="password"
+                type="password"
+                maxLength={22}
+                placeholder="Senha"
+                autoComplete="off"
+                value={newUser.password}
+                onChange={handleChange}
+                gridArea="area4"
+              />
+              <Input
+                label="Confirmar senha"
+                id="passwordConfirmation"
+                name="passwordConfirmation"
+                type="password"
+                maxLength={22}
+                placeholder="Confirmar senha"
+                autoComplete="off"
+                value={newUser.passwordConfirmation}
+                onChange={handleChange}
+                gridArea="area5"
+              />
+            </GridLayout>
+            <AHundredPerCentButton>
+              <GreenButton type="submit">CADASTRAR</GreenButton>
+            </AHundredPerCentButton>
+            {error && <div>{error}</div>}
+            <div>
               Já é cadastrado? &rarr;
-              {' '}
-              <StyledFormLink to="/authenticate">ENTRAR</StyledFormLink>
-            </Redirect>
-          </RegisterForm>
-        )}
-
-        {step === 'activate' && (
-          <RegisterForm onSubmit={handleActivate}>
-            <H1>Verificar Email</H1>
-            <Line />
-            <P>
-              Para finalizar seu cadastro insira o código enviado para o email.
-            </P>
-            <Inputs>
-              <Row>
-                <Column>
-                  <Label>Código de verificação</Label>
-                  <Input
-                    id="registerTokenConfirmation"
-                    name="registerTokenConfirmation"
-                    type="tel"
-                    value={state.registerTokenConfirmation}
-                    onChange={handleChange}
-                    placeholder="Código de verificação"
-                    maxLength={6}
-                    autoComplete="off"
-                  />
-                </Column>
-              </Row>
-            </Inputs>
-            {error.error && <ErrorMessage>{error.error}</ErrorMessage>}
-            <GreenButton type="submit">CONFIRMAR</GreenButton>
-          </RegisterForm>
-        )}
-      </InnerContent>
-    </Content>
+              <Link to="/authenticate">ENTRAR</Link>
+            </div>
+          </Form>
+        </Box>
+      )}
+      {step === 'activate' && (
+        <Box bgColor="var(--red)" width="700px">
+          <WhiteH1>VERIFICAR EMAIL</WhiteH1>
+          <WhiteParagraph>Para finalizar seu cadastro insira o código enviado para o email.</WhiteParagraph>
+          <Form onSubmit={handleActivate}>
+            <GridLayout
+              gridTemplateColumns="1fr"
+              gridTemplateAreas='
+                "area1"
+              '
+            >
+              <Input
+                label="Código de verificação"
+                id="emailToken"
+                name="emailToken"
+                type="tel"
+                maxLength={6}
+                placeholder="Código de verificação"
+                autoComplete="off"
+                value={newUser.emailToken}
+                onChange={handleChange}
+                gridArea="area1"
+              />
+            </GridLayout>
+            <AHundredPerCentButton>
+              <GreenButton type="submit">CONFIRMAR</GreenButton>
+            </AHundredPerCentButton>
+            <AHundredPerCentButton>
+              <YellowButton onClick={() => setStep('register')}>CANCELAR</YellowButton>
+            </AHundredPerCentButton>
+            {error && <div>{error}</div>}
+            <div>
+              Já é cadastrado? &rarr;
+              <Link to="/authenticate">ENTRAR</Link>
+            </div>
+          </Form>
+        </Box>
+      )}
+    </Background>
   );
 }

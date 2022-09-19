@@ -5,18 +5,22 @@ type AppContextProviderPropsType = {
 };
 
 type AppContextType = {
-  appState: {},
-  setAppState: (newState: object) => void
+  appState: any;
+  setAppState: (newState: any) => void;
 };
 
 const appContextInitialValue = {
-  appState: {},
+  appState: {
+    properties: [],
+    fireSpots: [],
+    statistics: { fireSpots: '', affectedMunicipalities: '', affectedProperties: '' },
+  },
   setAppState: () => {},
 };
 
-const AppContext = React.createContext<AppContextType>(appContextInitialValue);
+export const AppContext = React.createContext<AppContextType>(appContextInitialValue);
 
-function AppContextProvider({ children }: AppContextProviderPropsType) {
+export function AppContextProvider({ children }: AppContextProviderPropsType) {
   const [appState, setAppState] = React.useState(appContextInitialValue.appState);
   const value = React.useMemo(() => ({ appState, setAppState }), [appState]);
   return (
@@ -25,5 +29,3 @@ function AppContextProvider({ children }: AppContextProviderPropsType) {
     </AppContext.Provider>
   );
 }
-
-export { AppContext, AppContextProvider };
