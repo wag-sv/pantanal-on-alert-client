@@ -3,13 +3,13 @@ import styled from 'styled-components';
 import publicMinistryLogoPath from '../assets/images/publicMinistryLogo.svg';
 
 const Wrapper = styled.div`
-  background-color: white;
-  height: var(--footer-height);
-  width: 100%;
-  display: flex;
-  justify-content: center;
   align-items: center;
+  background-color: white;
+  display: flex;
   gap: 5px;
+  height: var(--footer-height);
+  justify-content: center;
+  width: 100%;
 `;
 
 const PublicMinistryLogo = styled.img`

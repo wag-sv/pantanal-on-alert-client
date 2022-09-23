@@ -7,26 +7,26 @@ import firefightersLogoPath from '../assets/images/firefightersLogo.svg';
 import { devices } from '../resources/devices';
 
 const Wrapper = styled.div`
-  background-color: var(--red);
-  height: var(--header-height);
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
   align-items: center;
+  background-color: var(--red);
+  display: flex;
+  height: var(--header-height);
+  justify-content: space-between;
   padding: 0px 5%;
+  width: 100%;
 `;
 
 const WetlandLogo = styled.img`
-  height: 80%;
   cursor: pointer;
+  height: 80%;
 `;
 
 const FirefightersImages = styled.div`
-  height: 100%;
-  display: flex;
-  justify-content: flex-end;
   align-items: center;
+  display: flex;
   gap: 10px;
+  height: 100%;
+  justify-content: flex-end;
 `;
 
 const FirefightersArms = styled.img`
@@ -34,8 +34,8 @@ const FirefightersArms = styled.img`
 `;
 
 const FirefightersLogo = styled.img`
-  height: 80%;
   display: none;
+  height: 80%;
 
   @media ${devices.tablet} {
     display: block;

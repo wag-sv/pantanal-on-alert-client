@@ -1,17 +1,17 @@
 import React from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { unMask } from 'node-masker';
 import { AuthContext } from '../contexts/AuthContext';
 import { api } from '../Services/api';
 import { Loading } from '../components/Loading';
 import { Background } from '../components/Background';
 import { Box } from '../components/Box';
+import { YellowH1 } from '../components/H1';
 import { Form } from '../components/Form';
-import { GridLayout } from '../components/GridLayout';
 import { Input } from '../components/Input';
 import { AHundredPerCentButton } from '../components/Buttons';
 import { GreenButton } from '../components/Button';
 import bgAuthenticate from '../assets/images/bg/bgAuthenticate.jpg';
-import { WhiteH1 } from '../components/H1';
 
 export function Authenticate() {
   const navigate = useNavigate();
@@ -24,7 +24,8 @@ export function Authenticate() {
   const handleChange = (event: any) => {
     setError('');
     const { name, value } = event.target;
-    setAuthenticationData({ ...authenticationData, [name]: value });
+    if (name === 'cpf') setAuthenticationData({ ...authenticationData, [name]: unMask(value) });
+    else setAuthenticationData({ ...authenticationData, [name]: value });
   };
 
   const handleSubmit = async (event: any) => {
@@ -45,9 +46,9 @@ export function Authenticate() {
       setAuthenticatedUser({ user, token });
       localStorage.setItem('authenticatedUser', JSON.stringify({ user, token }));
       navigate('/');
-    } catch (authenticationError: any) {
+    } catch (catched: any) {
       setNegotiating(false);
-      setError(authenticationError.response.data.error);
+      setError(catched.response.data.error);
     }
   };
 
@@ -55,40 +56,33 @@ export function Authenticate() {
     <Background backgroundImage={bgAuthenticate}>
       {negotiating && <Loading />}
       <Box bgColor="var(--red)" width="500px">
-        <WhiteH1>ENTRAR</WhiteH1>
+        <YellowH1>ENTRAR</YellowH1>
         <Form onSubmit={handleSubmit}>
-          <GridLayout
-            gridTemplateColumns="1fr"
-            gridTemplateAreas='
-              "area1"
-              "area2"
-            '
-          >
-            <Input
-              label="CPF"
-              id="cpf"
-              name="cpf"
-              type="tel"
-              maxLength={11}
-              placeholder="CPF"
-              autoComplete="off"
-              value={authenticationData.cpf}
-              onChange={handleChange}
-              gridArea="area1"
-            />
-            <Input
-              label="Senha"
-              id="password"
-              name="password"
-              type="password"
-              maxLength={22}
-              placeholder="Senha"
-              autoComplete="off"
-              value={authenticationData.password}
-              onChange={handleChange}
-              gridArea="area2"
-            />
-          </GridLayout>
+          <Input
+            label="CPF"
+            id="cpf"
+            name="cpf"
+            type="tel"
+            maxLength={14}
+            placeholder="CPF"
+            autoComplete="off"
+            value={authenticationData.cpf}
+            mask="999.999.999-99"
+            onChange={handleChange}
+            gridArea="area1"
+          />
+          <Input
+            label="Senha"
+            id="password"
+            name="password"
+            type="password"
+            maxLength={22}
+            placeholder="Senha"
+            autoComplete="off"
+            value={authenticationData.password}
+            onChange={handleChange}
+            gridArea="area2"
+          />
           <AHundredPerCentButton>
             <GreenButton type="submit">ENTRAR</GreenButton>
           </AHundredPerCentButton>

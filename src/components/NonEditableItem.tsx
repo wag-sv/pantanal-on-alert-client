@@ -1,25 +1,30 @@
 import React from 'react';
 import styled from 'styled-components';
+import { mask as masker } from 'node-masker';
 import { MdEdit } from 'react-icons/md';
-
 import { WhiteLabel } from './Label';
 import { devices } from '../resources/devices';
 
-const Wrapper = styled.div`
-    align-items: flex-start;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    overflow: hidden;
-    padding: 10px 0px;
-    width: 100%;
+type WrapperProps = {
+  gridArea?: string;
+};
+
+const Wrapper = styled.div<WrapperProps>`
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  grid-area: ${({ gridArea }) => gridArea || ''};
+  justify-content: center;
+  overflow: hidden;
+  padding: 10px 0px;
+  width: 100%;
 `;
 
 const Flex = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
   gap:3px;
+  width: 100%;
 
   @media ${devices.tablet} {
     flex-direction: row;
@@ -27,16 +32,16 @@ const Flex = styled.div`
 `;
 
 const Item = styled.div`
-  border: none;
   background-color: var(--hover);
+  border: none;
   color: var(--white);
+  cursor: not-allowed;
   font-size: 1.6rem;
   height: 50px;
   margin: 0px;
   outline: none;
   padding: 10px 20px;
   width: 100%;
-  cursor: not-allowed;
 
   @media ${devices.tablet} {
     flex-grow: 1;
@@ -44,15 +49,15 @@ const Item = styled.div`
 `;
 
 const Button = styled.button`
-  background-color: var(--gray);
-  height: 50px;
-  flex-grow: 1;
-  border: none;
-  cursor: pointer;
-  color: var(--red);
-  display: flex;
-  justify-content: center;
   align-items: center;
+  background-color: var(--gray);
+  border: none;
+  color: var(--red);
+  cursor: pointer;
+  display: flex;
+  flex-grow: 1;
+  height: 50px;
+  justify-content: center;
 
   &:disabled {
     cursor: not-allowed;
@@ -64,17 +69,21 @@ const Button = styled.button`
   }
 `;
 
-interface NonEditableItemProps {
+type NonEditableItemProps = {
   label: string;
   value: string;
-}
+  mask?: string;
+  gridArea?: string;
+};
 
-export function NonEditableItem({ label, value }: NonEditableItemProps) {
+export function NonEditableItem({
+  label, value, mask, gridArea,
+}: NonEditableItemProps) {
   return (
-    <Wrapper>
+    <Wrapper gridArea={gridArea}>
       <WhiteLabel>{label}</WhiteLabel>
       <Flex>
-        <Item>{value}</Item>
+        <Item>{mask ? masker(value, mask) : value}</Item>
         <Button disabled><MdEdit size="25px" /></Button>
       </Flex>
     </Wrapper>

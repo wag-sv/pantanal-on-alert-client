@@ -39,7 +39,9 @@ export function Profile() {
     if (name === 'name') setNameUpdateError('');
     if (name === 'email') setEmailUpdateError('');
     if (name === 'cellPhone') setCellPhoneUpdateError('');
-    setUser({ ...user, [name]: value });
+    if (name === 'name') setUser({ ...user, [name]: value.toUpperCase() });
+    else if (name === 'email') setUser({ ...user, [name]: value.toLowerCase() });
+    else setUser({ ...user, [name]: value });
   };
 
   const handleNameUpdate = async (event: any) => {
@@ -192,15 +194,14 @@ export function Profile() {
       <Box bgColor="var(--red)" width="700px">
         <WhiteH1>MEU PERFIL</WhiteH1>
         <button type="button" onClick={handleLogout}>SAIR</button>
-
         <NonEditableItem
           label="CPF"
           value={user.cpf}
+          mask="999.999.999-99"
         />
-
         <Form onSubmit={handleNameUpdate}>
           <EditableItem
-            label="Nome"
+            label="NOME"
             id="name"
             name="name"
             type="text"
@@ -218,10 +219,10 @@ export function Profile() {
         {emailUpdateStep === 'edit' && (
           <Form onSubmit={handleEmailUpdate}>
             <EditableItem
-              label="E-mail"
+              label="E-MAIL"
               id="email"
               name="email"
-              type="text"
+              type="email"
               maxLength={50}
               placeholder="Email"
               autoComplete="off"
@@ -237,7 +238,7 @@ export function Profile() {
         {emailUpdateStep === 'verify' && (
           <Form onSubmit={handleEmailUpdate}>
             <VerificationInput
-              label="Código de verificação"
+              label="CÓDIGO DE VERIFICAÇÃO"
               id="emailToken"
               name="emailToken"
               type="tel"
@@ -255,7 +256,7 @@ export function Profile() {
         {cellPhoneUpdateStep === 'edit' && (
         <Form onSubmit={handleCellPhoneUpdate}>
           <EditableItem
-            label="Celular"
+            label="CELULAR"
             id="cellPhone"
             name="cellPhone"
             type="cellPhone"
@@ -274,7 +275,7 @@ export function Profile() {
         {cellPhoneUpdateStep === 'verify' && (
           <Form onSubmit={handleCellPhoneUpdate}>
             <VerificationInput
-              label="Código de verificação"
+              label="CÓDIGO DE VERIFICAÇÃO"
               id="cellPhoneToken"
               name="cellPhoneToken"
               type="tel"

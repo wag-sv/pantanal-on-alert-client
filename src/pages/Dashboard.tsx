@@ -10,23 +10,23 @@ import DashboardPropertiesLoader from '../components/DashboardPropertiesLoader';
 
 const Content = styled.div`
   background-color: white;
-  width: 100%;
-  height: 100%;
   box-sizing: border-box;
+  height: 100%;
   padding: 0px;
+  width: 100%;
 `;
 
 const InnerContent = styled.div`
-  background-color: rgba(0, 0, 0, 0.8);
-  width: 100%;
-  height: 100%;
-  box-sizing: border-box;
-  padding: 40px 5%;
-  display: flex;
-  justify-content: center;
   align-items: flex-start;
-  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.8);
+  box-sizing: border-box;
+  display: flex;
   gap: 30px;
+  height: 100%;
+  justify-content: center;
+  overflow: auto;
+  padding: 40px 5%;
+  width: 100%;
 
   &::-webkit-scrollbar {
     width: 7px;
@@ -56,15 +56,15 @@ const InnerContent = styled.div`
 `;
 
 const Menu = styled.div`
+  align-items: flex-start;
   background-color: var(--red);
-  width: 300px;
-  min-width: 270px;
   box-sizing: border-box;
-  padding: 30px 50px 30px 50px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: flex-start;
+  min-width: 270px;
+  padding: 30px 50px 30px 50px;
+  width: 300px;
 
   @media (max-width: 900px) {
     width: 100%;
@@ -86,33 +86,33 @@ const H1 = styled.h1`
 `;
 
 const Line = styled.div`
-  width: 90px;
   background-color: var(--yellow);
   height: 1px;
+  width: 90px;
 `;
 
 const Options = styled.div`
-  width: 100%;
+  align-items: flex-start;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
   gap: 5px;
+  justify-content: flex-start;
   margin: 25px 0px 20px 0px;
+  width: 100%;
 `;
 
 const Option = styled.div`
-  height: 40px;
-  width: 100%;
-  color: white;
-  display: flex;
-  justify-content: flex-start;
   align-items: center;
+  color: white;
   cursor: pointer;
+  display: flex;
+  height: 40px;
+  justify-content: flex-start;
+  width: 100%;
 
   div {
-    width: 150px;
     padding-left: 10px;
+    width: 150px;
   }
 
   &:hover {

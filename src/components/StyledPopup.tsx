@@ -9,39 +9,39 @@ import { GreenButton } from './Button';
 
 // TODO colocar tamanho de fontes em REM
 const Wrapper = styled.div`
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  h1 {
+    font-size: 16px;
+    margin: 20px  0px 0px 0px;
+  }
+
+  p {
+    font-size: 11px;
+    font-weight: 700;
+    margin: 5px 0px;
+    text-align: center;
+  }
+
+  div {
+    align-items: center;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    margin: 20px  0px 0px 0px;
+    width: 100%;
+  }
 
-    h1 {
-        font-size: 16px;
-        margin: 20px  0px 0px 0px;
-    }
+  .redText {
+    color: var(--red);
+  }
 
-    p {
-        font-size: 11px;
-        font-weight: 700;
-        text-align: center;
-        margin: 5px 0px;
-    }
-
-    div {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-        margin: 20px  0px 0px 0px;
-    }
-
-    .redText {
-        color: var(--red);
-    }
-
-    .greenText {
-        color: var(--green);
-    }
+  .greenText {
+    color: var(--green);
+  }
 `;
 
 export function StyledPopup({ property } : any) {

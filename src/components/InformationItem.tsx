@@ -18,14 +18,14 @@ const Wrapper = styled.div<InputProps>`
 `;
 
 const Information = styled.div`
+  align-items: center;
   background-color: var(--hover);
   color: var(--white);
-  width: 100%;
+  display: flex;
+  font-size: 1.6rem;
   height: 40px;
   padding: 0px 15px;
-  display: flex;
-  align-items: center;
-  font-size: 1.6rem;
+  width: 100%;
 `;
 
 export function InformationItem({ label, information, gridArea }: any) {

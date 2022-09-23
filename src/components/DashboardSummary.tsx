@@ -10,66 +10,66 @@ const H1 = styled.h1`
 `;
 
 const Line = styled.div`
-  width: 90px;
   background-color: var(--yellow);
   height: 1px;
+  width: 90px;
 `;
 
 const Wrapper = styled.div`
-  width: 100%;
+  align-items: flex-start;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
   gap: 15px;
+  justify-content: flex-start;
   margin: 25px 0px 20px 0px;
+  width: 100%;
 `;
 
 const Item = styled.div`
+  align-items: flex-start;
   background-color: var(--hover);
-  width: 100%;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-start;
+  width: 100%;
 `;
 
 const TitleSummary = styled.div`
-  background-color: var(--hover);
-  font-size: smaller;
-  color: white;
-  width: 100%;
-  height: 40px;
-  box-sizing: border-box;
-  border: none;
-  padding: 0px 15px;
-  display: flex;
-  justify-content: center;
   align-items: center;
+  background-color: var(--hover);
+  border: none;
+  box-sizing: border-box;
+  color: white;
+  display: flex;
+  font-size: smaller;
+  height: 40px;
+  justify-content: center;
+  padding: 0px 15px;
+  width: 100%;
 `;
 
 const DataSummary = styled.div`
-  color: var(--yellow);
-  width: 100%;
-  height: 30px;
-  box-sizing: border-box;
-  border: none;
-  padding: 0px 15px;
-  display: flex;
-  justify-content: center;
   align-items: center;
+  border: none;
+  box-sizing: border-box;
+  color: var(--yellow);
+  display: flex;
+  height: 30px;
+  justify-content: center;
+  padding: 0px 15px;
+  width: 100%;
 `;
 
 const Content = styled.div`
+  align-items: flex-start;
   background-color: var(--red);
-  width: 700px;
   box-sizing: border-box;
-  padding: 30px 50px 30px 50px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: flex-start;
+  padding: 30px 50px 30px 50px;
+  width: 700px;
 
   @media (max-width: 900px) {
     width: 100%;

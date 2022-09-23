@@ -10,11 +10,13 @@
     "lint": "eslint ./src --ext .jsx,.js,.ts,.tsx --quiet --fix --ignore-path ./.gitignore"
   },
   "dependencies": {
+    "@tippyjs/react": "^4.2.6",
     "@turf/turf": "^6.5.0",
     "@types/pdfmake": "^0.2.1",
     "axios": "^0.27.2",
     "leaflet": "^1.8.0",
     "leaflet.markercluster": "^1.5.3",
+    "node-masker": "^1.0.9",
     "pdfmake": "^0.2.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -23,6 +25,7 @@
     "react-leaflet-markercluster": "^3.0.0-rc1",
     "react-router-dom": "^6.3.0",
     "styled-components": "^5.3.5",
+    "tippy.js": "^6.3.7",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
@@ -38,6 +41,7 @@
     "eslint": "^8.21.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-typescript": "^17.0.0",
+    "eslint-plugin-better-styled-components": "^1.1.2",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jsx-a11y": "^6.6.1",
     "eslint-plugin-react": "^7.30.1",

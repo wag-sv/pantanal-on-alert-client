@@ -4,6 +4,7 @@ import RobotoRegular from './assets/fonts/Roboto/Roboto-Regular.ttf';
 import RobotoMedium from './assets/fonts/Roboto/Roboto-Medium.ttf';
 import RobotoBold from './assets/fonts/Roboto/Roboto-Bold.ttf';
 import RobotoBlack from './assets/fonts/Roboto/Roboto-Black.ttf';
+import 'tippy.js/dist/tippy.css';
 
 export const GlobalStyle = createGlobalStyle`  
 

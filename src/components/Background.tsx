@@ -5,18 +5,18 @@ type BackgroundProps = {
 };
 
 export const Background = styled.div<BackgroundProps>`
+  align-items: center;
   background-color: linear-gradient(to top, rgba(0,0,0, 0.3), rgba(0,0,0, 0.3));
   background-image: url(${({ backgroundImage }) => backgroundImage});
-  background-repeat: no-repeat;
   background-position: center center;
+  background-repeat: no-repeat;
   background-size: cover;
-  width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
+  height: 100%;
   justify-content: flex-start;
-  align-items: center;
   overflow: auto;
-  position: relative;
   padding: 50px 5%;
+  position: relative;
+  width: 100%;
 `;

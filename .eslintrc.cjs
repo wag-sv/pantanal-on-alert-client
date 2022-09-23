@@ -20,6 +20,7 @@ module.exports = {
   plugins: [
     'react',
     '@typescript-eslint',
+    'better-styled-components',
   ],
   rules: {
     'import/prefer-default-export': 'off',
@@ -27,5 +28,7 @@ module.exports = {
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
     'no-underscore-dangle': 'off',
     'no-plusplus': 'off',
+    'better-styled-components/sort-declarations-alphabetically': 2,
+    'react/require-default-props': 'off',
   },
 };

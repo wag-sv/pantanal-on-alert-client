@@ -1,19 +1,21 @@
 import React from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { unMask } from 'node-masker';
 import { AuthContext } from '../contexts/AuthContext';
 import { isValidCPF } from '../modules/isValidCPF';
 import { Loading } from '../components/Loading';
 import { api } from '../Services/api';
 import { Background } from '../components/Background';
 import { Box } from '../components/Box';
+import { YellowH1 } from '../components/H1';
+import { WhiteParagraph } from '../components/Paragraph';
 import { Form } from '../components/Form';
 import { GridLayout } from '../components/GridLayout';
 import { Input } from '../components/Input';
+import { VerificationInput } from '../components/VerificationInput';
 import { AHundredPerCentButton } from '../components/Buttons';
-import { GreenButton, YellowButton } from '../components/Button';
+import { GreenButton } from '../components/Button';
 import bgRegister from '../assets/images/bg/bgRegister.jpg';
-import { WhiteH1 } from '../components/H1';
-import { WhiteParagraph } from '../components/Paragraph';
 
 export function Register() {
   const navigate = useNavigate();
@@ -33,9 +35,9 @@ export function Register() {
   const handleChange = (event: any) => {
     setError('');
     const { name, value } = event.target;
-    if (name === 'name') setNewUser({ ...newUser, [name]: value.toUpperCase() });
+    if (name === 'cpf') setNewUser({ ...newUser, [name]: unMask(value) });
     else if (name === 'email') setNewUser({ ...newUser, [name]: value.toLowerCase() });
-    else setNewUser({ ...newUser, [name]: value });
+    else setNewUser({ ...newUser, [name]: value.toUpperCase() });
   };
 
   const handleSubmit = async (event: any) => {
@@ -54,10 +56,27 @@ export function Register() {
         setNegotiating(false);
         setNewUser({ ...newUser, emailToken: '' });
         setStep('activate');
-      } catch (registrationError: any) {
+      } catch (catched: any) {
         setNegotiating(false);
-        setError(registrationError.response.data.error);
+        setError(catched.response.data.error);
       }
+    }
+  };
+
+  const handleCancelEmailUpdate = () => {
+    setStep('register');
+    setError('');
+  };
+
+  const handleResendEmailToken = async (event: any) => {
+    event.preventDefault();
+    try {
+      setNegotiating(true);
+      await api.post('/resend_activation_token', { cpf: newUser.cpf, email: newUser.email });
+      setNegotiating(false);
+    } catch (catched: any) {
+      setNegotiating(false);
+      setError(catched.response.data.error);
     }
   };
 
@@ -74,9 +93,9 @@ export function Register() {
         setNegotiating(false);
         setError('');
         navigate('/profile');
-      } catch (activationError: any) {
+      } catch (catched: any) {
         setNegotiating(false);
-        setError(activationError.response.data.error);
+        setError(catched.response.data.error);
       }
     }
   };
@@ -86,7 +105,7 @@ export function Register() {
       {negotiating && <Loading />}
       {step === 'register' && (
         <Box bgColor="var(--red)" width="700px">
-          <WhiteH1>CADASTRAR</WhiteH1>
+          <YellowH1>CADASTRAR</YellowH1>
           <WhiteParagraph>Cadastre-se para receber alertas de possíveis incêndios.</WhiteParagraph>
           <Form onSubmit={handleSubmit}>
             <GridLayout
@@ -115,10 +134,11 @@ export function Register() {
                 id="cpf"
                 name="cpf"
                 type="tel"
-                maxLength={11}
+                maxLength={14}
                 placeholder="CPF"
                 autoComplete="off"
                 value={newUser.cpf}
+                mask="999.999.999-99"
                 onChange={handleChange}
                 gridArea="area2"
               />
@@ -172,34 +192,24 @@ export function Register() {
       )}
       {step === 'activate' && (
         <Box bgColor="var(--red)" width="700px">
-          <WhiteH1>VERIFICAR EMAIL</WhiteH1>
+          <YellowH1>VERIFICAR EMAIL</YellowH1>
           <WhiteParagraph>Para finalizar seu cadastro insira o código enviado para o email.</WhiteParagraph>
           <Form onSubmit={handleActivate}>
-            <GridLayout
-              gridTemplateColumns="1fr"
-              gridTemplateAreas='
-                "area1"
-              '
-            >
-              <Input
-                label="Código de verificação"
-                id="emailToken"
-                name="emailToken"
-                type="tel"
-                maxLength={6}
-                placeholder="Código de verificação"
-                autoComplete="off"
-                value={newUser.emailToken}
-                onChange={handleChange}
-                gridArea="area1"
-              />
-            </GridLayout>
-            <AHundredPerCentButton>
-              <GreenButton type="submit">CONFIRMAR</GreenButton>
-            </AHundredPerCentButton>
-            <AHundredPerCentButton>
-              <YellowButton onClick={() => setStep('register')}>CANCELAR</YellowButton>
-            </AHundredPerCentButton>
+            <VerificationInput
+              label="CÓDIGO DE VERIFICAÇÃO"
+              id="emailToken"
+              name="emailToken"
+              type="tel"
+              maxLength={6}
+              placeholder="Código de verificação"
+              autoComplete="off"
+              value={newUser.emailToken}
+              mask="999999"
+              onChange={handleChange}
+              resend={handleResendEmailToken}
+              onCancel={handleCancelEmailUpdate}
+              gridArea="area1"
+            />
             {error && <div>{error}</div>}
             <div>
               Já é cadastrado? &rarr;

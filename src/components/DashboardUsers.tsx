@@ -14,68 +14,68 @@ const H1 = styled.h1`
 `;
 
 const Line = styled.div`
-  width: 90px;
   background-color: var(--yellow);
   height: 1px;
+  width: 90px;
 `;
 
 const DashboardSearch = styled.div`
-  width: 100%;
   margin: 20px 0px;
+  width: 100%;
 
   input {
-    width: 100%;
-    height: 40px;
-    box-sizing: border-box;
     border: none;
-    padding-left: 15px;
+    box-sizing: border-box;
+    height: 40px;
     margin: 0px 20px 10px 0px;
+    padding-left: 15px;
+    width: 100%;
   }
 
   h2 {
-    font-size: smaller;
     color: var(--yellow);
+    font-size: smaller;
     margin: 0px 0px;
   }
 `;
 
 const InputLabel = styled.label`
-  font-size: smaller;
   color: white;
+  font-size: smaller;
 `;
 
 const Wrapper = styled.div`
-  width: 100%;
+  align-items: flex-start;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
   gap: 15px;
+  justify-content: flex-start;
   margin: 0px 0px 20px 0px;
+  width: 100%;
 `;
 
 const Item = styled.div`
+  align-items: flex-start;
   background-color: var(--hover);
-  width: 100%;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-start;
+  width: 100%;
 `;
 
 const Title = styled.div`
-  background-color: var(--hover);
-  font-size: smaller;
-  color: white;
-  width: 100%;
-  height: 40px;
-  box-sizing: border-box;
-  border: none;
-  padding: 0px 15px;
-  display: flex;
-  justify-content: space-between;
   align-items: center;
+  background-color: var(--hover);
+  border: none;
+  box-sizing: border-box;
+  color: white;
+  display: flex;
+  font-size: smaller;
+  height: 40px;
+  justify-content: space-between;
+  padding: 0px 15px;
+  width: 100%;
 
   @media (max-width: 600px) {
     font-size: 11px;
@@ -83,12 +83,12 @@ const Title = styled.div`
 `;
 
 const Icon = styled.div`
-  width: 30px;
-  height: 30px;
-  display: flex;
-  justify-content: center;
   align-items: center;
   cursor: pointer;
+  display: flex;
+  height: 30px;
+  justify-content: center;
+  width: 30px;
 
   &:hover {
     background-color: var(--hover);
@@ -96,15 +96,15 @@ const Icon = styled.div`
 `;
 
 const Data = styled.div`
-  font-size: smaller;
-  color: var(--yellow);
-  width: 100%;
-  box-sizing: border-box;
-  border: none;
-  padding: 5px 15px;
-  display: flex;
-  justify-content: flex-start;
   align-items: center;
+  border: none;
+  box-sizing: border-box;
+  color: var(--yellow);
+  display: flex;
+  font-size: smaller;
+  justify-content: flex-start;
+  padding: 5px 15px;
+  width: 100%;
 
   @media (max-width: 600px) {
     display: flex;
@@ -126,21 +126,21 @@ const Info = styled.span`
 `;
 
 const Divider = styled.div`
-  width: calc(100% - 30px);
-  border-top: solid 1px var(--yellow);
   border-style: dotted none none none;
+  border-top: solid 1px var(--yellow);
   margin-left: 15px;
+  width: calc(100% - 30px);
 `;
 
 const Content = styled.div`
+  align-items: flex-start;
   background-color: var(--red);
-  width: 700px;
   box-sizing: border-box;
-  padding: 30px 50px 30px 50px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: flex-start;
+  padding: 30px 50px 30px 50px;
+  width: 700px;
 
   @media (max-width: 900px) {
     width: 100%;
@@ -157,12 +157,12 @@ const Content = styled.div`
 
 const GreenButton100px = styled.button`
   background-color: var(--green);
-  width: 100px;
-  height: 40px;
-  color: white;
   border: none;
+  color: white;
   cursor: pointer;
+  height: 40px;
   margin-bottom: 10px;
+  width: 100px;
 `;
 
 export default function DashboardUsers() {

@@ -1,25 +1,29 @@
 import React from 'react';
 import styled from 'styled-components';
 import { MdEdit, MdDone, MdClose } from 'react-icons/md';
-
+import Tippy from '@tippyjs/react';
 import { WhiteLabel } from './Label';
 import { devices } from '../resources/devices';
 
-const Wrapper = styled.div`
-    align-items: flex-start;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    overflow: hidden;
-    padding: 10px 0px;
-    width: 100%;
+type WrapperProps = {
+  gridArea?: string;
+};
+
+const Wrapper = styled.div<WrapperProps>`
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  padding: 10px 0px;
+  width: 100%;
 `;
 
 const Flex = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
   gap:3px;
+  width: 100%;
 
   @media ${devices.tablet} {
     flex-direction: row;
@@ -57,15 +61,19 @@ const Buttons = styled.div`
 `;
 
 const Button = styled.button`
-  background-color: var(--green);
-  height: 50px;
-  flex-grow: 1;
-  border: none;
-  cursor: pointer;
-  color: var(--red);
-  display: flex;
-  justify-content: center;
   align-items: center;
+  background-color: var(--yellow);
+  border: none;
+  color: var(--red);
+  cursor: pointer;
+  display: flex;
+  flex-grow: 1;
+  height: 50px;
+  justify-content: center;
+
+  &:hover {
+    background-color: var(--green);
+  }
 
   @media ${devices.tablet} {
     width: 50px;
@@ -73,7 +81,7 @@ const Button = styled.button`
   }
 `;
 
-interface EditableItemProps {
+type EditableItemProps = {
   label: string;
   id: string;
   name: string;
@@ -86,13 +94,14 @@ interface EditableItemProps {
   edit: boolean;
   setEdit: (newState: any) => void;
   onCancel: () => void;
-}
+  gridArea?: string;
+};
 
 export function EditableItem({
-  label, id, name, type, maxLength, placeholder, autoComplete, value, onChange, edit, setEdit, onCancel,
+  label, id, name, type, maxLength, placeholder, autoComplete, value, onChange, edit, setEdit, onCancel, gridArea,
 }: EditableItemProps) {
   return (
-    <Wrapper>
+    <Wrapper gridArea={gridArea}>
       <WhiteLabel htmlFor={id}>{label}</WhiteLabel>
       <Flex>
         <Input
@@ -107,9 +116,9 @@ export function EditableItem({
           disabled={!edit}
         />
         <Buttons>
-          {edit && <Button type="submit" onClick={() => setEdit(true)}><MdDone size="25px" /></Button>}
-          {edit && <Button onClick={() => { setEdit(false); onCancel(); }}><MdClose size="25px" /></Button>}
-          {!edit && <Button onClick={() => setEdit(true)}><MdEdit size="25px" /></Button>}
+          {edit && <Tippy content="CONFIRMAR"><Button type="submit" onClick={() => setEdit(true)}><MdDone size="25px" /></Button></Tippy>}
+          {edit && <Tippy content="CANCELAR"><Button onClick={() => { setEdit(false); onCancel(); }}><MdClose size="25px" /></Button></Tippy>}
+          {!edit && <Tippy content="EDITAR"><Button onClick={() => setEdit(true)}><MdEdit size="25px" /></Button></Tippy>}
         </Buttons>
       </Flex>
     </Wrapper>

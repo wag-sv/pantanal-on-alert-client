@@ -1,25 +1,31 @@
 import React from 'react';
 import styled from 'styled-components';
+import Tippy from '@tippyjs/react';
+import { mask as masker } from 'node-masker';
 import { MdDone, MdRepeat, MdClose } from 'react-icons/md';
-
 import { WhiteLabel } from './Label';
 import { devices } from '../resources/devices';
 
-const Wrapper = styled.div`
-    align-items: flex-start;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    overflow: hidden;
-    padding: 10px 0px;
-    width: 100%;
+type WrapperProps = {
+  gridArea?: string;
+};
+
+const Wrapper = styled.div<WrapperProps>`
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  grid-area: ${({ gridArea }) => gridArea || ''};
+  justify-content: center;
+  overflow: hidden;
+  padding: 10px 0px;
+  width: 100%;
 `;
 
 const Flex = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
   gap:3px;
+  width: 100%;
 
   @media ${devices.tablet} {
     flex-direction: row;
@@ -57,15 +63,19 @@ const Buttons = styled.div`
 `;
 
 const Button = styled.button`
-  background-color: var(--green);
-  height: 50px;
-  flex-grow: 1;
-  border: none;
-  cursor: pointer;
-  color: var(--red);
-  display: flex;
-  justify-content: center;
   align-items: center;
+  background-color: var(--yellow);
+  border: none;
+  color: var(--red);
+  cursor: pointer;
+  display: flex;
+  flex-grow: 1;
+  height: 50px;
+  justify-content: center;
+
+  &:hover {
+    background-color: var(--green);
+  }
 
   @media ${devices.tablet} {
     width: 50px;
@@ -73,7 +83,7 @@ const Button = styled.button`
   }
 `;
 
-interface VerificationInputProps {
+type VerificationInputProps = {
   label: string;
   id: string;
   name: string;
@@ -82,16 +92,18 @@ interface VerificationInputProps {
   placeholder: string;
   autoComplete: string;
   value: string;
+  mask?: string;
   onChange: (event: any) => void;
   resend: (event: any) => Promise<void>,
   onCancel: () => void;
-}
+  gridArea?: string;
+};
 
 export function VerificationInput({
-  label, id, name, type, maxLength, placeholder, autoComplete, value, onChange, resend, onCancel,
+  label, id, name, type, maxLength, placeholder, autoComplete, value, mask, onChange, resend, onCancel, gridArea,
 }: VerificationInputProps) {
   return (
-    <Wrapper>
+    <Wrapper gridArea={gridArea}>
       <WhiteLabel htmlFor={id}>{label}</WhiteLabel>
       <Flex>
         <Input
@@ -99,15 +111,15 @@ export function VerificationInput({
           name={name}
           type={type}
           maxLength={maxLength}
-          value={value}
+          value={mask ? masker(value, mask) : value}
           onChange={onChange}
           placeholder={placeholder}
           autoComplete={autoComplete}
         />
         <Buttons>
-          <Button type="submit"><MdDone size="25px" /></Button>
-          <Button onClick={resend}><MdRepeat size="25px" /></Button>
-          <Button onClick={onCancel}><MdClose size="25px" /></Button>
+          <Tippy content="CONFIRMAR"><Button type="submit"><MdDone size="25px" /></Button></Tippy>
+          <Tippy content="REENVIAR CÓDIGO"><Button onClick={resend}><MdRepeat size="25px" /></Button></Tippy>
+          <Tippy content="CANCELAR"><Button onClick={onCancel}><MdClose size="25px" /></Button></Tippy>
         </Buttons>
       </Flex>
     </Wrapper>

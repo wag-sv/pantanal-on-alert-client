@@ -10,30 +10,30 @@ const H1 = styled.h1`
 `;
 
 const Line = styled.div`
-  width: 90px;
   background-color: var(--yellow);
   height: 1px;
+  width: 90px;
 `;
 
 const Wrapper = styled.div`
-  width: 100%;
+  align-items: flex-start;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
   gap: 15px;
+  justify-content: flex-start;
   margin: 0px 0px 20px 0px;
+  width: 100%;
 `;
 
 const Content = styled.div`
+  align-items: flex-start;
   background-color: var(--red);
-  width: 700px;
   box-sizing: border-box;
-  padding: 30px 50px 30px 50px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: flex-start;
+  padding: 30px 50px 30px 50px;
+  width: 700px;
 
   @media (max-width: 900px) {
     width: 100%;
@@ -49,59 +49,59 @@ const Content = styled.div`
 `;
 
 const Caution = styled.div`
+  align-items: center;
   background-color: var(--yellow);
-  color: var(--red);
-  width: 100%;
-  height: 80px;
   border: none;
   border-radius: 7px;
-  margin: 30px 0px;
-  padding: 30px;
+  box-sizing: border-box;
+  color: var(--red);
   display: flex;
   flex-direction: column;
+  height: 80px;
   justify-content: center;
-  align-items: center;
-  box-sizing: border-box;
+  margin: 30px 0px;
+  padding: 30px;
+  width: 100%;
 `;
 
 const Input = styled.input`
   background-color: var(--hover);
-  width: 100%;
   border: none;
   cursor: pointer;
+  width: 100%;
 `;
 
 const Confirmation = styled.div`
-  width: 100%;
   color: white;
+  width: 100%;
 `;
 
 const Buttons = styled.div`
-  width: 100%;
   display: flex;
   justify-content: flex-start;
+  width: 100%;
 `;
 
 const YellowButton100px = styled.button`
   background-color: var(--yellow);
-  width: 100px;
-  height: 30px;
-  color: var(--red);
   border: none;
+  color: var(--red);
   cursor: pointer;
+  height: 30px;
   margin-bottom: 10px;
   margin-right: 10px;
+  width: 100px;
 `;
 
 const GreenButton100px = styled.button`
   background-color: var(--green);
-  width: 100px;
-  height: 30px;
-  color: white;
   border: none;
+  color: white;
   cursor: pointer;
+  height: 30px;
   margin-bottom: 10px;
   margin-right: 10px;
+  width: 100px;
 `;
 
 export default function DashboardPropertiesLoader({ getProperties }: any) {

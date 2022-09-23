@@ -16,28 +16,28 @@ const H1 = styled.h1`
 `;
 
 const Line = styled.div`
-  width: 90px;
   background-color: var(--yellow);
   height: 1px;
+  width: 90px;
 `;
 
 const Wrapper = styled.div`
-  width: 100%;
+  align-items: flex-start;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
   gap: 15px;
+  justify-content: flex-start;
   margin: 25px 0px 20px 0px;
+  width: 100%;
 `;
 
 const Row = styled.div`
-  width: 100%;
+  align-items: center;
   box-sizing: border-box;
   display: flex;
-  align-items: center;
   font-size: smaller;
   gap: 2px;
+  width: 100%;
 
   @media (max-width: 600px) {
     font-size: 11px;
@@ -45,15 +45,15 @@ const Row = styled.div`
 `;
 
 const Data = styled.div`
+  align-items: center;
   background-color: var(--hover);
+  border: none;
+  box-sizing: border-box;
   color: white;
+  display: flex;
   flex-grow: 1;
   height: 40px;
-  box-sizing: border-box;
-  border: none;
   padding-left: 15px;
-  display: flex;
-  align-items: center;
 
   @media (max-width: 600px) {
     width: 100%;
@@ -61,12 +61,12 @@ const Data = styled.div`
 `;
 
 const Icon = styled.div`
-  width: 40px;
-  height: 40px;
-  display: flex;
-  justify-content: center;
   align-items: center;
   cursor: pointer;
+  display: flex;
+  height: 40px;
+  justify-content: center;
+  width: 40px;
 
   &:hover {
     background-color: var(--hover);
@@ -74,14 +74,14 @@ const Icon = styled.div`
 `;
 
 const ContentMySubscriptions = styled.div`
+  align-items: flex-start;
   background-color: var(--red);
-  width: 700px;
   box-sizing: border-box;
-  padding: 30px 50px 30px 50px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: flex-start;
+  padding: 30px 50px 30px 50px;
+  width: 700px;
 
   @media (max-width: 900px) {
     width: 100%;

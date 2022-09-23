@@ -5,28 +5,28 @@ import bgFireFighter from '../assets/images/bg/bgFireFighter.jpg';
 import bgForest from '../assets/images/bg/bgForest.jpg';
 
 export const AboutSection1 = styled.div`
-  background: url(${bgAbout});
+  align-items: center;
   /* background: url(${bgAbout}) rgba(183, 4, 13, 0.3);
   background-blend-mode: overlay; */
+  background: url(${bgAbout});
+  background-position: left top;
   background-repeat: no-repeat;
   background-size: cover;
-  background-position: left top;
-  width: 100%;
   box-sizing: border-box;
-  padding: 70px 5%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: center;
+  padding: 70px 5%;
+  width: 100%;
 `;
 
 export const AboutSection1Row1 = styled.div`
-  width: 700px;
-  display: flex;
-  justify-content: center;
   align-items: center;
   box-sizing: border-box;
+  display: flex;
   gap: 30px;
+  justify-content: center;
+  width: 700px;
 
   div {
   }
@@ -37,8 +37,8 @@ export const AboutSection1Row1 = styled.div`
 `;
 
 export const AboutSection1Row1Line = styled.div`
-  width: 200px;
   border: 1px solid yellow;
+  width: 200px;
 
   @media (max-width: 800px) {
     width: 30%;
@@ -54,11 +54,11 @@ export const AboutSection1Row1Img = styled.img`
 `;
 
 export const AboutSection1Row2 = styled.div`
-  width: 80%;
-  display: flex;
-  justify-content: center;
   align-items: center;
   box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  width: 80%;
 
   p {
     color: var(--yellow);
@@ -76,11 +76,11 @@ export const AboutSection1Row2 = styled.div`
 `;
 
 export const AboutSection1Row3 = styled.div`
-  width: 80%;
-  display: flex;
-  justify-content: space-between;
   box-sizing: border-box;
+  display: flex;
   gap: 15px;
+  justify-content: space-between;
+  width: 80%;
 
   @media (max-width: 1200px) {
     flex-direction: column;
@@ -92,10 +92,10 @@ export const AboutSection1Row3 = styled.div`
 `;
 
 export const AboutSection1Row3Group = styled.div`
-  width: 50%;
-  display: flex;
   box-sizing: border-box;
+  display: flex;
   gap: 15px;
+  width: 50%;
 
   @media (max-width: 1200px) {
     width: 100%;
@@ -107,29 +107,29 @@ export const AboutSection1Row3Group = styled.div`
 `;
 
 export const AboutSection1Row3Card = styled.div`
-  width: 50%;
-  height: 150px;
+  align-items: center;
   background-color: white;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  height: 150px;
   justify-content: center;
-  align-items: center;
-  position: relative;
-  padding: 10px;
-  box-sizing: border-box;
   margin-top: 70px;
+  padding: 10px;
+  position: relative;
+  width: 50%;
 
   img {
-    width: 100px;
     height: 100px;
     position: absolute;
     top: -50px;
+    width: 100px;
   }
 
   p {
     color: var(--red);
-    text-align: center;
     padding-top: 30px;
+    text-align: center;
   }
 
   @media (max-width: 800px) {
@@ -138,24 +138,24 @@ export const AboutSection1Row3Card = styled.div`
 `;
 
 export const AboutSection2 = styled.div`
+  align-items: center;
   background-color: white;
-  width: 100%;
   box-sizing: border-box;
-  padding: 70px 5%;
-  height: var(--main-height);
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
   gap: 50px;
+  height: var(--main-height);
+  justify-content: flex-start;
+  padding: 70px 5%;
+  width: 100%;
 `;
 
 export const AboutSection2Row = styled.div`
-  width: 80%;
+  align-items: flex-start;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: flex-start;
+  width: 80%;
 
   @media (max-width: 800px) {
     width: 100%;
@@ -163,9 +163,9 @@ export const AboutSection2Row = styled.div`
 `;
 
 export const AboutSection2RowH2 = styled.div`
+  align-items: center;
   display: flex;
   justify-content: flex-start;
-  align-items: center;
 
   h2 {
     color: var(--red);
@@ -175,9 +175,9 @@ export const AboutSection2RowH2 = styled.div`
 `;
 
 export const AboutSection2RowLine = styled.div`
-  width: 90px;
   background-color: var(--yellow);
   height: 3px;
+  width: 90px;
 `;
 
 export const AboutSection2RowParagraph = styled.p`
@@ -186,11 +186,11 @@ export const AboutSection2RowParagraph = styled.p`
 `;
 
 export const AboutSection3 = styled.div`
-  width: 100%;
   box-sizing: border-box;
+  display: flex;
   margin: 0px;
   padding: 0px;
-  display: flex;
+  width: 100%;
 
   @media (max-width: 800px) {
     display: flex;
@@ -202,8 +202,8 @@ export const AboutSection3Column1 = styled.div`
   background: url(${bgFireFighter});
   background-repeat: no-repeat;
   background-size: cover;
-  width: 30%;
   height: 250px;
+  width: 30%;
 
   @media (max-width: 800px) {
     width: 100%;
@@ -211,14 +211,14 @@ export const AboutSection3Column1 = styled.div`
 `;
 
 export const AboutSection3Column2 = styled.div`
+  align-items: center;
   background: url(${bgForest});
   background-repeat: no-repeat;
   background-size: cover;
-  width: 70%;
-  height: 250px;
   display: flex;
+  height: 250px;
   justify-content: center;
-  align-items: center;
+  width: 70%;
 
   @media (max-width: 800px) {
     width: 100%;
@@ -226,17 +226,17 @@ export const AboutSection3Column2 = styled.div`
 `;
 
 export const AboutSection3Row = styled.div`
-  width: 80%;
+  align-items: flex-start;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: flex-start;
+  width: 80%;
 `;
 
 export const AboutSection3RowH2 = styled.div`
+  align-items: center;
   display: flex;
   justify-content: flex-start;
-  align-items: center;
 
   h2 {
     color: white;
@@ -246,9 +246,9 @@ export const AboutSection3RowH2 = styled.div`
 `;
 
 export const AboutSection3RowLine = styled.div`
-  width: 90px;
   background-color: var(--yellow);
   height: 3px;
+  width: 90px;
 `;
 
 export const AboutSection3RowParagraph = styled.p`

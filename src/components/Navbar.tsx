@@ -5,34 +5,34 @@ import { MdPerson } from 'react-icons/md';
 import { AuthContext } from '../contexts/AuthContext';
 
 const Wrapper = styled.div`
-background-color: var(--red);
-  height: var(--navbar-height);
-  width: 100%;
+align-items: center;
+  background-color: var(--red);
   border-top: solid 1px var(--yellow);
   display: flex;
+  height: var(--navbar-height);
   justify-content: flex-end;
-  align-items: center;
   padding: 0px 5%;
+  width: 100%;
 `;
 
 const HorizontalMenu = styled.div`
-  padding: 0px;
-  display: flex;
-  justify-content: flex-end;
   align-items: center;
   color: var(--yellow);
+  display: flex;
   gap: 10px;
+  justify-content: flex-end;
+  padding: 0px;
 
   a {
-    font-size: 1.5rem;
+    align-items: center;
+    border: solid 2px var(--red);
+    color: var(--yellow);
     cursor: pointer;
+    display: flex;
+    font-size: 1.5rem;
+    height: 35px;
     padding: 0px 10px;
     text-decoration: none;
-    color: var(--yellow);
-    border: solid 2px var(--red);
-    display: flex;
-    align-items: center;
-    height: 35px;
 
     &:hover {
         border: solid 2px var(--yellow);
@@ -40,8 +40,8 @@ const HorizontalMenu = styled.div`
 
     &.active {
         background-color: var(--yellow);
-        color: var(--red);
         border: solid 2px var(--yellow);
+        color: var(--red);
     }
   }
 `;
