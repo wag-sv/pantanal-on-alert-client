@@ -7,6 +7,7 @@ import DashboardProperties from '../components/DashboardProperties';
 import DashboardUsers from '../components/DashboardUsers';
 import DashboardAlerts from '../components/DashboardAlerts';
 import DashboardPropertiesLoader from '../components/DashboardPropertiesLoader';
+import { colors } from '../resources/theme';
 
 const Content = styled.div`
   background-color: white;
@@ -37,7 +38,7 @@ const InnerContent = styled.div`
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: var(--red);
+    background-color: ${colors.red};
     background-image: -webkit-linear-gradient(
       90deg,
       transparent,
@@ -57,7 +58,7 @@ const InnerContent = styled.div`
 
 const Menu = styled.div`
   align-items: flex-start;
-  background-color: var(--red);
+  background-color: ${colors.red};
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -86,7 +87,7 @@ const H1 = styled.h1`
 `;
 
 const Line = styled.div`
-  background-color: var(--yellow);
+  background-color: ${colors.yellow};
   height: 1px;
   width: 90px;
 `;
@@ -116,7 +117,7 @@ const Option = styled.div`
   }
 
   &:hover {
-    background-color: var(--hover);
+    background-color: ${colors.hover};
   }
 `;
 

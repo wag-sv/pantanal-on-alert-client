@@ -9,9 +9,11 @@ import { Box } from '../components/Box';
 import { YellowH1 } from '../components/H1';
 import { Form } from '../components/Form';
 import { Input } from '../components/Input';
+import { YellowParagraph } from '../components/Paragraph';
 import { AHundredPerCentButton } from '../components/Buttons';
-import { GreenButton } from '../components/Button';
-import bgAuthenticate from '../assets/images/bg/bgAuthenticate.jpg';
+import { GreenButton, LinkButton } from '../components/Button';
+import pantanal from '../assets/images/background/pantanal.jpg';
+import { colors } from '../resources/theme';
 
 export function Authenticate() {
   const navigate = useNavigate();
@@ -53,9 +55,9 @@ export function Authenticate() {
   };
 
   return (
-    <Background backgroundImage={bgAuthenticate}>
+    <Background backgroundImage={pantanal}>
       {negotiating && <Loading />}
-      <Box bgColor="var(--red)" width="500px">
+      <Box bgColor={colors.red} width="500px">
         <YellowH1>ENTRAR</YellowH1>
         <Form onSubmit={handleSubmit}>
           <Input
@@ -64,7 +66,7 @@ export function Authenticate() {
             name="cpf"
             type="tel"
             maxLength={14}
-            placeholder="CPF"
+            placeholder="Digite aqui"
             autoComplete="off"
             value={authenticationData.cpf}
             mask="999.999.999-99"
@@ -72,30 +74,23 @@ export function Authenticate() {
             gridArea="area1"
           />
           <Input
-            label="Senha"
+            label="SENHA"
             id="password"
             name="password"
             type="password"
             maxLength={22}
-            placeholder="Senha"
+            placeholder="Digite aqui"
             autoComplete="off"
             value={authenticationData.password}
             onChange={handleChange}
             gridArea="area2"
           />
+          {error && <YellowParagraph>{error}</YellowParagraph>}
           <AHundredPerCentButton>
             <GreenButton type="submit">ENTRAR</GreenButton>
           </AHundredPerCentButton>
-
-          {error && <div>{error}</div>}
-          <div>
-            Esqueceu a senha? &rarr;
-            <Link to="/reset">REDEFINIR</Link>
-          </div>
-          <div>
-            Não possui cadastro? &rarr;
-            <Link to="/register">CADASTRAR</Link>
-          </div>
+          <LinkButton><Link to="/reset">ESQUECI MINHA SENHA</Link></LinkButton>
+          <LinkButton><Link to="/register">QUERO ME CADASTRAR</Link></LinkButton>
         </Form>
       </Box>
     </Background>

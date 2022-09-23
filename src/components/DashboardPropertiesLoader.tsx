@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { colors } from '../resources/theme';
 import { api } from '../Services/api';
 import { Loading } from './Loading';
 
@@ -10,7 +11,7 @@ const H1 = styled.h1`
 `;
 
 const Line = styled.div`
-  background-color: var(--yellow);
+  background-color: ${colors.yellow};
   height: 1px;
   width: 90px;
 `;
@@ -27,7 +28,7 @@ const Wrapper = styled.div`
 
 const Content = styled.div`
   align-items: flex-start;
-  background-color: var(--red);
+  background-color: ${colors.red};
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -50,11 +51,11 @@ const Content = styled.div`
 
 const Caution = styled.div`
   align-items: center;
-  background-color: var(--yellow);
+  background-color: ${colors.yellow};
   border: none;
   border-radius: 7px;
   box-sizing: border-box;
-  color: var(--red);
+  color: ${colors.red};
   display: flex;
   flex-direction: column;
   height: 80px;
@@ -65,7 +66,7 @@ const Caution = styled.div`
 `;
 
 const Input = styled.input`
-  background-color: var(--hover);
+  background-color: ${colors.hover};
   border: none;
   cursor: pointer;
   width: 100%;
@@ -83,9 +84,9 @@ const Buttons = styled.div`
 `;
 
 const YellowButton100px = styled.button`
-  background-color: var(--yellow);
+  background-color: ${colors.yellow};
   border: none;
-  color: var(--red);
+  color: ${colors.red};
   cursor: pointer;
   height: 30px;
   margin-bottom: 10px;
@@ -94,7 +95,7 @@ const YellowButton100px = styled.button`
 `;
 
 const GreenButton100px = styled.button`
-  background-color: var(--green);
+  background-color: ${colors.green};
   border: none;
   color: white;
   cursor: pointer;

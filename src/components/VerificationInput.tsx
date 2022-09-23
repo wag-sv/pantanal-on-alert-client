@@ -5,6 +5,7 @@ import { mask as masker } from 'node-masker';
 import { MdDone, MdRepeat, MdClose } from 'react-icons/md';
 import { WhiteLabel } from './Label';
 import { devices } from '../resources/devices';
+import { colors } from '../resources/theme';
 
 type WrapperProps = {
   gridArea?: string;
@@ -34,7 +35,7 @@ const Flex = styled.div`
 
 const Input = styled.input`
   border: none;
-  color: var(--red);
+  color: ${colors.red};
   font-size: 1.6rem;
   height: 50px;
   margin: 0px;
@@ -43,8 +44,8 @@ const Input = styled.input`
   width: 100%;
 
   &:disabled {
-    background-color: var(--hover);
-    color: var(--white);
+    background-color: ${colors.hover};
+    color: ${colors.white};
     cursor: not-allowed;
   }
 
@@ -64,9 +65,9 @@ const Buttons = styled.div`
 
 const Button = styled.button`
   align-items: center;
-  background-color: var(--yellow);
+  background-color: ${colors.yellow};
   border: none;
-  color: var(--red);
+  color: ${colors.red};
   cursor: pointer;
   display: flex;
   flex-grow: 1;
@@ -74,7 +75,7 @@ const Button = styled.button`
   justify-content: center;
 
   &:hover {
-    background-color: var(--green);
+    background-color: ${colors.green};
   }
 
   @media ${devices.tablet} {

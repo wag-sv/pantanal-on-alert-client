@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { colors } from '../resources/theme';
 import { api } from '../Services/api';
 import { Loading } from './Loading';
 
@@ -10,7 +11,7 @@ const H1 = styled.h1`
 `;
 
 const Line = styled.div`
-  background-color: var(--yellow);
+  background-color: ${colors.yellow};
   height: 1px;
   width: 90px;
 `;
@@ -27,7 +28,7 @@ const Wrapper = styled.div`
 
 const Item = styled.div`
   align-items: flex-start;
-  background-color: var(--hover);
+  background-color: ${colors.hover};
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -37,7 +38,7 @@ const Item = styled.div`
 
 const TitleSummary = styled.div`
   align-items: center;
-  background-color: var(--hover);
+  background-color: ${colors.hover};
   border: none;
   box-sizing: border-box;
   color: white;
@@ -53,7 +54,7 @@ const DataSummary = styled.div`
   align-items: center;
   border: none;
   box-sizing: border-box;
-  color: var(--yellow);
+  color: ${colors.yellow};
   display: flex;
   height: 30px;
   justify-content: center;
@@ -63,7 +64,7 @@ const DataSummary = styled.div`
 
 const Content = styled.div`
   align-items: flex-start;
-  background-color: var(--red);
+  background-color: ${colors.red};
   box-sizing: border-box;
   display: flex;
   flex-direction: column;

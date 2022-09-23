@@ -1,14 +1,13 @@
 import styled from 'styled-components';
 
-import bgAbout from '../assets/images/bg/bgAbout.jpg';
-import bgFireFighter from '../assets/images/bg/bgFireFighter.jpg';
-import bgForest from '../assets/images/bg/bgForest.jpg';
+import forestBurning from '../assets/images/background/forestBurning.jpg';
+import firefighter from '../assets/images/background/firefighter.jpg';
+import forest from '../assets/images/background/forest.jpg';
+import { colors } from '../resources/theme';
 
 export const AboutSection1 = styled.div`
   align-items: center;
-  /* background: url(${bgAbout}) rgba(183, 4, 13, 0.3);
-  background-blend-mode: overlay; */
-  background: url(${bgAbout});
+  background: url(${forestBurning});
   background-position: left top;
   background-repeat: no-repeat;
   background-size: cover;
@@ -61,7 +60,7 @@ export const AboutSection1Row2 = styled.div`
   width: 80%;
 
   p {
-    color: var(--yellow);
+    color: ${colors.yellow};
     font-size: x-large;
     font-weight: 400;
     text-align: justify;
@@ -127,7 +126,7 @@ export const AboutSection1Row3Card = styled.div`
   }
 
   p {
-    color: var(--red);
+    color: ${colors.red};
     padding-top: 30px;
     text-align: center;
   }
@@ -168,20 +167,20 @@ export const AboutSection2RowH2 = styled.div`
   justify-content: flex-start;
 
   h2 {
-    color: var(--red);
+    color: ${colors.red};
     font-weight: 500;
     margin: 0px 0px 0px 10px;
   }
 `;
 
 export const AboutSection2RowLine = styled.div`
-  background-color: var(--yellow);
+  background-color: ${colors.yellow};
   height: 3px;
   width: 90px;
 `;
 
 export const AboutSection2RowParagraph = styled.p`
-  color: var(--red);
+  color: ${colors.red};
   text-align: justify;
 `;
 
@@ -199,7 +198,7 @@ export const AboutSection3 = styled.div`
 `;
 
 export const AboutSection3Column1 = styled.div`
-  background: url(${bgFireFighter});
+  background: url(${firefighter});
   background-repeat: no-repeat;
   background-size: cover;
   height: 250px;
@@ -212,7 +211,7 @@ export const AboutSection3Column1 = styled.div`
 
 export const AboutSection3Column2 = styled.div`
   align-items: center;
-  background: url(${bgForest});
+  background: url(${forest});
   background-repeat: no-repeat;
   background-size: cover;
   display: flex;
@@ -246,7 +245,7 @@ export const AboutSection3RowH2 = styled.div`
 `;
 
 export const AboutSection3RowLine = styled.div`
-  background-color: var(--yellow);
+  background-color: ${colors.yellow};
   height: 3px;
   width: 90px;
 `;

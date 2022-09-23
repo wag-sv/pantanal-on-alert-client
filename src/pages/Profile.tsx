@@ -1,20 +1,20 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Loading } from '../components/Loading';
 // import MySubscriptions from '../components/MySubscriptions';
 import { AuthContext } from '../contexts/AuthContext';
-import bgProfile from '../assets/images/bg/bgProfile.jpg';
+import pantanal from '../assets/images/background/pantanal.jpg';
 import { Background } from '../components/Background';
 import { Box } from '../components/Box';
-import { WhiteH1 } from '../components/H1';
+import { YellowH1 } from '../components/H1';
 import { Form } from '../components/Form';
 import { NonEditableItem } from '../components/NonEditableItem';
 import { EditableItem } from '../components/EditableItem';
 import { VerificationInput } from '../components/VerificationInput';
+import { YellowParagraph } from '../components/Paragraph';
 import { api } from '../Services/api';
+import { colors } from '../resources/theme';
 
 export function Profile() {
-  const navigate = useNavigate();
   const { authenticatedUser, setAuthenticatedUser } = React.useContext(AuthContext);
   const [negotiating, setNegotiating] = React.useState(false);
   const [editName, setEditName] = React.useState(false);
@@ -182,18 +182,11 @@ export function Profile() {
     setCellPhoneUpdateError('');
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem('authenticatedUser');
-    setAuthenticatedUser({ token: '', user: {} });
-    navigate('/');
-  };
-
   return (
-    <Background backgroundImage={bgProfile}>
+    <Background backgroundImage={pantanal}>
       {negotiating && <Loading />}
-      <Box bgColor="var(--red)" width="700px">
-        <WhiteH1>MEU PERFIL</WhiteH1>
-        <button type="button" onClick={handleLogout}>SAIR</button>
+      <Box bgColor={colors.red} width="700px">
+        <YellowH1>MEU PERFIL</YellowH1>
         <NonEditableItem
           label="CPF"
           value={user.cpf}
@@ -206,7 +199,7 @@ export function Profile() {
             name="name"
             type="text"
             maxLength={50}
-            placeholder="Nome completo"
+            placeholder="Digite aqui"
             autoComplete="off"
             value={user.name}
             onChange={handleChange}
@@ -214,7 +207,7 @@ export function Profile() {
             setEdit={setEditName}
             onCancel={handleCancelNameUpdate}
           />
-          <span>{nameUpdateError}</span>
+          <YellowParagraph>{nameUpdateError}</YellowParagraph>
         </Form>
         {emailUpdateStep === 'edit' && (
           <Form onSubmit={handleEmailUpdate}>
@@ -224,7 +217,7 @@ export function Profile() {
               name="email"
               type="email"
               maxLength={50}
-              placeholder="Email"
+              placeholder="Digite aqui"
               autoComplete="off"
               value={user.email}
               onChange={handleChange}
@@ -232,7 +225,7 @@ export function Profile() {
               setEdit={setEditEmail}
               onCancel={handleCancelEmailUpdate}
             />
-            <span>{emailUpdateError}</span>
+            <YellowParagraph>{emailUpdateError}</YellowParagraph>
           </Form>
         )}
         {emailUpdateStep === 'verify' && (
@@ -243,14 +236,14 @@ export function Profile() {
               name="emailToken"
               type="tel"
               maxLength={6}
-              placeholder="Código de verificação"
+              placeholder="Digite aqui"
               autoComplete="off"
               value={user.emailToken}
               onChange={handleChange}
               resend={handleResendEmailToken}
               onCancel={handleCancelEmailUpdate}
             />
-            <span>{emailUpdateError}</span>
+            <YellowParagraph>{emailUpdateError}</YellowParagraph>
           </Form>
         )}
         {cellPhoneUpdateStep === 'edit' && (
@@ -261,7 +254,7 @@ export function Profile() {
             name="cellPhone"
             type="cellPhone"
             maxLength={11}
-            placeholder="Celular"
+            placeholder="Digite aqui"
             autoComplete="off"
             value={user.cellPhone}
             onChange={handleChange}
@@ -269,7 +262,7 @@ export function Profile() {
             setEdit={setEditCellPhone}
             onCancel={handleCancelCellPhoneUpdate}
           />
-          <span>{cellPhonelUpdateError}</span>
+          <YellowParagraph>{cellPhonelUpdateError}</YellowParagraph>
         </Form>
         )}
         {cellPhoneUpdateStep === 'verify' && (
@@ -280,14 +273,14 @@ export function Profile() {
               name="cellPhoneToken"
               type="tel"
               maxLength={6}
-              placeholder="Código de verificação"
+              placeholder="Digite aqui"
               autoComplete="off"
               value={user.cellPhoneToken}
               onChange={handleChange}
               resend={handleResendCellPhoneToken}
               onCancel={handleCancelCellPhoneUpdate}
             />
-            <span>{cellPhonelUpdateError}</span>
+            <YellowParagraph>{cellPhonelUpdateError}</YellowParagraph>
           </Form>
         )}
         {/* <MySubscriptions /> */}

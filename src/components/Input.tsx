@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { mask as masker } from 'node-masker';
 import { WhiteLabel } from './Label';
+import { colors } from '../resources/theme';
 
 type WrapperProps = {
   gridArea?: string;
@@ -20,7 +21,7 @@ const Wrapper = styled.div<WrapperProps>`
 
 const FormInput = styled.input`
   border: none;
-  color: var(--red);
+  color: ${colors.red};
   font-size: 1.6rem;
   height: 50px;
   margin: 0px;

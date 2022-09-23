@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { WhiteLabel } from './Label';
+import { colors } from '../resources/theme';
 
 type InputProps = {
   gridArea: string;
@@ -19,8 +20,8 @@ const Wrapper = styled.div<InputProps>`
 
 const Information = styled.div`
   align-items: center;
-  background-color: var(--hover);
-  color: var(--white);
+  background-color: ${colors.hover};
+  color: ${colors.white};
   display: flex;
   font-size: 1.6rem;
   height: 40px;

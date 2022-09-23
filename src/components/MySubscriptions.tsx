@@ -8,6 +8,7 @@ import { api } from '../Services/api';
 import { Loading } from './Loading';
 
 import EnrollmentProof from '../reports/EnrollmentProof';
+import { colors } from '../resources/theme';
 
 const H1 = styled.h1`
   color: white;
@@ -16,7 +17,7 @@ const H1 = styled.h1`
 `;
 
 const Line = styled.div`
-  background-color: var(--yellow);
+  background-color: ${colors.yellow};
   height: 1px;
   width: 90px;
 `;
@@ -46,7 +47,7 @@ const Row = styled.div`
 
 const Data = styled.div`
   align-items: center;
-  background-color: var(--hover);
+  background-color: ${colors.hover};
   border: none;
   box-sizing: border-box;
   color: white;
@@ -69,13 +70,13 @@ const Icon = styled.div`
   width: 40px;
 
   &:hover {
-    background-color: var(--hover);
+    background-color: ${colors.hover};
   }
 `;
 
 const ContentMySubscriptions = styled.div`
   align-items: flex-start;
-  background-color: var(--red);
+  background-color: ${colors.red};
   box-sizing: border-box;
   display: flex;
   flex-direction: column;

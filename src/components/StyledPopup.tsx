@@ -6,6 +6,7 @@ import { AuthContext } from '../contexts/AuthContext';
 import { api } from '../Services/api';
 import { Loading } from './Loading';
 import { GreenButton } from './Button';
+import { colors } from '../resources/theme';
 
 // TODO colocar tamanho de fontes em REM
 const Wrapper = styled.div`
@@ -36,11 +37,11 @@ const Wrapper = styled.div`
   }
 
   .redText {
-    color: var(--red);
+    color: ${colors.red};
   }
 
   .greenText {
-    color: var(--green);
+    color: ${colors.green};
   }
 `;
 

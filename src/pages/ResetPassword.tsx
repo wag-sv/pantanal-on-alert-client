@@ -10,7 +10,6 @@ import { Box } from '../components/Box';
 import { YellowH1 } from '../components/H1';
 import { WhiteParagraph, YellowParagraph } from '../components/Paragraph';
 import { Form } from '../components/Form';
-import { GridLayout } from '../components/GridLayout';
 import { Input } from '../components/Input';
 import { VerificationInput } from '../components/VerificationInput';
 import { AHundredPerCentButton } from '../components/Buttons';
@@ -18,16 +17,14 @@ import { GreenButton, LinkButton } from '../components/Button';
 import pantanal from '../assets/images/background/pantanal.jpg';
 import { colors } from '../resources/theme';
 
-export function Register() {
+export function ResetPassword() {
   const navigate = useNavigate();
   const { setAuthenticatedUser } = React.useContext(AuthContext);
   const [error, setError] = React.useState('');
   const [negotiating, setNegotiating] = React.useState(false);
-  const [step, setStep] = React.useState('register');
-  const [newUser, setNewUser] = React.useState({
-    name: '',
+  const [step, setStep] = React.useState('recovery');
+  const [userData, setUserData] = React.useState({
     cpf: '',
-    email: '',
     password: '',
     passwordConfirmation: '',
     emailToken: '',
@@ -36,26 +33,22 @@ export function Register() {
   const handleChange = (event: any) => {
     setError('');
     const { name, value } = event.target;
-    if (name === 'cpf') setNewUser({ ...newUser, [name]: unMask(value) });
-    else if (name === 'email') setNewUser({ ...newUser, [name]: value.toLowerCase() });
-    else setNewUser({ ...newUser, [name]: value.toUpperCase() });
+    if (name === 'cpf') setUserData({ ...userData, [name]: unMask(value) });
+    else setUserData({ ...userData, [name]: value.toUpperCase() });
   };
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
-    if (!newUser.name || newUser.name.length > 50) setError('O nome é obrigatório e deve ter no máximo 50 caracteres.');
-    else if (!newUser.name.includes(' ')) setError('Digite o seu nome completo.');
-    else if (!newUser.cpf || newUser.cpf.length !== 11) setError('O CPF é obrigatório e deve conter 11 números.');
-    else if (!isValidCPF(newUser.cpf)) setError('CPF inválido.');
-    else if (!newUser.email || !newUser.email.match(/[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/)) setError('O e-mail é obrigatório e deve ser um endereço de e-mail válido.');
-    else if (!newUser.password || !newUser.password.match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&.]{8,}$/)) setError('A senha é obrigatória, deve ter pelo menos 8 caracteres, uma letra e um número.');
-    else if (newUser.password !== newUser.passwordConfirmation) setError('As senhas digitadas são diferentes.');
+    if (!userData.cpf || userData.cpf.length !== 11) setError('O CPF é obrigatório e deve conter 11 números.');
+    else if (!isValidCPF(userData.cpf)) setError('CPF inválido.');
+    else if (!userData.password || !userData.password.match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&.]{8,}$/)) setError('A senha é obrigatória, deve ter pelo menos 8 caracteres, uma letra e um número.');
+    else if (userData.password !== userData.passwordConfirmation) setError('As senhas digitadas são diferentes.');
     else {
       try {
         setNegotiating(true);
-        await api.post('/register', newUser);
+        await api.post('/register', userData);
         setNegotiating(false);
-        setNewUser({ ...newUser, emailToken: '' });
+        setUserData({ ...userData, emailToken: '' });
         setStep('activate');
       } catch (catched: any) {
         setNegotiating(false);
@@ -73,7 +66,7 @@ export function Register() {
     event.preventDefault();
     try {
       setNegotiating(true);
-      await api.post('/resend_activation_token', { cpf: newUser.cpf, email: newUser.email });
+      await api.post('/resend_activation_token', { cpf: userData.cpf });
       setNegotiating(false);
     } catch (catched: any) {
       setNegotiating(false);
@@ -83,11 +76,11 @@ export function Register() {
 
   const handleActivate = async (event: any) => {
     event.preventDefault();
-    if (!newUser.emailToken) setError('O código de verificação é obrigatório.');
+    if (!userData.emailToken) setError('O código de verificação é obrigatório.');
     else {
       try {
         setNegotiating(true);
-        const response = await api.post('/activate', newUser);
+        const response = await api.post('/activate', userData);
         const { user, token } = response.data;
         setAuthenticatedUser({ user, token });
         localStorage.setItem('authenticatedUser', JSON.stringify({ user, token }));
@@ -109,77 +102,40 @@ export function Register() {
           <YellowH1>CADASTRAR</YellowH1>
           <WhiteParagraph>Cadastre-se para receber alertas de possíveis incêndios.</WhiteParagraph>
           <Form onSubmit={handleSubmit}>
-            <GridLayout
-              gridTemplateColumns="1fr 1fr"
-              gridTemplateAreas='
-                "area1 area1"
-                "area2 area2"
-                "area3 area3"
-                "area4 area5"
-              '
-            >
-              <Input
-                label="NOME"
-                id="name"
-                name="name"
-                type="text"
-                maxLength={50}
-                placeholder="Digite aqui"
-                autoComplete="off"
-                value={newUser.name}
-                onChange={handleChange}
-                gridArea="area1"
-              />
-              <Input
-                label="CPF"
-                id="cpf"
-                name="cpf"
-                type="tel"
-                maxLength={14}
-                placeholder="Digite aqui"
-                autoComplete="off"
-                value={newUser.cpf}
-                mask="999.999.999-99"
-                onChange={handleChange}
-                gridArea="area2"
-              />
-              <Input
-                label="E-MAIL"
-                id="email"
-                name="email"
-                type="email"
-                maxLength={50}
-                placeholder="Digite aqui"
-                autoComplete="off"
-                value={newUser.email}
-                onChange={handleChange}
-                gridArea="area3"
-              />
-              <Input
-                label="SENHA"
-                id="password"
-                name="password"
-                type="password"
-                maxLength={22}
-                placeholder="Digite aqui"
-                autoComplete="off"
-                value={newUser.password}
-                onChange={handleChange}
-                gridArea="area4"
-              />
-              <Input
-                label="CONFIRMAR SENHA"
-                id="passwordConfirmation"
-                name="passwordConfirmation"
-                type="password"
-                maxLength={22}
-                placeholder="Digite aqui"
-                autoComplete="off"
-                value={newUser.passwordConfirmation}
-                onChange={handleChange}
-                gridArea="area5"
-              />
-            </GridLayout>
+            <Input
+              label="CPF"
+              id="cpf"
+              name="cpf"
+              type="tel"
+              maxLength={14}
+              placeholder="Digite aqui"
+              autoComplete="off"
+              value={userData.cpf}
+              mask="999.999.999-99"
+              onChange={handleChange}
+            />
+            <Input
+              label="SENHA"
+              id="password"
+              name="password"
+              type="password"
+              maxLength={22}
+              placeholder="Digite aqui"
+              autoComplete="off"
+              value={userData.password}
+              onChange={handleChange}
+            />
+            <Input
+              label="CONFIRMAR SENHA"
+              id="passwordConfirmation"
+              name="passwordConfirmation"
+              type="password"
+              maxLength={22}
+              placeholder="Digite aqui"
+              autoComplete="off"
+              value={userData.passwordConfirmation}
+              onChange={handleChange}
+            />
             {error && <YellowParagraph>{error}</YellowParagraph>}
             <AHundredPerCentButton>
               <GreenButton type="submit">CADASTRAR</GreenButton>
@@ -201,7 +157,7 @@ export function Register() {
               maxLength={6}
               placeholder="Digite aqui"
               autoComplete="off"
-              value={newUser.emailToken}
+              value={userData.emailToken}
               mask="999999"
               onChange={handleChange}
               resend={handleResendEmailToken}

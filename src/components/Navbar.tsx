@@ -1,13 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
-import { NavLink } from 'react-router-dom';
-import { MdPerson } from 'react-icons/md';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { MdPerson, MdLogout } from 'react-icons/md';
 import { AuthContext } from '../contexts/AuthContext';
+import { colors } from '../resources/theme';
 
 const Wrapper = styled.div`
 align-items: center;
-  background-color: var(--red);
-  border-top: solid 1px var(--yellow);
+  background-color: ${colors.red};
+  border-top: solid 1px ${colors.yellow};
   display: flex;
   height: var(--navbar-height);
   justify-content: flex-end;
@@ -17,7 +18,7 @@ align-items: center;
 
 const HorizontalMenu = styled.div`
   align-items: center;
-  color: var(--yellow);
+  color: ${colors.yellow};
   display: flex;
   gap: 10px;
   justify-content: flex-end;
@@ -25,8 +26,8 @@ const HorizontalMenu = styled.div`
 
   a {
     align-items: center;
-    border: solid 2px var(--red);
-    color: var(--yellow);
+    border: solid 2px ${colors.red};
+    color: ${colors.yellow};
     cursor: pointer;
     display: flex;
     font-size: 1.5rem;
@@ -35,21 +36,44 @@ const HorizontalMenu = styled.div`
     text-decoration: none;
 
     &:hover {
-        border: solid 2px var(--yellow);
+      border: solid 2px ${colors.yellow};
     }
 
     &.active {
-        background-color: var(--yellow);
-        border: solid 2px var(--yellow);
-        color: var(--red);
+      background-color: ${colors.yellow};
+      border: solid 2px ${colors.yellow};
+      color: ${colors.red};
     }
   }
 `;
 
+const Logout = styled.div`
+  align-items: center;
+  border: solid 2px ${colors.red};
+  color: ${colors.yellow};
+  cursor: pointer;
+  display: flex;
+  font-size: 1.5rem;
+  height: 35px;
+  padding: 0px 10px;
+  text-decoration: none;
+
+  &:hover {
+    border: solid 2px ${colors.yellow};
+  }
+`;
+
 export function Navbar() {
-  const { authenticatedUser } = React.useContext(AuthContext);
+  const navigate = useNavigate();
+  const { authenticatedUser, setAuthenticatedUser } = React.useContext(AuthContext);
   const { token, user } = authenticatedUser;
   const { isAdmin } = user;
+
+  const handleLogout = () => {
+    localStorage.removeItem('authenticatedUser');
+    setAuthenticatedUser({ token: '', user: {} });
+    navigate('/');
+  };
 
   return (
     <Wrapper>
@@ -60,6 +84,7 @@ export function Navbar() {
         {!token && <NavLink to="/authenticate">Entrar</NavLink>}
         {!token && <NavLink to="/register">Cadastrar</NavLink>}
         {token && <NavLink to="/profile"><MdPerson size="25px" /></NavLink>}
+        {token && <Logout onClick={handleLogout}><MdLogout size="25px" /></Logout>}
       </HorizontalMenu>
     </Wrapper>
   );

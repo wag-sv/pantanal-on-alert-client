@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { colors } from '../resources/theme';
 
 const Wrapper = styled.div`
   align-items: center;
@@ -17,7 +18,7 @@ const Wrapper = styled.div`
 const Circle = styled.div`
   animation: 0.7s infinite ease-in-out;
   animation-name: loader;
-  background-color: var(--red);
+  background-color: ${colors.red};
   border-radius: 50%;
   height: 50px;
   width: 50px;

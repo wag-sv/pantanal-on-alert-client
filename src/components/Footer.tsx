@@ -1,10 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 import publicMinistryLogoPath from '../assets/images/publicMinistryLogo.svg';
+import { colors } from '../resources/theme';
 
 const Wrapper = styled.div`
   align-items: center;
-  background-color: white;
+  background-color: ${colors.white};
   display: flex;
   gap: 5px;
   height: var(--footer-height);

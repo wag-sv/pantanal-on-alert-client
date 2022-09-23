@@ -4,6 +4,7 @@ import { MdExpandMore, MdExpandLess } from 'react-icons/md';
 import { IconContext } from 'react-icons';
 import { Loading } from './Loading';
 import { api } from '../Services/api';
+import { colors } from '../resources/theme';
 
 const H1 = styled.h1`
   color: white;
@@ -12,7 +13,7 @@ const H1 = styled.h1`
 `;
 
 const Line = styled.div`
-  background-color: var(--yellow);
+  background-color: ${colors.yellow};
   height: 1px;
   width: 90px;
 `;
@@ -31,7 +32,7 @@ const DashboardSearch = styled.div`
   }
 
   h2 {
-    color: var(--yellow);
+    color: ${colors.yellow};
     font-size: smaller;
     margin: 0px 0px;
   }
@@ -54,7 +55,7 @@ const Wrapper = styled.div`
 
 const Item = styled.div`
   align-items: flex-start;
-  background-color: var(--hover);
+  background-color: ${colors.hover};
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -64,7 +65,7 @@ const Item = styled.div`
 
 const Title = styled.div`
   align-items: center;
-  background-color: var(--hover);
+  background-color: ${colors.hover};
   border: none;
   box-sizing: border-box;
   color: white;
@@ -89,7 +90,7 @@ const Icon = styled.div`
   width: 30px;
 
   &:hover {
-    background-color: var(--hover);
+    background-color: ${colors.hover};
   }
 `;
 
@@ -97,7 +98,7 @@ const Data = styled.div`
   align-items: center;
   border: none;
   box-sizing: border-box;
-  color: var(--yellow);
+  color: ${colors.yellow};
   display: flex;
   font-size: smaller;
   justify-content: flex-start;
@@ -113,26 +114,26 @@ const Data = styled.div`
 `;
 
 const Label = styled.span`
-  color: var(--yellow);
+  color: ${colors.yellow};
   font-weight: 700;
   margin-right: 15px;
   white-space: nowrap;
 `;
 
 const Info = styled.span`
-  color: var(--yellow);
+  color: ${colors.yellow};
 `;
 
 const Divider = styled.div`
   border-style: dotted none none none;
-  border-top: solid 1px var(--yellow);
+  border-top: solid 1px ${colors.yellow};
   margin-left: 15px;
   width: calc(100% - 30px);
 `;
 
 const Content = styled.div`
   align-items: flex-start;
-  background-color: var(--red);
+  background-color: ${colors.red};
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -154,9 +155,9 @@ const Content = styled.div`
 `;
 
 const YellowButton100px = styled.button`
-  background-color: var(--yellow);
+  background-color: ${colors.yellow};
   border: none;
-  color: var(--red);
+  color: ${colors.red};
   cursor: pointer;
   height: 30px;
   margin-bottom: 10px;
@@ -165,7 +166,7 @@ const YellowButton100px = styled.button`
 `;
 
 const GreenButton100px = styled.button`
-  background-color: var(--green);
+  background-color: ${colors.green};
   border: none;
   color: white;
   cursor: pointer;

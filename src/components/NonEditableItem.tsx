@@ -4,6 +4,7 @@ import { mask as masker } from 'node-masker';
 import { MdEdit } from 'react-icons/md';
 import { WhiteLabel } from './Label';
 import { devices } from '../resources/devices';
+import { colors } from '../resources/theme';
 
 type WrapperProps = {
   gridArea?: string;
@@ -32,9 +33,9 @@ const Flex = styled.div`
 `;
 
 const Item = styled.div`
-  background-color: var(--hover);
+  background-color: ${colors.hover};
   border: none;
-  color: var(--white);
+  color: ${colors.white};
   cursor: not-allowed;
   font-size: 1.6rem;
   height: 50px;
@@ -50,9 +51,9 @@ const Item = styled.div`
 
 const Button = styled.button`
   align-items: center;
-  background-color: var(--gray);
+  background-color: ${colors.gray};
   border: none;
-  color: var(--red);
+  color: ${colors.red};
   cursor: pointer;
   display: flex;
   flex-grow: 1;

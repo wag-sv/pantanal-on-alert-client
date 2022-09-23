@@ -5,10 +5,11 @@ import wetlandLogoPath from '../assets/images/wetlandLogo.svg';
 import firefightersArmsPath from '../assets/images/firefightersArms.svg';
 import firefightersLogoPath from '../assets/images/firefightersLogo.svg';
 import { devices } from '../resources/devices';
+import { colors } from '../resources/theme';
 
 const Wrapper = styled.div`
   align-items: center;
-  background-color: var(--red);
+  background-color: ${colors.red};
   display: flex;
   height: var(--header-height);
   justify-content: space-between;

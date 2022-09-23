@@ -50,12 +50,6 @@ export const GlobalStyle = createGlobalStyle`
 
   :root {
     font-size: 10px;
-    --gray: #737373;
-    --white: #ffffff;
-    --red: #b6050d;
-    --yellow: #fdf117;
-    --green: #45c38e;
-    --hover: rgba(1,1,1, 0.1);
     --app-height: 100vh;
     --header-height: 80px;
     --navbar-height: 50px;

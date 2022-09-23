@@ -3,46 +3,46 @@ import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
 
 export const Content = styled.div`
+  align-items: flex-start;
   background-color: rgba(255, 255, 255, 1);
-  color: var(--red);
-  width: 100%;
+  color: ${colors.red};
+  display: flex;
   height: var(--main-height);
+  justify-content: center;
   position: absolute;
   top: var(--header-height);
+  width: 100%;
   z-index: 5000;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
 
   #content {
-    width: 80%;
-    height: calc(100% - 40px);
+    align-items: center;
     display: flex;
     flex-direction: column;
+    height: calc(100% - 40px);
     justify-content: flex-start;
-    align-items: center;
-    padding-right: 10px;
     margin-top: 20px;
     overflow: auto;
+    padding-right: 10px;
+    width: 80%;
 
     h1 {
       align-self: center;
     }
 
     p {
+      align-self: flex-start;
       margin: 20px 0px 0px 0px;
       text-align: justify;
-      align-self: flex-start;
     }
 
     a {
-      color: var(--red);
+      color: ${colors.red};
     }
 
     &::-webkit-scrollbar-track {
       -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-      border-radius: 10px;
       background-color: #dddddd;
+      border-radius: 10px;
     }
 
     &::-webkit-scrollbar {
@@ -50,8 +50,7 @@ export const Content = styled.div`
     }
 
     &::-webkit-scrollbar-thumb {
-      border-radius: 10px;
-      background-color: var(--red);
+      background-color: ${colors.red};
       background-image: -webkit-linear-gradient(
         90deg,
         transparent,
@@ -59,21 +58,22 @@ export const Content = styled.div`
         transparent,
         transparent
       );
+      border-radius: 10px;
     }
   }
 `;
 
 export const StatItem = styled.div`
-  background-color: var(--red);
-  color: var(--yellow);
-  width: 70%;
+  align-items: center;
+  background-color: ${colors.red};
+  border: solid 1px ${colors.red};
   border-radius: 15px;
+  box-shadow: 5px 5px 5px #333;
+  color: ${colors.yellow};
   display: flex;
   flex-direction: column;
-  align-items: center;
   margin-top: 22px;
-  box-shadow: 5px 5px 5px #333;
-  border: solid 1px var(--red);
+  width: 70%;
 
   h2 {
     font-size: 18px;
@@ -92,47 +92,47 @@ export const StatItem = styled.div`
 `;
 
 export const ButtonRed = styled.button`
-  background-color: var(--red);
-  color: var(--yellow);
-  padding: 10px 50px;
-  margin-top: 15px;
+  background-color: ${colors.red};
   border: none;
   border-radius: 7px;
+  color: ${colors.yellow};
   cursor: pointer;
+  margin-top: 15px;
+  padding: 10px 50px;
   width: 200px;
 `;
 
 export const ButtonWhite = styled.button`
   background-color: white;
-  color: var(--red);
-  padding: 10px 50px;
-  margin-top: 15px;
-  border: solid 1px var(--red);
+  border: solid 1px ${colors.red};
   border-radius: 7px;
+  color: ${colors.red};
   cursor: pointer;
+  margin-top: 15px;
+  padding: 10px 50px;
   width: 200px;
 `;
 
 export const Input = styled.div`
-  width: 500px;
+  align-items: center;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: center;
   margin-top: 10px;
+  width: 500px;
 
   @media (max-width: 800px) {
     width: 90%;
   }
 
   input {
-    /* background-color: var(--yellow); */
+    /* background-color: ${colors.yellow}; */
+    border: 1px solid ${colors.red};
     border: none;
     border-radius: 7px;
     height: 30px;
-    width: 100%;
     padding-left: 15px;
-    border: 1px solid var(--red);
+    width: 100%;
 
     &:focus {
       outline: none;
@@ -140,36 +140,36 @@ export const Input = styled.div`
   }
 
   label {
-    background-color: white;
     align-self: flex-start;
-    font-size: 10px;
+    background-color: white;
     border-radius: 3px;
+    font-size: 10px;
+    padding: 0px 5px;
     position: relative;
     top: 5px;
-    padding: 0px 5px;
   }
 `;
 
 export const StyledFormLink = styled(NavLink)`
-  text-decoration: none;
   font-weight: 700;
   padding: 3px;
+  text-decoration: none;
 
   &:hover {
-    background-color: var(--yellow);
+    background-color: ${colors.yellow};
     border-radius: 3px;
   }
 `;
 
 export const Success = styled.div`
-  width: 500px;
-  font-size: 14px;
-  margin-top: 20px;
-  color: green;
-  text-align: center;
-  padding: 10px;
   border: solid 1px green;
   border-radius: 7px;
+  color: green;
+  font-size: 14px;
+  margin-top: 20px;
+  padding: 10px;
+  text-align: center;
+  width: 500px;
 
   @media (max-width: 800px) {
     width: 90%;
@@ -177,13 +177,13 @@ export const Success = styled.div`
 `;
 
 export const Error = styled.div`
-  background-color: var(--yellow);
-  width: 500px;
+  background-color: ${colors.yellow};
+  border-radius: 7px;
   font-size: 14px;
   margin-top: 20px;
-  text-align: center;
   padding: 10px;
-  border-radius: 7px;
+  text-align: center;
+  width: 500px;
 
   @media (max-width: 800px) {
     width: 90%;
@@ -196,9 +196,9 @@ export const AuthWarning = styled.div`
 `;
 
 export const SuccessSpan = styled.span`
+  color: green;
   font-size: 14px;
   margin-top: 20px;
-  color: green;
 `;
 
 export const ErrorSpan = styled.span`
@@ -207,16 +207,16 @@ export const ErrorSpan = styled.span`
 `;
 
 export const PropertyInfo = styled.div`
-  width: 500px;
-  color: var(--red);
-  font-size: 14px;
+  align-items: center;
+  border: solid 1px ${colors.red};
+  border-radius: 7px;
+  color: ${colors.red};
   display: flex;
   flex-direction: column;
+  font-size: 14px;
   justify-content: center;
-  align-items: center;
-  border: solid 1px var(--red);
-  border-radius: 7px;
   padding: 10px;
+  width: 500px;
 
   .title {
     font-weight: 700;
@@ -230,44 +230,44 @@ export const PropertyInfo = styled.div`
 `;
 
 export const InputProfile = styled.div`
-  width: 500px;
+  align-items: center;
   display: flex;
   justify-content: space-between;
-  align-items: center;
   margin-top: 30px;
+  width: 500px;
 
   .input {
+    align-items: center;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    align-items: center;
   }
 
   .button {
+    align-items: center;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    align-items: center;
   }
 
   label {
-    background-color: white;
     align-self: flex-start;
-    font-size: 10px;
+    background-color: white;
     border-radius: 3px;
-    position: relative;
-    top: 5px;
+    font-size: 10px;
     left: 10px;
     padding: 0px 5px;
+    position: relative;
+    top: 5px;
   }
 
   input {
+    border: 1px solid ${colors.red};
     border: none;
     border-radius: 7px;
     height: 30px;
-    width: 320px;
     padding-left: 15px;
-    border: 1px solid var(--red);
+    width: 320px;
 
     &:focus {
       outline: none;
@@ -275,16 +275,16 @@ export const InputProfile = styled.div`
   }
 
   button {
-    background-color: var(--red);
-    color: var(--yellow);
-    height: 35px;
+    background-color: ${colors.red};
+    border: 1px solid ${colors.red};
     border: none;
     border-radius: 7px;
+    color: ${colors.yellow};
     cursor: pointer;
-    width: 150px;
-    border: 1px solid var(--red);
+    height: 35px;
     position: relative;
     top: 6px;
+    width: 150px;
   }
 
   @media (max-width: 800px) {
@@ -293,44 +293,44 @@ export const InputProfile = styled.div`
 `;
 
 export const InputToken = styled.div`
-  width: 500px;
+  align-items: center;
   display: flex;
   justify-content: space-between;
-  align-items: center;
   margin-top: 30px;
+  width: 500px;
 
   .input {
+    align-items: center;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    align-items: center;
   }
 
   .button {
+    align-items: center;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    align-items: center;
   }
 
   label {
-    background-color: white;
     align-self: flex-start;
-    font-size: 10px;
+    background-color: white;
     border-radius: 3px;
-    position: relative;
-    top: 5px;
+    font-size: 10px;
     left: 10px;
     padding: 0px 5px;
+    position: relative;
+    top: 5px;
   }
 
   input {
+    border: 1px solid ${colors.red};
     border: none;
     border-radius: 7px;
     height: 30px;
-    width: 160px;
     padding-left: 15px;
-    border: 1px solid var(--red);
+    width: 160px;
 
     &:focus {
       outline: none;
@@ -338,16 +338,16 @@ export const InputToken = styled.div`
   }
 
   button {
-    background-color: var(--red);
-    color: var(--yellow);
-    height: 35px;
+    background-color: ${colors.red};
+    border: 1px solid ${colors.red};
     border: none;
     border-radius: 7px;
+    color: ${colors.yellow};
     cursor: pointer;
-    width: 150px;
-    border: 1px solid var(--red);
+    height: 35px;
     position: relative;
     top: 6px;
+    width: 150px;
   }
 
   @media (max-width: 800px) {
@@ -359,7 +359,7 @@ export const InputToken = styled.div`
       height: 30px;
       width: 80px;
       padding-left: 5px;
-      border: 1px solid var(--red);
+      border: 1px solid ${colors.red};
 
       &:focus {
         outline: none;
@@ -367,14 +367,14 @@ export const InputToken = styled.div`
     }
 
     button {
-      background-color: var(--red);
-      color: var(--yellow);
+      background-color: ${colors.red};
+      color: ${colors.yellow};
       height: 35px;
       border: none;
       border-radius: 7px;
       cursor: pointer;
       width: 80px;
-      border: 1px solid var(--red);
+      border: 1px solid ${colors.red};
       position: relative;
       top: 6px;
     }
@@ -382,8 +382,8 @@ export const InputToken = styled.div`
 `;
 
 // export const Disconnect = styled.button`
-//   background-color: var(--red);
-//   color: var(--yellow);
+//   background-color: ${colors.red};
+//   color: ${colors.yellow};
 //   padding: 10px 50px;
 //   margin-top: 15px;
 //   border: none;
@@ -395,41 +395,41 @@ export const InputToken = styled.div`
 // `;
 
 export const Menu = styled.div`
+  align-items: flex-end;
   box-sizing: border-box;
-  position: absolute;
-  top: calc(var(--header-height) + 40px);
-  right: 10px;
-  z-index: 3000;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-end;
   gap: 10px;
-  box-sizing: border-box;
+  justify-content: flex-start;
+  position: absolute;
+  right: 10px;
+  top: calc(var(--header-height) + 40px);
+  z-index: 3000;
 
   img {
-    width: 50px;
-    height: 50px;
     cursor: pointer;
+    height: 50px;
+    width: 50px;
   }
 `;
 
 export const StyledPopup = styled(Popup)`
   .leaflet-popup-content-wrapper {
+    align-items: center;
     background-color: white;
     display: flex;
     justify-content: center;
-    align-items: center;
   }
   .leaflet-popup-tip {
     background-color: white;
   }
 
   .content {
+    align-items: center;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
 
     h1 {
       font-size: 16px;
@@ -439,34 +439,34 @@ export const StyledPopup = styled(Popup)`
     p {
       font-size: 11px;
       font-weight: 700;
-      text-align: center;
       margin: 10px 0px;
+      text-align: center;
     }
 
     div {
+      align-items: center;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      align-items: center;
       width: 100%;
     }
 
     .redText {
-      color: var(--red);
+      color: ${colors.red};
     }
 
     .greenText {
-      color: var(--green);
+      color: ${colors.green};
     }
   }
 `;
 
 export const GreenButton = styled.button`
-  background-color: var(--green);
-  width: 100%;
-  height: 40px;
-  color: white;
+  background-color: ${colors.green};
   border: none;
+  color: white;
   cursor: pointer;
+  height: 40px;
   margin-bottom: 10px;
+  width: 100%;
 `;
