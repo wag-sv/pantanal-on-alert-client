@@ -33,7 +33,7 @@ const Flex = styled.div`
 `;
 
 const Item = styled.div`
-  background-color: ${colors.hover};
+  background-color: ${colors.darkRed};
   border: none;
   color: ${colors.white};
   cursor: not-allowed;

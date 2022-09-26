@@ -5,7 +5,6 @@ import { Popup } from 'react-leaflet';
 import { AuthContext } from '../contexts/AuthContext';
 import { api } from '../Services/api';
 import { Loading } from './Loading';
-import { GreenButton } from './Button';
 import { colors } from '../resources/theme';
 
 // TODO colocar tamanho de fontes em REM
@@ -16,8 +15,8 @@ const Wrapper = styled.div`
   justify-content: center;
 
   h1 {
-    font-size: 16px;
-    margin: 20px  0px 0px 0px;
+    font-size: 1.6rem;
+    margin: 15px  0px 0px 0px;
   }
 
   p {
@@ -36,6 +35,25 @@ const Wrapper = styled.div`
     width: 100%;
   }
 
+  button {
+    background-color: ${colors.green};
+    border: none;
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.5);
+    color: ${colors.white};
+    cursor: pointer;
+    font-family: "Roboto", sans-serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    overflow: hidden;
+    padding: 10px;
+    width: 100%;
+    margin: 10px 0px;
+
+    &:hover {
+        transform: scale(1.03);
+    }
+  }
+
   .redText {
     color: ${colors.red};
   }
@@ -46,78 +64,57 @@ const Wrapper = styled.div`
 `;
 
 export function StyledPopup({ property } : any) {
+  const { COD_IMOVEL: propertyCode, NOM_MUNICI: propertyCounty, COD_ESTADO: propertyState } = property.properties;
   const { authenticatedUser, setAuthenticatedUser } = React.useContext(AuthContext);
-  const [loading, setLoading] = React.useState(false);
+  const [error, setError] = React.useState('');
+  const [negotiating, setNegotiating] = React.useState(false);
   const navigate = useNavigate();
-
-  // TODO verificar se é necessário o refreshUser
-  //   const refreshUser = async () => {
-  //     if (authenticatedUser.token) {
-  //       const response = await api.post('/refresh_user', authenticatedUser.user);
-  //       setAuthenticatedUser({ ...response.data });
-  //       localStorage.setItem('authenticatedUser', JSON.stringify({ ...response.data }));
-  //     }
-  //   };
-
-  //   React.useEffect(() => { refreshUser(); }, []);
 
   const goToAuthentication = () => {
     navigate('/authenticate');
   };
 
   async function subscribe() {
-    const requestParameters = {
-      propertyCode: property.properties.COD_IMOVEL,
-      propertyCounty: property.properties.NOM_MUNICI,
-      propertyState: property.properties.COD_ESTADO,
-      propertyAlias: '',
-    };
-    // FIXME retirar try catch e melhorar o tratamendo de erros
+    const requestParameters = { propertyCode, propertyCounty, propertyState };
     try {
-      setLoading(true);
+      setNegotiating(true);
       const response = await api.post('/subscribe', requestParameters);
-      setLoading(false);
-      const updatedUser = { ...authenticatedUser, user: { ...response.data.user } };
+      setNegotiating(false);
+      if (response.data.error) {
+        setError(response.data.error);
+        return;
+      }
+      const updatedUser = { ...authenticatedUser, user: response.data.user };
       setAuthenticatedUser(updatedUser);
       localStorage.setItem('authenticatedUser', JSON.stringify(updatedUser));
-    } catch (err) {
-      // console.error(err.response.data);
-      // setError({ ...err.response.data });
+    } catch (catched: any) {
+      setNegotiating(false);
+      setError(catched.response.data.error);
     }
   }
 
   const userIsAuthenticated = () => (!!authenticatedUser.token);
-
-  const userIsSubscribed = () => authenticatedUser.user.subscriptions.some(
-    (subscription: any) => subscription.propertyCode === property.properties.COD_IMOVEL,
-  );
+  const userIsSubscribed = () => authenticatedUser.user.subscriptions.some((subscription: any) => subscription.propertyCode === propertyCode);
 
   return (
-    <Popup>
-      <Wrapper>
-        {loading && <Loading />}
-        <h1>CÓDIGO CAR FEDERAL</h1>
-        <p>{property.properties.COD_IMOVEL}</p>
-        <h1>MUNICÍPIO</h1>
-        <p>{`${property.properties.NOM_MUNICI} - ${property.properties.COD_ESTADO}`}</p>
-        {!userIsAuthenticated() && (
-        <div>
-          <p>Entre no sistema para se inscrever no recebimento de alertas de queimadas nesta propriedade.</p>
-          <GreenButton onClick={goToAuthentication}>ENTRAR</GreenButton>
-        </div>
-        )}
-        {userIsAuthenticated() && !userIsSubscribed() && (
-        <div>
-          <p className="redText">Increva-se para receber alertas de queimadas desta propriedade.</p>
-          <GreenButton onClick={() => subscribe()}>INSCREVER-SE</GreenButton>
-        </div>
-        )}
-        {userIsAuthenticated() && userIsSubscribed() && (
-        <div>
-          <p className="greenText">Você está inscrito para receber alertas de queimadas desta propriedade.</p>
-        </div>
-        )}
-      </Wrapper>
-    </Popup>
+    <>
+      {negotiating && <Loading />}
+      <Popup>
+        <Wrapper>
+          <h1>CÓDIGO CAR FEDERAL</h1>
+          <p>{propertyCode}</p>
+          <h1>MUNICÍPIO</h1>
+          <p>{`${propertyCounty} - ${propertyState}`}</p>
+          <div>
+            {!userIsAuthenticated() && <p>Entre no sistema para se inscrever no recebimento de alertas de queimadas nesta propriedade.</p>}
+            {!userIsAuthenticated() && <button type="button" onClick={goToAuthentication}>ENTRAR</button>}
+            {userIsAuthenticated() && !userIsSubscribed() && <p>Increva-se para receber alertas de queimadas desta propriedade.</p>}
+            {error && <p className="redText">{error}</p>}
+            {userIsAuthenticated() && !userIsSubscribed() && <button type="button" onClick={() => subscribe()}>INSCREVER-SE</button>}
+            {userIsAuthenticated() && userIsSubscribed() && <p className="greenText">Você está inscrito para receber alertas de queimadas desta propriedade.</p>}
+          </div>
+        </Wrapper>
+      </Popup>
+    </>
   );
 }

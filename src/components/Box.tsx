@@ -2,13 +2,13 @@ import styled from 'styled-components';
 import { devices } from '../resources/devices';
 
 type WrapperProps = {
-  bgColor: string;
+  backgroundColor: string;
   width: string;
 };
 
 export const Box = styled.div<WrapperProps>`
   align-items: center;
-  background-color: ${({ bgColor }) => bgColor};
+  background-color: ${({ backgroundColor }) => backgroundColor};
   display: flex;
   flex-direction: column;
   justify-content: flex-start;

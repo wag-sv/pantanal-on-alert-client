@@ -28,6 +28,12 @@ const FormInput = styled.input`
   outline: none;
   padding: 10px 20px;
   width: 100%;
+
+  &:disabled {
+    background-color: ${colors.darkRed};
+    color: ${colors.white};
+    cursor: not-allowed;
+  }
 `;
 
 type InputProps = {
@@ -41,11 +47,12 @@ type InputProps = {
   value: string;
   mask?: string;
   onChange: (event: any) => void;
+  disabled?: boolean;
   gridArea?: string;
 };
 
 export function Input({
-  label, id, name, type, maxLength, placeholder, autoComplete, value, mask, onChange, gridArea,
+  label, id, name, type, maxLength, placeholder, autoComplete, value, mask, onChange, disabled, gridArea,
 }: InputProps) {
   return (
     <Wrapper gridArea={gridArea}>
@@ -59,6 +66,7 @@ export function Input({
         onChange={onChange}
         placeholder={placeholder}
         autoComplete={autoComplete}
+        disabled={disabled}
       />
     </Wrapper>
   );

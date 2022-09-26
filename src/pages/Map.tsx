@@ -6,14 +6,17 @@ import L from 'leaflet';
 import {
   MapContainer, TileLayer, GeoJSON, Marker,
 } from 'react-leaflet';
+import { getServiceStatus } from '../modules/getServiceStatus';
+import { getProperties } from '../modules/getProperties';
+import { getFireSpots } from '../modules/getFireSpots';
+import { getStatistics } from '../modules/getStatistics';
 import { AppContext } from '../contexts/AppContext';
-import { api } from '../Services/api';
 import { Loading } from '../components/Loading';
+import { Error } from './Error';
 import { StyledPopup } from '../components/StyledPopup';
 import { StyledTooltip } from '../components/StyledTooltip';
 import { pantanal } from '../polygons/pantanal';
 import flame from '../assets/images/flame/flame.svg';
-import { Error } from './Error';
 
 const position: L.LatLngExpression = [
   turf.center(turf.multiPolygon(pantanal.features[0].geometry.coordinates)).geometry.coordinates[1],
@@ -53,78 +56,28 @@ export function Map() {
   const [ready, setReady] = React.useState(false);
   const [error, setError] = React.useState('');
 
-  async function getServiceStatus() {
-    try {
-      const response = await api.get('/serviceStatus');
-      const serviceStatus = response.data;
-      if (serviceStatus !== 0 && serviceStatus !== 1) return { error: 'Não foi possível identificar o status do serviço.' };
-      if (serviceStatus === 0) return { error: 'Dados de satélites indisponíveis no momento.' };
-      return { error: null };
-    } catch (err) {
-      return { error: 'Erro de comunicação com o servidor. (001).' };
-    }
-  }
-
-  async function getProperties() {
-    try {
-      const response = await api.get('/properties');
-      const properties = response.data.activeProperties;
-      return { data: properties, error: null };
-    } catch (err) {
-      return { data: null, error: 'Erro de comunicação com o servidor. (002).' };
-    }
-  }
-
-  async function getFireSpots() {
-    try {
-      const response = await api.get('/fireSpots');
-      const fireSpots = response.data;
-      return { data: fireSpots, error: null };
-    } catch (err) {
-      return { data: null, error: 'Erro de comunicação com o servidor. (003).' };
-    }
-  }
-
-  async function getStatistics() {
-    try {
-      const response = await api.get('/statistics');
-      const statistics = response.data;
-      return { data: statistics, error: null };
-    } catch (err) {
-      return { data: null, error: 'Erro de comunicação com o servidor. (004).' };
-    }
-  }
-
   const getData = async () => {
     const serviceStatus = await getServiceStatus();
     if (serviceStatus.error) {
       setError(serviceStatus.error);
       return;
     }
-
     const properties = await getProperties();
     if (properties.error) {
       setError(properties.error);
       return;
     }
-
     const fireSpots = await getFireSpots();
     if (fireSpots.error) {
       setError(fireSpots.error);
       return;
     }
-
     const statistics = await getStatistics();
     if (statistics.error) {
       setError(statistics.error);
       return;
     }
-
-    setAppState({
-      properties: properties.data,
-      fireSpots: fireSpots.data,
-      statistics: statistics.data,
-    });
+    setAppState({ properties: properties.data, fireSpots: fireSpots.data, statistics: statistics.data });
   };
 
   React.useEffect(() => {

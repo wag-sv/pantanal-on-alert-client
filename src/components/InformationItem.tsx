@@ -1,39 +1,50 @@
 import React from 'react';
 import styled from 'styled-components';
-import { WhiteLabel } from './Label';
+import { YellowLabel } from './Label';
 import { colors } from '../resources/theme';
+import { WhiteH3 } from './H3';
 
-type InputProps = {
-  gridArea: string;
-};
-
-const Wrapper = styled.div<InputProps>`
-    align-items: flex-start;
+const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
-    grid-area: ${({ gridArea }) => gridArea};
-    justify-content: center;
-    overflow: hidden;
-    padding: 10px 0px;
+    margin: 10px 0px;
     width: 100%;
 `;
 
-const Information = styled.div`
+const Title = styled.div`
   align-items: center;
-  background-color: ${colors.hover};
-  color: ${colors.white};
+  background-color: ${colors.deepRed};
+  border: none;
+  color: ${colors.deepRed};
   display: flex;
-  font-size: 1.6rem;
-  height: 40px;
-  padding: 0px 15px;
+  justify-content: center;
+  padding: 5px 15px;
   width: 100%;
 `;
 
-export function InformationItem({ label, information, gridArea }: any) {
+const Content = styled.div`
+  align-items: center;
+  background-color: ${colors.darkRed};
+  display: flex;
+  justify-content: center;
+  padding: 10px 15px;
+  width: 100%;
+`;
+
+type DashboardItemProps = {
+  title: string;
+  content: string;
+};
+
+export function InformationItem({ title, content }: DashboardItemProps) {
   return (
-    <Wrapper gridArea={gridArea}>
-      <WhiteLabel>{label}</WhiteLabel>
-      <Information>{information}</Information>
+    <Wrapper>
+      <Title>
+        <WhiteH3>{title}</WhiteH3>
+      </Title>
+      <Content>
+        <YellowLabel>{content}</YellowLabel>
+      </Content>
     </Wrapper>
   );
 }

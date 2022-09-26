@@ -57,7 +57,7 @@ const Wrapper = styled.div`
 
 const Item = styled.div`
   align-items: flex-start;
-  background-color: ${colors.hover};
+  background-color: ${colors.darkRed};
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -67,7 +67,7 @@ const Item = styled.div`
 
 const Title = styled.div`
   align-items: center;
-  background-color: ${colors.hover};
+  background-color: ${colors.darkRed};
   border: none;
   box-sizing: border-box;
   color: white;
@@ -92,7 +92,7 @@ const Icon = styled.div`
   width: 30px;
 
   &:hover {
-    background-color: ${colors.hover};
+    background-color: ${colors.darkRed};
   }
 `;
 

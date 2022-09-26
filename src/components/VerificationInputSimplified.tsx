@@ -2,9 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import Tippy from '@tippyjs/react';
 import { mask as masker } from 'node-masker';
-import { MdDone, MdRepeat, MdClose } from 'react-icons/md';
+import { MdRepeat } from 'react-icons/md';
 import { WhiteLabel } from './Label';
-import { devices } from '../resources/devices';
 import { colors } from '../resources/theme';
 
 type WrapperProps = {
@@ -24,13 +23,8 @@ const Wrapper = styled.div<WrapperProps>`
 
 const Flex = styled.div`
   display: flex;
-  flex-direction: column;
   gap:3px;
   width: 100%;
-
-  @media ${devices.tablet} {
-    flex-direction: row;
-  }
 `;
 
 const Input = styled.input`
@@ -48,19 +42,6 @@ const Input = styled.input`
     color: ${colors.white};
     cursor: not-allowed;
   }
-
-  @media ${devices.tablet} {
-    flex-grow: 1;
-  }
-`;
-
-const Buttons = styled.div`
-  display: flex;
-  gap:3px;
-
-  @media ${devices.tablet} {
-    flex-grow: 1;
-  }
 `;
 
 const Button = styled.button`
@@ -73,14 +54,11 @@ const Button = styled.button`
   flex-grow: 1;
   height: 50px;
   justify-content: center;
+  min-width: 50px;
+    width: 50px;
 
   &:hover {
     background-color: ${colors.green};
-  }
-
-  @media ${devices.tablet} {
-    width: 50px;
-    min-width: 50px;
   }
 `;
 
@@ -96,12 +74,11 @@ type VerificationInputProps = {
   mask?: string;
   onChange: (event: any) => void;
   resend: (event: any) => Promise<void>,
-  onCancel: () => void;
   gridArea?: string;
 };
 
-export function VerificationInput({
-  label, id, name, type, maxLength, placeholder, autoComplete, value, mask, onChange, resend, onCancel, gridArea,
+export function VerificationInputSimplified({
+  label, id, name, type, maxLength, placeholder, autoComplete, value, mask, onChange, resend, gridArea,
 }: VerificationInputProps) {
   return (
     <Wrapper gridArea={gridArea}>
@@ -117,11 +94,7 @@ export function VerificationInput({
           placeholder={placeholder}
           autoComplete={autoComplete}
         />
-        <Buttons>
-          <Tippy content="CONFIRMAR"><Button type="submit"><MdDone size="25px" /></Button></Tippy>
-          <Tippy content="REENVIAR CÓDIGO"><Button onClick={resend}><MdRepeat size="25px" /></Button></Tippy>
-          <Tippy content="CANCELAR"><Button onClick={onCancel}><MdClose size="25px" /></Button></Tippy>
-        </Buttons>
+        <Tippy content="REENVIAR CÓDIGO"><Button onClick={resend}><MdRepeat size="25px" /></Button></Tippy>
       </Flex>
     </Wrapper>
   );

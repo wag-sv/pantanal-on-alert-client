@@ -47,7 +47,7 @@ const Row = styled.div`
 
 const Data = styled.div`
   align-items: center;
-  background-color: ${colors.hover};
+  background-color: ${colors.darkRed};
   border: none;
   box-sizing: border-box;
   color: white;
@@ -70,7 +70,7 @@ const Icon = styled.div`
   width: 40px;
 
   &:hover {
-    background-color: ${colors.hover};
+    background-color: ${colors.darkRed};
   }
 `;
 

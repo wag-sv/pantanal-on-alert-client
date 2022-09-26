@@ -185,7 +185,7 @@ export function Profile() {
   return (
     <Background backgroundImage={pantanal}>
       {negotiating && <Loading />}
-      <Box bgColor={colors.red} width="700px">
+      <Box backgroundColor={colors.red} width="700px">
         <YellowH1>MEU PERFIL</YellowH1>
         <NonEditableItem
           label="CPF"

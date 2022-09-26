@@ -4,5 +4,7 @@ export const colors = {
   gray: '#737373',
   red: '#b6050d',
   yellow: '#fdf117',
-  hover: 'rgba(1,1,1, 0.1)',
+  darkGray: '#333333',
+  darkRed: '#a4060d',
+  deepRed: '#94080d',
 };

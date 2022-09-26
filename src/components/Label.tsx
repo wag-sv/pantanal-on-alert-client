@@ -7,3 +7,10 @@ export const WhiteLabel = styled.label`
     font-weight: 600;
     margin: 3px 0px;
 `;
+
+export const YellowLabel = styled.label`
+    color: ${colors.yellow};
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin: 3px 0px;
+`;

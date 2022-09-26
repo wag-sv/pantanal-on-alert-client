@@ -14,3 +14,24 @@ export const YellowParagraph = styled.p`
     font-weight: 400;
     margin: 5px 0px;
 `;
+
+export const RedParagraph = styled.p`
+    color: ${colors.red};
+    font-size: 1.6rem;
+    font-weight: 400;
+    margin: 5px 0px;
+`;
+
+export const GreenParagraph = styled.p`
+    color: ${colors.green};
+    font-size: 1.6rem;
+    font-weight: 400;
+    margin: 5px 0px;
+`;
+
+export const DarkGrayParagraph = styled.p`
+    color: ${colors.darkGray};
+    font-size: 1.6rem;
+    font-weight: 400;
+    margin: 5px 0px;
+`;

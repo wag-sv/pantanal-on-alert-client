@@ -66,7 +66,7 @@ const Caution = styled.div`
 `;
 
 const Input = styled.input`
-  background-color: ${colors.hover};
+  background-color: ${colors.darkRed};
   border: none;
   cursor: pointer;
   width: 100%;

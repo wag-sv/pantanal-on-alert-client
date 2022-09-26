@@ -1,316 +1,79 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { MdExpandMore, MdExpandLess } from 'react-icons/md';
-import { IconContext } from 'react-icons';
-import { Loading } from './Loading';
+import React from 'react';
+import { AppContext } from '../contexts/AppContext';
 import { api } from '../Services/api';
+import { getProperties } from '../modules/getProperties';
+import { Loading } from './Loading';
+import { Box } from './Box';
+import { WhiteH2 } from './H2';
+import { ExpandableItem } from './ExpandableItem';
 import { colors } from '../resources/theme';
+import { FlexStartButtons } from './Buttons';
+import { SmallYellowButton } from './Button';
+import { YellowParagraph } from './Paragraph';
 
-const H1 = styled.h1`
-  color: white;
-  font-weight: 500;
-  margin: 15px 0px 5px 0px;
-`;
+export default function DashboardProperties() {
+  const { appState, setAppState }: any = React.useContext(AppContext);
+  const [error, setError] = React.useState('');
+  const [negotiating, setNegotiating] = React.useState(false);
 
-const Line = styled.div`
-  background-color: ${colors.yellow};
-  height: 1px;
-  width: 90px;
-`;
-
-const DashboardSearch = styled.div`
-  margin: 20px 0px;
-  width: 100%;
-
-  input {
-    border: none;
-    box-sizing: border-box;
-    height: 40px;
-    margin: 0px 20px 10px 0px;
-    padding-left: 15px;
-    width: 100%;
-  }
-
-  h2 {
-    color: ${colors.yellow};
-    font-size: smaller;
-    margin: 0px 0px;
-  }
-`;
-
-const InputLabel = styled.label`
-  color: white;
-  font-size: smaller;
-`;
-
-const Wrapper = styled.div`
-  align-items: flex-start;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  justify-content: flex-start;
-  margin: 0px 0px 20px 0px;
-  width: 100%;
-`;
-
-const Item = styled.div`
-  align-items: flex-start;
-  background-color: ${colors.hover};
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 100%;
-`;
-
-const Title = styled.div`
-  align-items: center;
-  background-color: ${colors.hover};
-  border: none;
-  box-sizing: border-box;
-  color: white;
-  display: flex;
-  font-size: smaller;
-  height: 40px;
-  justify-content: space-between;
-  padding: 0px 15px;
-  width: 100%;
-
-  @media (max-width: 600px) {
-    font-size: 11px;
-  }
-`;
-
-const Icon = styled.div`
-  align-items: center;
-  cursor: pointer;
-  display: flex;
-  height: 30px;
-  justify-content: center;
-  width: 30px;
-
-  &:hover {
-    background-color: ${colors.hover};
-  }
-`;
-
-const Data = styled.div`
-  align-items: center;
-  border: none;
-  box-sizing: border-box;
-  color: ${colors.yellow};
-  display: flex;
-  font-size: smaller;
-  justify-content: flex-start;
-  padding: 5px 15px;
-  width: 100%;
-
-  @media (max-width: 600px) {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-  }
-`;
-
-const Label = styled.span`
-  color: ${colors.yellow};
-  font-weight: 700;
-  margin-right: 15px;
-  white-space: nowrap;
-`;
-
-const Info = styled.span`
-  color: ${colors.yellow};
-`;
-
-const Divider = styled.div`
-  border-style: dotted none none none;
-  border-top: solid 1px ${colors.yellow};
-  margin-left: 15px;
-  width: calc(100% - 30px);
-`;
-
-const Content = styled.div`
-  align-items: flex-start;
-  background-color: ${colors.red};
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  padding: 30px 50px 30px 50px;
-  width: 700px;
-
-  @media (max-width: 900px) {
-    width: 100%;
-  }
-
-  @media (max-width: 600px) {
-    padding: 20px 50px 20px 50px;
-  }
-
-  @media (max-width: 400px) {
-    padding: 20px 30px 20px 30px;
-  }
-`;
-
-const YellowButton100px = styled.button`
-  background-color: ${colors.yellow};
-  border: none;
-  color: ${colors.red};
-  cursor: pointer;
-  height: 30px;
-  margin-bottom: 10px;
-  margin-right: 10px;
-  width: 100px;
-`;
-
-const GreenButton100px = styled.button`
-  background-color: ${colors.green};
-  border: none;
-  color: white;
-  cursor: pointer;
-  height: 30px;
-  margin-bottom: 10px;
-  margin-right: 10px;
-  width: 100px;
-`;
-
-export default function DashboardProperties({ properties, getProperties }: any) {
-  const [negotiating, setNegotiating] = useState(false);
-  const [expand, setExpand] = useState('');
-  const [searchTerm, setSearchTerm] = useState('');
-
-  const handleChange = (event: any) => {
-    setSearchTerm(event.target.value);
+  const runGetProperties = async () => {
+    const properties = await getProperties();
+    if (properties.error) {
+      setError(properties.error);
+      return;
+    }
+    setAppState({ ...appState, properties: properties.data });
   };
 
-  const results = !searchTerm
-    ? properties
-    : properties.filter(
-      (property: any) => property.properties.COD_IMOVEL.toLowerCase().includes(
-        searchTerm.toLocaleLowerCase(),
-      )
-          || property.properties.NOM_MUNICI.toLowerCase().includes(
-            searchTerm.toLocaleLowerCase(),
-          ),
-    );
-
-  const handleProperty = async (propertyId: any, action: any) => {
+  const handleEnableProperty = async (propertyId: string) => {
     try {
       setNegotiating(true);
-      await api.post('/handle_property', {
-        propertyId,
-        action,
-      });
+      const disabled = false;
+      await api.post('/handle_property', { propertyId, disabled });
+      await runGetProperties();
+      setNegotiating(false);
+    } catch (catched: any) {
+      setNegotiating(false);
+      setError(catched.response.data.error);
+    }
+  };
 
-      await getProperties();
+  const handleDisableProperty = async (propertyId: string) => {
+    try {
+      setNegotiating(true);
+      const disabled = true;
+      await api.post('/handle_property', { propertyId, disabled });
+      await runGetProperties();
       setNegotiating(false);
-    } catch (err) {
-      console.error(err);
+    } catch (catched: any) {
       setNegotiating(false);
+      setError(catched.response.data.error);
     }
   };
 
   return (
-    <Content>
+    <Box backgroundColor={colors.red} width="700px">
       {negotiating && <Loading />}
-      <H1>Propriedades</H1>
-      <Line />
+      <WhiteH2>PROPRIEDADES</WhiteH2>
+      {appState.properties.map((property: any) => {
+        const { _id: id } = property;
+        const title = property.properties.COD_IMOVEL;
+        const content = {
+          Município: property.properties.NOM_MUNICI,
+          Estado: property.properties.COD_ESTADO,
+          'Status no sistema': property.disabled ? 'DESATIVADA' : 'ATIVADA',
+        };
 
-      <DashboardSearch>
-        <InputLabel>CAR ou Município</InputLabel>
-        <input
-          type="text"
-          placeholder="Digite aqui para pesquisar"
-          value={searchTerm}
-          onChange={handleChange}
-        />
-        <h2>
-          Mostrando
-          {' '}
-          {results.length}
-          {' '}
-          {results.length === 1 ? 'propriedade' : 'propriedades'}
-          .
-        </h2>
-      </DashboardSearch>
-
-      <Wrapper>
-        {results.map((property: any) => (
-          <Item key={property._id}>
-            <Title>
-              <span>{property.properties.COD_IMOVEL}</span>
-              {expand !== property._id && (
-                <IconContext.Provider
-                  value={{ color: '#fdf117', size: '20px' }}
-                >
-                  <Icon
-                    onClick={() => {
-                      setExpand(property._id);
-                    }}
-                  >
-                    <MdExpandMore />
-                  </Icon>
-                </IconContext.Provider>
-              )}
-              {expand === property._id && (
-                <IconContext.Provider
-                  value={{ color: '#fdf117', size: '20px' }}
-                >
-                  <Icon
-                    onClick={() => {
-                      setExpand('');
-                    }}
-                  >
-                    <MdExpandLess />
-                  </Icon>
-                </IconContext.Provider>
-              )}
-            </Title>
-            {expand === property._id && (
-              <>
-                <Data>
-                  <Label>Município:</Label>
-                  {' '}
-                  <Info>{property.properties.NOM_MUNICI}</Info>
-                  {' '}
-                </Data>
-                <Divider />
-                <Data>
-                  <Label>Estado:</Label>
-                  {' '}
-                  <Info>{property.properties.COD_ESTADO}</Info>
-                  {' '}
-                </Data>
-                <Divider />
-                <Data>
-                  <Label>Status no Sistema:</Label>
-                  {' '}
-                  <Info>{property.disabled ? 'DESATIVADA' : 'ATIVA'}</Info>
-                  {' '}
-                </Data>
-                <Data>
-                  {!property.disabled && (
-                    <YellowButton100px
-                      onClick={() => handleProperty(property._id, 'disable')}
-                    >
-                      DESATIVAR
-                    </YellowButton100px>
-                  )}
-                  {property.disabled && (
-                    <GreenButton100px
-                      onClick={() => handleProperty(property._id, 'enable')}
-                    >
-                      ATIVAR
-                    </GreenButton100px>
-                  )}
-                </Data>
-              </>
-            )}
-          </Item>
-        ))}
-      </Wrapper>
-    </Content>
+        return (
+          <ExpandableItem key={id} title={title} content={content}>
+            {error && <YellowParagraph>{error}</YellowParagraph>}
+            <FlexStartButtons>
+              {property.disabled && <SmallYellowButton onClick={() => handleEnableProperty(id)}>ATIVAR</SmallYellowButton>}
+              {!property.disabled && <SmallYellowButton onClick={() => handleDisableProperty(id)}>DESATIVAR</SmallYellowButton>}
+            </FlexStartButtons>
+          </ExpandableItem>
+        );
+      })}
+    </Box>
   );
 }

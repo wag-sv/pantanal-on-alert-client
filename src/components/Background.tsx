@@ -1,18 +1,20 @@
 import styled from 'styled-components';
 
 type BackgroundProps = {
-  backgroundImage: string;
+  backgroundColor?: string;
+  backgroundImage?: string;
 };
 
 export const Background = styled.div<BackgroundProps>`
   align-items: center;
-  background-color: linear-gradient(to top, rgba(0,0,0, 0.3), rgba(0,0,0, 0.3));
+  background-color: ${({ backgroundColor }) => backgroundColor};
   background-image: url(${({ backgroundImage }) => backgroundImage});
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
   display: flex;
   flex-direction: column;
+  gap: 20px;
   height: 100%;
   justify-content: flex-start;
   overflow: auto;

@@ -42,7 +42,7 @@ const Input = styled.input`
   width: 100%;
 
   &:disabled {
-    background-color: ${colors.hover};
+    background-color: ${colors.darkRed};
     color: ${colors.white};
     cursor: not-allowed;
   }

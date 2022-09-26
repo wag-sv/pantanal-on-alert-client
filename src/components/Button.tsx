@@ -1,10 +1,11 @@
 import styled from 'styled-components';
+import { devices } from '../resources/devices';
 import { colors } from '../resources/theme';
 
 export const GreenButton = styled.button`
     background-color: ${colors.green};
     border: none;
-    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.16);
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.5);
     color: ${colors.white};
     cursor: pointer;
     font-family: "Roboto", sans-serif;
@@ -21,7 +22,7 @@ export const GreenButton = styled.button`
 export const YellowButton = styled.button`
     background-color: ${colors.yellow};
     border: none;
-    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.16);
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.5);
     color: ${colors.red};
     cursor: pointer;
     font-family: "Roboto", sans-serif;
@@ -36,28 +37,45 @@ export const YellowButton = styled.button`
 `;
 
 export const LinkButton = styled.button`
-    background-color: transparent;
+    background-color: ${colors.darkRed};
     border: none;
-    display: block;
-    margin: 10px 0px;
-    width: 100%;
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.5);
+    color: ${colors.white};
+    cursor: pointer;
+    font-family: "Roboto", sans-serif;
+    font-size: 1.3rem;
+    font-weight: 400;
+    overflow: hidden;
+    padding: 7px;
 
     a {
-        align-items: center;
-        background-color: ${colors.hover};
-        color: ${colors.white};
-        cursor: pointer;
-        display: flex;
-        font-size: 1.3rem;
-        font-weight: 400;
-        height: 35px;
-        justify-content: center;
-        padding: 0px 10px;
         text-decoration: none;
+        color: ${colors.white};
     }
 
     &:hover {
         transform: scale(1.03);
+    }
+`;
+
+export const SmallYellowButton = styled.button`
+    background-color: ${colors.yellow};
+    border: none;
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.5);
+    color: ${colors.red};
+    cursor: pointer;
+    font-family: "Roboto", sans-serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    overflow: hidden;
+    padding: 10px;
+
+    &:hover {
+        transform: scale(1.03);
+    }
+
+    @media ${devices.tablet} {
+        font-size: 1.5rem;
     }
 `;
 

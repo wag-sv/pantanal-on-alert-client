@@ -9,7 +9,7 @@ const Wrapper = styled.div`
   height: 100vh;
   justify-content: center;
   left: 0;
-  position: fixed;
+  position: absolute;
   top: 0;
   width: 100vw;
   z-index: 7000;
