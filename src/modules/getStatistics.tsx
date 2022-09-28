@@ -5,7 +5,7 @@ export const getStatistics = async () => {
     const response = await api.get('/statistics');
     const statistics = response.data;
     return { data: statistics, error: null };
-  } catch (err) {
+  } catch (catched) {
     return { data: null, error: 'Erro de comunicação com o servidor. (004).' };
   }
 };

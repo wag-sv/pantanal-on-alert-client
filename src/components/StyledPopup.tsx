@@ -7,7 +7,6 @@ import { api } from '../Services/api';
 import { Loading } from './Loading';
 import { colors } from '../resources/theme';
 
-// TODO colocar tamanho de fontes em REM
 const Wrapper = styled.div`
   align-items: center;
   display: flex;
@@ -20,7 +19,7 @@ const Wrapper = styled.div`
   }
 
   p {
-    font-size: 11px;
+    font-size: 1.1rem;
     font-weight: 700;
     margin: 5px 0px;
     text-align: center;
@@ -56,10 +55,12 @@ const Wrapper = styled.div`
 
   .redText {
     color: ${colors.red};
+    font-size: 1.3rem;
   }
 
   .greenText {
     color: ${colors.green};
+    font-size: 1.3rem;
   }
 `;
 
@@ -89,7 +90,7 @@ export function StyledPopup({ property } : any) {
       localStorage.setItem('authenticatedUser', JSON.stringify(updatedUser));
     } catch (catched: any) {
       setNegotiating(false);
-      setError(catched.response.data.error);
+      setError('Erro inesperado. Tente novamente em alguns instantes.');
     }
   }
 

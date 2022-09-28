@@ -5,16 +5,20 @@ import { getProperties } from '../modules/getProperties';
 import { Loading } from './Loading';
 import { Box } from './Box';
 import { WhiteH2 } from './H2';
+import { Form } from './Form';
+import { Input } from './Input';
+import { YellowParagraph } from './Paragraph';
 import { ExpandableItem } from './ExpandableItem';
-import { colors } from '../resources/theme';
 import { FlexStartButtons } from './Buttons';
 import { SmallYellowButton } from './Button';
-import { YellowParagraph } from './Paragraph';
+import { colors } from '../resources/theme';
 
-export default function DashboardProperties() {
+export function DashboardProperties() {
   const { appState, setAppState }: any = React.useContext(AppContext);
   const [error, setError] = React.useState('');
   const [negotiating, setNegotiating] = React.useState(false);
+  const [show, setShow] = React.useState('');
+  const [searchTerm, setSearchTerm] = React.useState('');
 
   const runGetProperties = async () => {
     const properties = await getProperties();
@@ -34,7 +38,7 @@ export default function DashboardProperties() {
       setNegotiating(false);
     } catch (catched: any) {
       setNegotiating(false);
-      setError(catched.response.data.error);
+      setError('Erro inesperado. Tente novamente em alguns instantes.');
     }
   };
 
@@ -47,15 +51,40 @@ export default function DashboardProperties() {
       setNegotiating(false);
     } catch (catched: any) {
       setNegotiating(false);
-      setError(catched.response.data.error);
+      setError('Erro inesperado. Tente novamente em alguns instantes.');
     }
   };
+
+  const handleChange = (event: any) => {
+    setSearchTerm(event.target.value.toUpperCase());
+  };
+
+  const result = !searchTerm
+    ? appState.properties
+    : appState.properties.filter(
+      (property: any) => property.properties.COD_IMOVEL.toUpperCase().includes(searchTerm.toUpperCase())
+        || property.properties.NOM_MUNICI.toUpperCase().includes(searchTerm.toUpperCase()),
+    );
 
   return (
     <Box backgroundColor={colors.red} width="700px">
       {negotiating && <Loading />}
       <WhiteH2>PROPRIEDADES</WhiteH2>
-      {appState.properties.map((property: any) => {
+      <Form onSubmit={() => {}}>
+        <Input
+          label="CAR OU MUNICÍPIO"
+          id="searchTerm"
+          name="searchTerm"
+          maxLength={20}
+          autoComplete="off"
+          type="text"
+          placeholder="Digite aqui para pesquisar"
+          value={searchTerm}
+          onChange={handleChange}
+        />
+        <YellowParagraph>{`Mostrando ${result.length} ${result.length === 1 ? 'propriedade' : 'propriedades'}.`}</YellowParagraph>
+      </Form>
+      {result.map((property: any) => {
         const { _id: id } = property;
         const title = property.properties.COD_IMOVEL;
         const content = {
@@ -65,7 +94,7 @@ export default function DashboardProperties() {
         };
 
         return (
-          <ExpandableItem key={id} title={title} content={content}>
+          <ExpandableItem key={id} id={id} title={title} content={content} show={show} setShow={setShow}>
             {error && <YellowParagraph>{error}</YellowParagraph>}
             <FlexStartButtons>
               {property.disabled && <SmallYellowButton onClick={() => handleEnableProperty(id)}>ATIVAR</SmallYellowButton>}

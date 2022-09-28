@@ -7,7 +7,7 @@ export const getServiceStatus = async () => {
     if (serviceStatus !== 0 && serviceStatus !== 1) return { error: 'Não foi possível identificar o status do serviço.' };
     if (serviceStatus === 0) return { error: 'Dados de satélites indisponíveis no momento.' };
     return { error: null };
-  } catch (err) {
+  } catch (catched) {
     return { error: 'Erro de comunicação com o servidor. (001).' };
   }
 };

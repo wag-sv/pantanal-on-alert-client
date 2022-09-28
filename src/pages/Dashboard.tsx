@@ -1,14 +1,14 @@
 import React from 'react';
-import DashboardSummary from '../components/DashboardSummary';
-import DashboardProperties from '../components/DashboardProperties';
-import DashboardUsers from '../components/DashboardUsers';
-import DashboardAlerts from '../components/DashboardAlerts';
-import DashboardPropertiesLoader from '../components/DashboardPropertiesLoader';
 import { Background } from '../components/Background';
 import { Box } from '../components/Box';
 import { YellowH1 } from '../components/H1';
 import { AHundredPerCentButton } from '../components/Buttons';
 import { LinkButton } from '../components/Button';
+import { DashboardSummary } from '../components/DashboardSummary';
+import { DashboardProperties } from '../components/DashboardProperties';
+import { DashboardUsers } from '../components/DashboardUsers';
+import { DashboardAlerts } from '../components/DashboardAlerts';
+import { DashboardPropertiesLoader } from '../components/DashboardPropertiesLoader';
 import { colors } from '../resources/theme';
 
 export function Dashboard() {

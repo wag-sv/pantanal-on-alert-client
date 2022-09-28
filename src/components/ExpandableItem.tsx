@@ -26,8 +26,12 @@ const Title = styled.div`
   font-size: 1rem;
   font-weight: 400;
 
+  @media ${devices.mobileL} {
+    font-size: 1.1rem;
+  }
+
   @media ${devices.tablet} {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
   }
 `;
 
@@ -54,9 +58,13 @@ const Row = styled.div`
       margin-left: 10px;
     }
 
+    @media ${devices.mobileL} {
+      font-size: 1.1rem;
+    }
+
     @media ${devices.tablet} {
-    font-size: 1.5rem;
-  }
+      font-size: 1.3rem;
+    }
 `;
 
 const Expand = styled.div`
@@ -69,24 +77,27 @@ const Expand = styled.div`
 `;
 
 type DashboardItemProps = {
-  children: React.ReactNode
+  children?: React.ReactNode
+  id: string;
   title: string;
   content: any;
+  show: string;
+  setShow: (state: any) => void;
 };
 
-export function ExpandableItem({ children, title, content }: DashboardItemProps) {
-  const [show, setShow] = React.useState(false);
-
+export function ExpandableItem({
+  children, id, title, content, show, setShow,
+}: DashboardItemProps) {
   return (
     <Wrapper>
       <Header>
         <Title>{title}</Title>
         <Expand>
-          {!show && <MdExpandMore size="25px" color={colors.yellow} onClick={() => setShow(!show)} />}
-          {show && <MdExpandLess size="25px" color={colors.yellow} onClick={() => setShow(!show)} />}
+          {show !== id && <MdExpandMore size="25px" color={colors.yellow} onClick={() => setShow(id)} />}
+          {show === id && <MdExpandLess size="25px" color={colors.yellow} onClick={() => setShow('')} />}
         </Expand>
       </Header>
-      {show && (
+      {show === id && (
       <Content>
         {Object.keys(content).map((key: any) => (
           <Row key={key}>

@@ -50,7 +50,7 @@ export function Register() {
         setStep('activate');
       } catch (catched: any) {
         setNegotiating(false);
-        setError(catched.response.data.error);
+        setError('Erro inesperado. Tente novamente em alguns instantes.');
       }
     }
   };
@@ -68,7 +68,7 @@ export function Register() {
       setNegotiating(false);
     } catch (catched: any) {
       setNegotiating(false);
-      setError(catched.response.data.error);
+      setError('Erro no envio do email. Tente novamente em alguns instantes.');
     }
   };
 
@@ -87,7 +87,7 @@ export function Register() {
         navigate('/profile');
       } catch (catched: any) {
         setNegotiating(false);
-        setError(catched.response.data.error);
+        setError('Erro inesperado. Tente novamente em alguns instantes.');
       }
     }
   };

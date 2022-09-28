@@ -5,7 +5,7 @@ export const getProperties = async () => {
     const response = await api.get('/properties');
     const properties = response.data.activeProperties;
     return { data: properties, error: null };
-  } catch (catched: any) {
-    return { data: null, error: catched.response.data.error };
+  } catch (catched) {
+    return { data: null, error: 'Erro inesperado. Tente novamente em alguns instantes.' };
   }
 };

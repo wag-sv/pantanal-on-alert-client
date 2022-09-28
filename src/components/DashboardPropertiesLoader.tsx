@@ -1,20 +1,17 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { AppContext } from '../contexts/AppContext';
 import { colors } from '../resources/theme';
 import { api } from '../Services/api';
+import { Box } from './Box';
+import { GreenButton, YellowButton } from './Button';
+import { FlexStartButtons } from './Buttons';
+import { WhiteH2 } from './H2';
+import { RedH3 } from './H3';
 import { Loading } from './Loading';
-
-const H1 = styled.h1`
-  color: white;
-  font-weight: 500;
-  margin: 15px 0px 5px 0px;
-`;
-
-const Line = styled.div`
-  background-color: ${colors.yellow};
-  height: 1px;
-  width: 90px;
-`;
+import { RedParagraph, WhiteParagraph, YellowParagraph } from './Paragraph';
+import { SuccessAndLogout } from './SuccessAndLogout';
+import { YellowWarningBox } from './WarningBox';
 
 const Wrapper = styled.div`
   align-items: flex-start;
@@ -26,45 +23,6 @@ const Wrapper = styled.div`
   width: 100%;
 `;
 
-const Content = styled.div`
-  align-items: flex-start;
-  background-color: ${colors.red};
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  padding: 30px 50px 30px 50px;
-  width: 700px;
-
-  @media (max-width: 900px) {
-    width: 100%;
-  }
-
-  @media (max-width: 600px) {
-    padding: 20px 50px 20px 50px;
-  }
-
-  @media (max-width: 400px) {
-    padding: 20px 30px 20px 30px;
-  }
-`;
-
-const Caution = styled.div`
-  align-items: center;
-  background-color: ${colors.yellow};
-  border: none;
-  border-radius: 7px;
-  box-sizing: border-box;
-  color: ${colors.red};
-  display: flex;
-  flex-direction: column;
-  height: 80px;
-  justify-content: center;
-  margin: 30px 0px;
-  padding: 30px;
-  width: 100%;
-`;
-
 const Input = styled.input`
   background-color: ${colors.darkRed};
   border: none;
@@ -72,191 +30,104 @@ const Input = styled.input`
   width: 100%;
 `;
 
-const Confirmation = styled.div`
-  color: white;
-  width: 100%;
-`;
-
-const Buttons = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  width: 100%;
-`;
-
-const YellowButton100px = styled.button`
-  background-color: ${colors.yellow};
-  border: none;
-  color: ${colors.red};
-  cursor: pointer;
-  height: 30px;
-  margin-bottom: 10px;
-  margin-right: 10px;
-  width: 100px;
-`;
-
-const GreenButton100px = styled.button`
-  background-color: ${colors.green};
-  border: none;
-  color: white;
-  cursor: pointer;
-  height: 30px;
-  margin-bottom: 10px;
-  margin-right: 10px;
-  width: 100px;
-`;
-
-export default function DashboardPropertiesLoader({ getProperties }: any) {
+export function DashboardPropertiesLoader() {
+  const { appState, setAppState }: any = React.useContext(AppContext);
   const [negotiating, setNegotiating] = useState(false);
   const [newProperties, setNewProperties] = useState([]);
-  const [fileError, setFileError] = useState('');
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState(false);
+
+  const nonStandardCoordinates = (result: any) => {
+    const lastPolygonPosition = result.features.length - 1 || -1;
+    const firstPolygonCoordinates = result?.features[0]?.geometry?.coordinates[0][0] || [];
+    const lastPolygonCoordinates = result?.features[lastPolygonPosition]?.geometry?.coordinates[0][0] || [];
+    const firstPolygonTest = firstPolygonCoordinates.some((coordinate: any) => coordinate[0].toString().split('.')[1].length > 7 || coordinate[1].toString().split('.')[1].length > 7);
+    const lastPolygonTest = lastPolygonCoordinates.some((coordinate: any) => coordinate[0].toString().split('.')[1].length > 7 || coordinate[1].toString().split('.')[1].length > 7);
+    return firstPolygonTest || lastPolygonTest;
+  };
 
   const handleFile = (event: any) => {
     const { files } = event.target;
     const reader = new FileReader();
-    setFileError('');
-
+    setError('');
     reader.addEventListener('load', () => {
-      if (files[0].type !== 'application/json') {
-        setFileError('O formato de arquivo precisa ser JSON.');
-      } else {
-        const result = JSON.parse(reader.result);
-
-        if (!result?.crs?.properties?.name?.includes('4674')) {
-          setFileError('O formato das coordenadas precisa ser EPSG 4674.');
-        } else if (!result?.features || result?.features.length <= 0) {
-          setFileError('Lista de CARS inexistente.');
-        } else if (
-          result?.features[0]?.geometry?.coordinates[0][0]?.some(
-            (coordinate) => coordinate[0].toString().split('.')[1].length > 7
-              || coordinate[1].toString().split('.')[1].length > 7,
-          )
-          || result?.features[
-            result?.features.length - 1
-          ]?.geometry?.coordinates[0][0]?.some(
-            (coordinate) => coordinate[0].toString().split('.')[1].length > 7
-              || coordinate[1].toString().split('.')[1].length > 7,
-          )
-        ) {
-          setFileError(
-            'As coordenadas precisam ter no máximo 7 casas decimais.',
-          );
-        } else {
-          const formattedProperties = result.features.map((feature: any) => {
-            if (feature.properties.NOM_MUNICI === "GlÃƒÂ³ria D'Oeste") {
-              feature.properties.NOM_MUNICI = "Glória D'Oeste";
-            }
-
-            if (feature.properties.NOM_MUNICI === 'Porto EsperidiÃƒÂ£o') {
-              feature.properties.NOM_MUNICI = 'Porto Esperidião';
-            }
-
-            if (
-              feature.properties.NOM_MUNICI === 'Santo AntÃƒÂ´nio do Leverger'
-            ) {
-              feature.properties.NOM_MUNICI = 'Santo Antônio do Leverger';
-            }
-
-            if (feature.properties.NOM_MUNICI === 'PoconÃƒÂ©') {
-              feature.properties.NOM_MUNICI = 'Poconé';
-            }
-
-            if (feature.properties.NOM_MUNICI === 'CurvelÃƒÂ¢ndia') {
-              feature.properties.NOM_MUNICI = 'Curvelândia';
-            }
-
-            if (feature.properties.NOM_MUNICI === 'CÃƒÂ¡ceres') {
-              feature.properties.NOM_MUNICI = 'Cáceres';
-            }
-
-            if (feature.properties.NOM_MUNICI === 'BarÃƒÂ£o de MelgaÃƒÂ§o') {
-              feature.properties.NOM_MUNICI = 'Barão de Melgaço';
-            }
-
-            if (feature.properties.NOM_MUNICI === 'LadÃƒÂ¡rio') {
-              feature.properties.NOM_MUNICI = 'Ladário';
-            }
-
-            if (feature.properties.NOM_MUNICI === 'CorumbÃƒÂ¡') {
-              feature.properties.NOM_MUNICI = 'Corumbá';
-            }
-
-            const property = {
-              type: feature.type,
-              geometry: feature.geometry,
-              properties: {
-                COD_IMOVEL: feature.properties.COD_IMOVEL,
-                COD_ESTADO: feature.properties.COD_ESTADO,
-                NOM_MUNICI: feature.properties.NOM_MUNICI,
-                SITUACAO: feature.properties.SITUACAO,
-              },
-            };
-
-            return property;
-          });
-
-          setNewProperties([...formattedProperties]);
-        }
+      if (files[0].type !== 'application/json') setError('O formato de arquivo precisa ser JSON.');
+      else {
+        const result = typeof reader.result === 'string' ? JSON.parse(reader.result) : null;
+        if (result) {
+          if (!result?.features || result?.features.length <= 0) setError('Lista de CARS inexistente.');
+          else if (!result?.crs?.properties?.name?.includes('4674')) setError('O formato das coordenadas precisa ser EPSG 4674.');
+          else if (nonStandardCoordinates(result)) setError('As coordenadas precisam ter no máximo 7 casas decimais.');
+          else {
+            const propertiesWithCorrectedNames = result.features.map((feature: any) => {
+              const property = {
+                type: feature.type,
+                geometry: feature.geometry,
+                properties: {
+                  COD_IMOVEL: feature.properties.COD_IMOVEL,
+                  COD_ESTADO: feature.properties.COD_ESTADO,
+                  NOM_MUNICI: feature.properties.NOM_MUNICI,
+                  SITUACAO: feature.properties.SITUACAO,
+                },
+              };
+              if (property.properties.NOM_MUNICI === "GlÃƒÂ³ria D'Oeste") property.properties.NOM_MUNICI = "Glória D'Oeste";
+              if (property.properties.NOM_MUNICI === 'Porto EsperidiÃƒÂ£o') property.properties.NOM_MUNICI = 'Porto Esperidião';
+              if (property.properties.NOM_MUNICI === 'Santo AntÃƒÂ´nio do Leverger') property.properties.NOM_MUNICI = 'Santo Antônio do Leverger';
+              if (property.properties.NOM_MUNICI === 'PoconÃƒÂ©') property.properties.NOM_MUNICI = 'Poconé';
+              if (property.properties.NOM_MUNICI === 'CurvelÃƒÂ¢ndia') property.properties.NOM_MUNICI = 'Curvelândia';
+              if (property.properties.NOM_MUNICI === 'CÃƒÂ¡ceres') property.properties.NOM_MUNICI = 'Cáceres';
+              if (property.properties.NOM_MUNICI === 'BarÃƒÂ£o de MelgaÃƒÂ§o') property.properties.NOM_MUNICI = 'Barão de Melgaço';
+              if (property.properties.NOM_MUNICI === 'LadÃƒÂ¡rio') property.properties.NOM_MUNICI = 'Ladário';
+              if (property.properties.NOM_MUNICI === 'CorumbÃƒÂ¡') property.properties.NOM_MUNICI = 'Corumbá';
+              return property;
+            });
+            setNewProperties(propertiesWithCorrectedNames);
+          }
+        } else setError('Erro no carregamento do arquivo.');
       }
-      event.target.value = null;
     });
-
     reader.readAsText(files[0]);
   };
 
   const uploadProperties = async () => {
     setNegotiating(true);
     try {
-      await api.post('/upload_properties', { newProperties });
-
-      getProperties();
+      const response = await api.post('/upload_properties', { newProperties });
+      setAppState({ ...appState, properties: response.data.newProperties });
       setNewProperties([]);
+      setSuccess(true);
       setNegotiating(false);
-    } catch (err) {
-      console.error(err);
-      setFileError('Erro de comunicação. Tente novamente mais tarde.');
+    } catch (catched: any) {
       setNegotiating(false);
+      setError('Erro no procedimento');
     }
   };
 
   return (
-    <Content>
+    <>
       {negotiating && <Loading />}
-      <H1>Carregar</H1>
-      <Line />
-
-      <Wrapper>
-        <Caution>
-          <strong>Atenção!</strong>
-          {' '}
-          O carregamento de CARS substitui todas as
-          propriedades existentes no BANCO DE DADOS. Tenha cautela!
-        </Caution>
-        {newProperties.length <= 0 && (
-          <Input type="file" accept="application/json" onChange={handleFile} />
-        )}
-
-        {fileError && <div>{fileError}</div>}
-
-        {newProperties.length > 0 && (
+      {success && <SuccessAndLogout />}
+      <Box backgroundColor={colors.red} width="700px">
+        <WhiteH2>CARREGAR CARS</WhiteH2>
+        <Wrapper>
+          <YellowWarningBox>
+            <RedH3>Atenção!</RedH3>
+            <RedParagraph>O carregamento de CARS substitui todas as propriedades existentes no BANCO DE DADOS. Tenha cautela!</RedParagraph>
+            <RedParagraph>O arquivo deverá estar no formato JSON, com coordenadas no formato EPSG 4674 contendo até 7 casas decimais de precisão.</RedParagraph>
+          </YellowWarningBox>
+          {error && <YellowParagraph>{error}</YellowParagraph>}
+          {newProperties.length <= 0 && <Input type="file" accept="application/json" onChange={handleFile} />}
+          {newProperties.length > 0 && (
           <>
-            <Confirmation>
-              Confirmar substituição de CARS no Banco de Dados?
-            </Confirmation>
-            <Buttons>
-              <GreenButton100px onClick={uploadProperties}>
-                Confirmar
-              </GreenButton100px>
-              <YellowButton100px
-                onClick={() => {
-                  setNewProperties([]);
-                }}
-              >
-                Cancelar
-              </YellowButton100px>
-            </Buttons>
+            <WhiteParagraph>Confirmar substituição de CARS no Banco de Dados?</WhiteParagraph>
+            <FlexStartButtons>
+              <GreenButton onClick={uploadProperties}>Confirmar</GreenButton>
+              <YellowButton onClick={() => setNewProperties([])}>Cancelar</YellowButton>
+            </FlexStartButtons>
           </>
-        )}
-      </Wrapper>
-    </Content>
+          )}
+        </Wrapper>
+      </Box>
+    </>
   );
 }

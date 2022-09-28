@@ -7,3 +7,10 @@ export const WhiteH2 = styled.h2`
     font-weight: 700;
     margin: 7px 0px;
 `;
+
+export const GreenH2 = styled.h2`
+    color: ${colors.green};
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 7px 0px;
+`;

@@ -78,5 +78,3 @@ export const SmallYellowButton = styled.button`
         font-size: 1.5rem;
     }
 `;
-
-// FIXME: colocar a cor utilizada no box-shadow no root

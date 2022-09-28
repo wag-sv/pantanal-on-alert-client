@@ -60,5 +60,3 @@ export function Header() {
     </Wrapper>
   );
 }
-
-// TODO: colocar link em WetlandLogo

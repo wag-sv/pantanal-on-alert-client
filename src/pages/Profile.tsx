@@ -16,6 +16,7 @@ import { colors } from '../resources/theme';
 
 export function Profile() {
   const { authenticatedUser, setAuthenticatedUser } = React.useContext(AuthContext);
+  const [error, setError] = React.useState('');
   const [negotiating, setNegotiating] = React.useState(false);
   const [editName, setEditName] = React.useState(false);
   const [editEmail, setEditEmail] = React.useState(false);
@@ -33,6 +34,29 @@ export function Profile() {
     emailToken: '',
     cellPhoneToken: '',
   });
+
+  const refreshUser = async () => {
+    if (authenticatedUser.token) {
+      try {
+        setNegotiating(true);
+        const response = await api.post('/refresh_user', authenticatedUser.user);
+        setNegotiating(false);
+        if (response.data.error) {
+          setError('Não foi possível recuperar os dados do usuário neste momento. Tente novamente em alguns instantess.');
+          return;
+        }
+        setAuthenticatedUser({ ...response.data });
+        localStorage.setItem('authenticatedUser', JSON.stringify({ ...response.data }));
+      } catch (catched: any) {
+        setNegotiating(false);
+        setError('Não foi possível recuperar os dados do usuário neste momento. Tente novamente em alguns instantes.');
+      }
+    }
+  };
+
+  React.useEffect(() => {
+    refreshUser();
+  }, []);
 
   const handleChange = (event: any) => {
     const { name, value } = event.target;
@@ -58,7 +82,7 @@ export function Profile() {
         setNegotiating(false);
       } catch (catched: any) {
         setNegotiating(false);
-        setNameUpdateError(catched.response.data.error);
+        setNameUpdateError('Erro ao atualizar o nome. Tente novamente em alguns instantes.');
       }
     }
   };
@@ -83,7 +107,7 @@ export function Profile() {
           setNegotiating(false);
         } catch (catched: any) {
           setNegotiating(false);
-          setEmailUpdateError(catched.response.data.error);
+          setEmailUpdateError('Erro no envio do email. Tente novamente em alguns instantes.');
         }
       }
     }
@@ -101,7 +125,7 @@ export function Profile() {
           setNegotiating(false);
         } catch (catched: any) {
           setNegotiating(false);
-          setEmailUpdateError(catched.response.data.error);
+          setEmailUpdateError('Erro na verificação do email. Tente novamente em alguns instantes.');
         }
       }
     }
@@ -115,7 +139,7 @@ export function Profile() {
       setNegotiating(false);
     } catch (catched: any) {
       setNegotiating(false);
-      setEmailUpdateError(catched.response.data.error);
+      setEmailUpdateError('Erro no envio do email. Tente novamente em alguns instantes.');
     }
   };
 
@@ -140,7 +164,7 @@ export function Profile() {
           setNegotiating(false);
         } catch (catched: any) {
           setNegotiating(false);
-          setCellPhoneUpdateError(catched.response.data.error);
+          setCellPhoneUpdateError('Erro no envio do SMS. Tente novamente em alguns instantes.');
         }
       }
     }
@@ -158,7 +182,7 @@ export function Profile() {
           setNegotiating(false);
         } catch (catched: any) {
           setNegotiating(false);
-          setCellPhoneUpdateError(catched.response.data.error);
+          setCellPhoneUpdateError('Erro na verificação do celular. Tente novamente em alguns instantes.');
         }
       }
     }
@@ -172,7 +196,7 @@ export function Profile() {
       setNegotiating(false);
     } catch (catched: any) {
       setNegotiating(false);
-      setCellPhoneUpdateError(catched.response.data.error);
+      setCellPhoneUpdateError('Erro no envio do SMS. Tente novamente em alguns instantes.');
     }
   };
 
@@ -187,29 +211,32 @@ export function Profile() {
       {negotiating && <Loading />}
       <Box backgroundColor={colors.red} width="700px">
         <YellowH1>MEU PERFIL</YellowH1>
-        <NonEditableItem
-          label="CPF"
-          value={user.cpf}
-          mask="999.999.999-99"
-        />
-        <Form onSubmit={handleNameUpdate}>
-          <EditableItem
-            label="NOME"
-            id="name"
-            name="name"
-            type="text"
-            maxLength={50}
-            placeholder="Digite aqui"
-            autoComplete="off"
-            value={user.name}
-            onChange={handleChange}
-            edit={editName}
-            setEdit={setEditName}
-            onCancel={handleCancelNameUpdate}
+        {error && <YellowParagraph>{error}</YellowParagraph>}
+        {!error && (
+        <>
+          <NonEditableItem
+            label="CPF"
+            value={user.cpf}
+            mask="999.999.999-99"
           />
-          <YellowParagraph>{nameUpdateError}</YellowParagraph>
-        </Form>
-        {emailUpdateStep === 'edit' && (
+          <Form onSubmit={handleNameUpdate}>
+            <EditableItem
+              label="NOME"
+              id="name"
+              name="name"
+              type="text"
+              maxLength={50}
+              placeholder="Digite aqui"
+              autoComplete="off"
+              value={user.name}
+              onChange={handleChange}
+              edit={editName}
+              setEdit={setEditName}
+              onCancel={handleCancelNameUpdate}
+            />
+            <YellowParagraph>{nameUpdateError}</YellowParagraph>
+          </Form>
+          {emailUpdateStep === 'edit' && (
           <Form onSubmit={handleEmailUpdate}>
             <EditableItem
               label="E-MAIL"
@@ -227,8 +254,8 @@ export function Profile() {
             />
             <YellowParagraph>{emailUpdateError}</YellowParagraph>
           </Form>
-        )}
-        {emailUpdateStep === 'verify' && (
+          )}
+          {emailUpdateStep === 'verify' && (
           <Form onSubmit={handleEmailUpdate}>
             <VerificationInput
               label="CÓDIGO DE VERIFICAÇÃO"
@@ -245,27 +272,27 @@ export function Profile() {
             />
             <YellowParagraph>{emailUpdateError}</YellowParagraph>
           </Form>
-        )}
-        {cellPhoneUpdateStep === 'edit' && (
-        <Form onSubmit={handleCellPhoneUpdate}>
-          <EditableItem
-            label="CELULAR"
-            id="cellPhone"
-            name="cellPhone"
-            type="cellPhone"
-            maxLength={11}
-            placeholder="Digite aqui"
-            autoComplete="off"
-            value={user.cellPhone}
-            onChange={handleChange}
-            edit={editCellPhone}
-            setEdit={setEditCellPhone}
-            onCancel={handleCancelCellPhoneUpdate}
-          />
-          <YellowParagraph>{cellPhonelUpdateError}</YellowParagraph>
-        </Form>
-        )}
-        {cellPhoneUpdateStep === 'verify' && (
+          )}
+          {cellPhoneUpdateStep === 'edit' && (
+          <Form onSubmit={handleCellPhoneUpdate}>
+            <EditableItem
+              label="CELULAR"
+              id="cellPhone"
+              name="cellPhone"
+              type="cellPhone"
+              maxLength={11}
+              placeholder="Digite aqui"
+              autoComplete="off"
+              value={user.cellPhone}
+              onChange={handleChange}
+              edit={editCellPhone}
+              setEdit={setEditCellPhone}
+              onCancel={handleCancelCellPhoneUpdate}
+            />
+            <YellowParagraph>{cellPhonelUpdateError}</YellowParagraph>
+          </Form>
+          )}
+          {cellPhoneUpdateStep === 'verify' && (
           <Form onSubmit={handleCellPhoneUpdate}>
             <VerificationInput
               label="CÓDIGO DE VERIFICAÇÃO"
@@ -282,8 +309,10 @@ export function Profile() {
             />
             <YellowParagraph>{cellPhonelUpdateError}</YellowParagraph>
           </Form>
+          )}
+          {/* <MySubscriptions /> */}
+        </>
         )}
-        {/* <MySubscriptions /> */}
       </Box>
     </Background>
   );

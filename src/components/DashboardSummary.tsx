@@ -6,7 +6,7 @@ import { WhiteH2 } from './H2';
 import { InformationItem } from './InformationItem';
 import { colors } from '../resources/theme';
 
-export default function DashboardSummary() {
+export function DashboardSummary() {
   const [negotiating, setNegotiating] = React.useState(false);
   const [summary, setSummary] = React.useState({ propertyCount: '', userCount: '', alertCount: '' });
 

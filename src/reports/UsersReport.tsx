@@ -1,7 +1,7 @@
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 
-function UsersReport(users: any) {
+export function UsersReport(users: any) {
   pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
   const title = [
@@ -77,5 +77,3 @@ function UsersReport(users: any) {
 
   pdfMake.createPdf(docDefinitions).open();
 }
-
-export default UsersReport;

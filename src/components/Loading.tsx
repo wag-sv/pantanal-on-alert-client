@@ -9,9 +9,10 @@ const Wrapper = styled.div`
   height: 100vh;
   justify-content: center;
   left: 0;
-  position: absolute;
+  overflow: hidden;
+  position: fixed;
   top: 0;
-  width: 100vw;
+  width: 100%;
   z-index: 7000;
 `;
 

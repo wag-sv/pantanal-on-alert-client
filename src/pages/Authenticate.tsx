@@ -52,7 +52,7 @@ export function Authenticate() {
       navigate('/');
     } catch (catched: any) {
       setNegotiating(false);
-      setError(catched.response.data.error);
+      setError('Erro inesperado. Tente novamente em alguns instantes.');
     }
   };
 
@@ -76,7 +76,7 @@ export function Authenticate() {
         setStep('resetPassword');
       } catch (catched: any) {
         setNegotiating(false);
-        setError(catched.response.data.error);
+        setError('Erro inesperado. Tente novamente em alguns instantes.');
       }
     }
   };
@@ -99,7 +99,7 @@ export function Authenticate() {
         setStep('success');
       } catch (catched: any) {
         setNegotiating(false);
-        setError(catched.response.data.error);
+        setError('Erro inesperado. Tente novamente em alguns instantes.');
       }
     }
   };

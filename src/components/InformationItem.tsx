@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { YellowLabel } from './Label';
 import { colors } from '../resources/theme';
-import { WhiteH3 } from './H3';
+import { WhiteH4 } from './H4';
 
 const Wrapper = styled.div`
     display: flex;
@@ -40,7 +40,7 @@ export function InformationItem({ title, content }: DashboardItemProps) {
   return (
     <Wrapper>
       <Title>
-        <WhiteH3>{title}</WhiteH3>
+        <WhiteH4>{title}</WhiteH4>
       </Title>
       <Content>
         <YellowLabel>{content}</YellowLabel>

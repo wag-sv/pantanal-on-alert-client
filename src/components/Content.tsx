@@ -15,5 +15,3 @@ type ContentProps = {
 export function Content({ children }: ContentProps) {
   return <Wrapper>{children}</Wrapper>;
 }
-
-// TODO: melhorar o código da estitilização deste componente

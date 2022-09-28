@@ -5,7 +5,7 @@ export const getFireSpots = async () => {
     const response = await api.get('/fireSpots');
     const fireSpots = response.data;
     return { data: fireSpots, error: null };
-  } catch (err) {
+  } catch (catched) {
     return { data: null, error: 'Erro de comunicação com o servidor. (003).' };
   }
 };
