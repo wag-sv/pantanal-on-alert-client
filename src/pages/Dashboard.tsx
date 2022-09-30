@@ -16,7 +16,7 @@ export function Dashboard() {
 
   return (
     <Background backgroundColor={colors.darkGray}>
-      <Box backgroundColor={colors.red} width="700px">
+      <Box backgroundColor={colors.red} width="300px">
         <YellowH1>DASHBOARD</YellowH1>
         <AHundredPerCentButton>
           <LinkButton onClick={() => setOption('summary')}>RESUMO</LinkButton>

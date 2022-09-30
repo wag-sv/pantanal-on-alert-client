@@ -67,7 +67,7 @@ export function Navbar() {
   const navigate = useNavigate();
   const { authenticatedUser, setAuthenticatedUser } = React.useContext(AuthContext);
   const { token, user } = authenticatedUser;
-  const { isAdmin } = user;
+  const isAdmin = !!user.isAdmin;
 
   const handleLogout = () => {
     localStorage.removeItem('authenticatedUser');

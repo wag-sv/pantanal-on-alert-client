@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { devices } from '../resources/devices';
 
 type BackgroundProps = {
   backgroundColor?: string;
@@ -21,4 +22,10 @@ export const Background = styled.div<BackgroundProps>`
   padding: 50px 5%;
   position: relative;
   width: 100%;
+
+  @media ${devices.laptop} {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+  }
 `;

@@ -94,12 +94,12 @@ type EditableItemProps = {
   onChange: (event: any) => void;
   edit: boolean;
   setEdit: (newState: any) => void;
-  onCancel: () => void;
+  cancel: () => void;
   gridArea?: string;
 };
 
 export function EditableItem({
-  label, id, name, type, maxLength, placeholder, autoComplete, value, onChange, edit, setEdit, onCancel, gridArea,
+  label, id, name, type, maxLength, placeholder, autoComplete, value, onChange, edit, setEdit, cancel, gridArea,
 }: EditableItemProps) {
   return (
     <Wrapper gridArea={gridArea}>
@@ -118,7 +118,7 @@ export function EditableItem({
         />
         <Buttons>
           {edit && <Tippy content="CONFIRMAR"><Button type="submit" onClick={() => setEdit(true)}><MdDone size="25px" /></Button></Tippy>}
-          {edit && <Tippy content="CANCELAR"><Button onClick={() => { setEdit(false); onCancel(); }}><MdClose size="25px" /></Button></Tippy>}
+          {edit && <Tippy content="CANCELAR"><Button onClick={() => { setEdit(false); cancel(); }}><MdClose size="25px" /></Button></Tippy>}
           {!edit && <Tippy content="EDITAR"><Button onClick={() => setEdit(true)}><MdEdit size="25px" /></Button></Tippy>}
         </Buttons>
       </Flex>

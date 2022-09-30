@@ -33,10 +33,12 @@ const Flex = styled.div`
 `;
 
 const Item = styled.div`
+  align-items: center;
   background-color: ${colors.darkRed};
   border: none;
   color: ${colors.white};
   cursor: not-allowed;
+  display: flex;
   font-size: 1.6rem;
   height: 50px;
   margin: 0px;

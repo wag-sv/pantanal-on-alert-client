@@ -1,13 +1,15 @@
 import React from 'react';
+import Tippy from '@tippyjs/react';
+import { MdArticle } from 'react-icons/md';
 import { api } from '../Services/api';
 import { Loading } from './Loading';
 import { Box } from './Box';
 import { WhiteH2 } from './H2';
 import { Form } from './Form';
 import { Input } from './Input';
+import { FlexRow } from './FlexRow';
+import { ClickArea } from './ClickArea';
 import { YellowParagraph } from './Paragraph';
-import { AHundredPerCentButton } from './Buttons';
-import { GreenButton } from './Button';
 import { ExpandableItem } from './ExpandableItem';
 import { colors } from '../resources/theme';
 import { AlertsReport } from '../reports/AlertsReport';
@@ -128,10 +130,10 @@ export function DashboardAlerts() {
           value={endDate}
           onChange={handChangeEndDate}
         />
-        <YellowParagraph>{`Mostrando ${result.length} ${result.length === 1 ? 'alerta' : 'alertas'}.`}</YellowParagraph>
-        <AHundredPerCentButton>
-          <GreenButton type="button" onClick={() => AlertsReport(result)}>GERAR PDF</GreenButton>
-        </AHundredPerCentButton>
+        <FlexRow>
+          <YellowParagraph>{`Mostrando ${result.length} ${result.length === 1 ? 'alerta' : 'alertas'}.`}</YellowParagraph>
+          <Tippy content="GERAR RELATÓRIO"><ClickArea onClick={() => AlertsReport(result)}><MdArticle size="25px" color={colors.yellow} /></ClickArea></Tippy>
+        </FlexRow>
       </Form>
       )}
       {!error && result.map((alert: any) => {

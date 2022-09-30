@@ -1,8 +1,7 @@
 import React from 'react';
-import { Loading } from '../components/Loading';
-// import MySubscriptions from '../components/MySubscriptions';
 import { AuthContext } from '../contexts/AuthContext';
-import pantanal from '../assets/images/background/pantanal.jpg';
+import { api } from '../Services/api';
+import { Loading } from '../components/Loading';
 import { Background } from '../components/Background';
 import { Box } from '../components/Box';
 import { YellowH1 } from '../components/H1';
@@ -10,9 +9,12 @@ import { Form } from '../components/Form';
 import { NonEditableItem } from '../components/NonEditableItem';
 import { EditableItem } from '../components/EditableItem';
 import { VerificationInput } from '../components/VerificationInput';
+import { DeleteableItem } from '../components/DeleteableItem';
 import { YellowParagraph } from '../components/Paragraph';
-import { api } from '../Services/api';
+import { WhiteH2 } from '../components/H2';
+import { Subscriptios } from '../components/Subscriptios';
 import { colors } from '../resources/theme';
+import pantanal from '../assets/images/background/pantanal.jpg';
 
 export function Profile() {
   const { authenticatedUser, setAuthenticatedUser } = React.useContext(AuthContext);
@@ -232,7 +234,7 @@ export function Profile() {
               onChange={handleChange}
               edit={editName}
               setEdit={setEditName}
-              onCancel={handleCancelNameUpdate}
+              cancel={handleCancelNameUpdate}
             />
             <YellowParagraph>{nameUpdateError}</YellowParagraph>
           </Form>
@@ -250,7 +252,7 @@ export function Profile() {
               onChange={handleChange}
               edit={editEmail}
               setEdit={setEditEmail}
-              onCancel={handleCancelEmailUpdate}
+              cancel={handleCancelEmailUpdate}
             />
             <YellowParagraph>{emailUpdateError}</YellowParagraph>
           </Form>
@@ -268,7 +270,7 @@ export function Profile() {
               value={user.emailToken}
               onChange={handleChange}
               resend={handleResendEmailToken}
-              onCancel={handleCancelEmailUpdate}
+              cancel={handleCancelEmailUpdate}
             />
             <YellowParagraph>{emailUpdateError}</YellowParagraph>
           </Form>
@@ -287,7 +289,7 @@ export function Profile() {
               onChange={handleChange}
               edit={editCellPhone}
               setEdit={setEditCellPhone}
-              onCancel={handleCancelCellPhoneUpdate}
+              cancel={handleCancelCellPhoneUpdate}
             />
             <YellowParagraph>{cellPhonelUpdateError}</YellowParagraph>
           </Form>
@@ -305,12 +307,20 @@ export function Profile() {
               value={user.cellPhoneToken}
               onChange={handleChange}
               resend={handleResendCellPhoneToken}
-              onCancel={handleCancelCellPhoneUpdate}
+              cancel={handleCancelCellPhoneUpdate}
             />
             <YellowParagraph>{cellPhonelUpdateError}</YellowParagraph>
           </Form>
           )}
-          {/* <MySubscriptions /> */}
+          <Subscriptios>
+            <WhiteH2>MINHAS INSCRIÇÕES</WhiteH2>
+            {authenticatedUser.user.subscriptions && authenticatedUser.user.subscriptions.map((subscription: any) => (
+              <DeleteableItem
+                key={subscription.propertyCode}
+                subscription={subscription}
+              />
+            ))}
+          </Subscriptios>
         </>
         )}
       </Box>

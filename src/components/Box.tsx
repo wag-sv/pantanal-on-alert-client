@@ -15,7 +15,7 @@ export const Box = styled.div<WrapperProps>`
   padding: 50px;
   width: 100%;
 
-  @media ${devices.tablet} {
+  @media ${devices.laptop} {
     width: ${({ width }) => width};
   }
 `;

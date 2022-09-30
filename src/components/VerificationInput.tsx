@@ -96,12 +96,12 @@ type VerificationInputProps = {
   mask?: string;
   onChange: (event: any) => void;
   resend: (event: any) => Promise<void>,
-  onCancel: () => void;
+  cancel: () => void;
   gridArea?: string;
 };
 
 export function VerificationInput({
-  label, id, name, type, maxLength, placeholder, autoComplete, value, mask, onChange, resend, onCancel, gridArea,
+  label, id, name, type, maxLength, placeholder, autoComplete, value, mask, onChange, resend, cancel, gridArea,
 }: VerificationInputProps) {
   return (
     <Wrapper gridArea={gridArea}>
@@ -120,7 +120,7 @@ export function VerificationInput({
         <Buttons>
           <Tippy content="CONFIRMAR"><Button type="submit"><MdDone size="25px" /></Button></Tippy>
           <Tippy content="REENVIAR CÓDIGO"><Button onClick={resend}><MdRepeat size="25px" /></Button></Tippy>
-          <Tippy content="CANCELAR"><Button onClick={onCancel}><MdClose size="25px" /></Button></Tippy>
+          <Tippy content="CANCELAR"><Button onClick={cancel}><MdClose size="25px" /></Button></Tippy>
         </Buttons>
       </Flex>
     </Wrapper>
