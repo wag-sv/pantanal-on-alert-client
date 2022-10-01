@@ -61,16 +61,12 @@ export const AboutSection1Row2 = styled.div`
 
   p {
     color: ${colors.yellow};
-    font-size: x-large;
+    font-size: 1.6rem;
     font-weight: 400;
     text-align: justify;
   }
   @media (max-width: 800px) {
     width: 100%;
-
-    p {
-      font-size: large;
-    }
   }
 `;
 
@@ -127,6 +123,7 @@ export const AboutSection1Row3Card = styled.div`
 
   p {
     color: ${colors.red};
+    font-size: 1.4rem;
     padding-top: 30px;
     text-align: center;
   }
@@ -168,6 +165,7 @@ export const AboutSection2RowH2 = styled.div`
 
   h2 {
     color: ${colors.red};
+    font-size: 2.2rem;
     font-weight: 500;
     margin: 0px 0px 0px 10px;
   }
@@ -181,6 +179,7 @@ export const AboutSection2RowLine = styled.div`
 
 export const AboutSection2RowParagraph = styled.p`
   color: ${colors.red};
+  font-size: 1.6rem;
   text-align: justify;
 `;
 
@@ -239,6 +238,7 @@ export const AboutSection3RowH2 = styled.div`
 
   h2 {
     color: white;
+    font-size: 2.2rem;
     font-weight: 500;
     margin: 0px 0px 0px 10px;
   }
@@ -252,5 +252,6 @@ export const AboutSection3RowLine = styled.div`
 
 export const AboutSection3RowParagraph = styled.p`
   color: white;
+  font-size: 1.6rem;
   text-align: justify;
 `;
