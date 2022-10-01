@@ -4,7 +4,7 @@ import * as turf from '@turf/turf';
 import { v4 as uuidv4 } from 'uuid';
 import L from 'leaflet';
 import {
-  MapContainer, TileLayer, GeoJSON, Marker,
+  MapContainer, TileLayer, GeoJSON, Marker, ZoomControl,
 } from 'react-leaflet';
 import { getServiceStatus } from '../modules/getServiceStatus';
 import { getProperties } from '../modules/getProperties';
@@ -17,6 +17,9 @@ import { StyledPopup } from '../components/StyledPopup';
 import { StyledTooltip } from '../components/StyledTooltip';
 import { pantanal } from '../polygons/pantanal';
 import flame from '../assets/images/flame/flame.svg';
+import { Search } from '../components/Search';
+import { MapSideMenu } from '../components/MapSideMenu';
+import { Statistics } from '../components/Statistics';
 
 const position: L.LatLngExpression = [
   turf.center(turf.multiPolygon(pantanal.features[0].geometry.coordinates)).geometry.coordinates[1],
@@ -51,10 +54,19 @@ const hoverPropertyStyle = {
   fillOpacity: 0.5,
 };
 
+const foundtPropertyStyle = {
+  color: '#fdf117',
+  fillColor: '#fdf117',
+  weight: 1,
+  fillOpacity: 1,
+};
+
 export function Map() {
   const { appState, setAppState }: any = React.useContext(AppContext);
   const [ready, setReady] = React.useState(false);
   const [error, setError] = React.useState('');
+  const [searchTerm, setSearchTerm] = React.useState('');
+  const [option, setOption] = React.useState('statistics');
 
   const getData = async () => {
     const serviceStatus = await getServiceStatus();
@@ -96,6 +108,10 @@ export function Map() {
     layer.on('mouseout', () => layer.setStyle(defaultPropertyStyle));
   };
 
+  const result = !searchTerm
+    ? appState.properties
+    : appState.properties.filter((property: any) => property.properties.COD_IMOVEL.includes(searchTerm));
+
   return (
     <>
       {!ready && <Loading />}
@@ -106,13 +122,16 @@ export function Map() {
           center={position}
           zoom={7}
           zoomSnap={1}
+          zoomControl={false}
+          doubleClickZoom
         >
+          <ZoomControl position="bottomright" />
           <TileLayer url="https://server.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}" />
 
           <GeoJSON data={pantanal} pathOptions={defaultPantanalStyle} />
 
-          {appState.properties.map((property: any) => (
-            <GeoJSON key={uuidv4()} data={property} pathOptions={defaultPropertyStyle} onEachFeature={onEachFeature}>
+          {result.map((property: any) => (
+            <GeoJSON key={uuidv4()} data={property} pathOptions={searchTerm ? foundtPropertyStyle : defaultPropertyStyle} onEachFeature={onEachFeature}>
               <StyledPopup property={property} />
             </GeoJSON>
           ))}
@@ -124,6 +143,9 @@ export function Map() {
           ))}
         </MapContainer>
       ) }
+      <MapSideMenu setOption={setOption} />
+      {option === 'statistics' && <Statistics statistics={appState.statistics} setOption={setOption} />}
+      {option === 'search' && <Search setSearchTerm={setSearchTerm} setOption={setOption} />}
     </>
   );
 }

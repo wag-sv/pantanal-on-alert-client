@@ -5,6 +5,7 @@ import RobotoMedium from './assets/fonts/Roboto/Roboto-Medium.ttf';
 import RobotoBold from './assets/fonts/Roboto/Roboto-Bold.ttf';
 import RobotoBlack from './assets/fonts/Roboto/Roboto-Black.ttf';
 import 'tippy.js/dist/tippy.css';
+import { colors } from './resources/theme';
 
 export const GlobalStyle = createGlobalStyle`  
 
@@ -62,11 +63,11 @@ export const GlobalStyle = createGlobalStyle`
     padding: 0;
     box-sizing: border-box;
     font-family: 'Roboto', sans-serif;
+    outline-color: ${colors.yellow}
   }
 
   #map {
     height: var(--content-height);
     width: 100%;
   }
-
 `;

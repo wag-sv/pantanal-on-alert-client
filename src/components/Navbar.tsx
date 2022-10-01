@@ -20,7 +20,7 @@ const HorizontalMenu = styled.div`
   align-items: center;
   color: ${colors.yellow};
   display: flex;
-  gap: 10px;
+  gap: 5px;
   justify-content: flex-end;
   padding: 0px;
 

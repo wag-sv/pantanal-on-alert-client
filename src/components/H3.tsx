@@ -14,3 +14,10 @@ export const RedH3 = styled.h3`
     font-weight: 600;
     margin: 5px 0px;
 `;
+
+export const YellowH3 = styled.h3`
+    color: ${colors.yellow};
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin: 5px 0px;
+`;

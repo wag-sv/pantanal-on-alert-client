@@ -20,7 +20,6 @@ export const Background = styled.div<BackgroundProps>`
   justify-content: flex-start;
   overflow: auto;
   padding: 50px 5%;
-  position: relative;
   width: 100%;
 
   @media ${devices.laptop} {
