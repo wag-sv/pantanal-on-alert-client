@@ -164,9 +164,10 @@ export function Map() {
           doubleClickZoom
         >
           <ZoomControl position="bottomright" />
-          {tileLayer === 'satellite' && <TileLayer url="https://server.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}" />}
-          {tileLayer === 'street' && <TileLayer url="https://tile.openstreetmap.org/{z}/{x}/{y}.png" />}
-          {tileLayer === 'hybrid' && <TileLayer url="https://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}" subdomains={['mt0', 'mt1', 'mt2', 'mt3']} />}
+          {(tileLayer === 'satellite' || tileLayer === 'hybrid') && <TileLayer url="https://server.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}" />}
+          {tileLayer === 'street' && <TileLayer url="http://services.arcgisonline.com/arcgis/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}" />}
+          {tileLayer === 'hybrid' && <TileLayer url="http://services.arcgisonline.com/arcgis/rest/services/Reference/World_Transportation/MapServer/tile/{z}/{y}/{x}" />}
+          {tileLayer === 'hybrid' && <TileLayer url="http://services.arcgisonline.com/arcgis/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}" />}
 
           <GeoJSON data={pantanal} pathOptions={defaultPantanalStyle} />
 
