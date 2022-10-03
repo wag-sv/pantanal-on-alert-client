@@ -78,3 +78,45 @@ export const SmallYellowButton = styled.button`
         font-size: 1.5rem;
     }
 `;
+
+export const SmallGreenButton = styled.button`
+    background-color: ${colors.green};
+    border: none;
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.5);
+    color: ${colors.white};
+    cursor: pointer;
+    font-family: "Roboto", sans-serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    overflow: hidden;
+    padding: 10px;
+
+    &:hover {
+        transform: scale(1.03);
+    }
+
+    @media ${devices.tablet} {
+        font-size: 1.5rem;
+    }
+`;
+
+export const SmallRedButton = styled.button`
+    background-color: ${colors.red};
+    border: none;
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.5);
+    color: ${colors.white};
+    cursor: pointer;
+    font-family: "Roboto", sans-serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    overflow: hidden;
+    padding: 10px;
+
+    &:hover {
+        transform: scale(1.03);
+    }
+
+    @media ${devices.tablet} {
+        font-size: 1.5rem;
+    }
+`;

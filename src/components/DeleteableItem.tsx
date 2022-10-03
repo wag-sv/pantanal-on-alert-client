@@ -88,7 +88,7 @@ type DeleteableItemProps = {
 };
 
 export function DeleteableItem({ subscription }: DeleteableItemProps) {
-  const { propertyCode, subscriptionDate } = subscription;
+  const { propertyName, propertyCode, subscriptionDate } = subscription;
   const { authenticatedUser, setAuthenticatedUser } = React.useContext(AuthContext);
   const { user } = authenticatedUser;
   const [edit, setEdit] = React.useState(false);
@@ -109,12 +109,12 @@ export function DeleteableItem({ subscription }: DeleteableItemProps) {
     }
   };
 
-  const showReport = () => EnrollmentProof(user.name, user.cpf, propertyCode, subscriptionDate);
+  const showReport = () => EnrollmentProof(user.name, user.cpf, propertyName, propertyCode, subscriptionDate);
 
   return (
     <Wrapper>
       {negotiating && <Loading />}
-      {!error && <Item>{ edit ? <Span>Deseja realmente desinscrever-se?</Span> : propertyCode }</Item>}
+      {!error && <Item>{ edit ? <Span>Deseja realmente desinscrever-se?</Span> : propertyName || propertyCode }</Item>}
       {error && <Item><Span>{ error }</Span></Item>}
       <Buttons>
         {!edit && <Tippy content="VER COMPROVANTE"><Button onClick={showReport}><MdArticle size="25px" /></Button></Tippy>}

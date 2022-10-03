@@ -104,8 +104,10 @@ export function Map() {
   }, []);
 
   const onEachFeature = (feature: any, layer: any) => {
-    layer.on('mouseover', () => layer.setStyle(hoverPropertyStyle));
-    layer.on('mouseout', () => layer.setStyle(defaultPropertyStyle));
+    if (!searchTerm) {
+      layer.on('mouseover', () => layer.setStyle(hoverPropertyStyle));
+      layer.on('mouseout', () => layer.setStyle(defaultPropertyStyle));
+    }
   };
 
   const result = !searchTerm

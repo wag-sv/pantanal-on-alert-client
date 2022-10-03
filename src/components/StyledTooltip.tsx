@@ -1,7 +1,15 @@
 /* eslint-disable no-bitwise */
 /* eslint-disable react/jsx-one-expression-per-line */
 import React from 'react';
+import styled from 'styled-components';
 import { Tooltip } from 'react-leaflet';
+import { colors } from '../resources/theme';
+
+export const Item = styled.p`
+    color: ${colors.red};
+    font-size: 1.3rem;
+    font-weight: 400;
+`;
 
 export function StyledTooltip({ fireSpot } : any) {
   function ConvertCoordinateFromDDToDMS(coordinateInDecimalDegreesFormat: any) {
@@ -15,11 +23,11 @@ export function StyledTooltip({ fireSpot } : any) {
 
   return (
     <Tooltip>
-      <div>Município: {fireSpot.municipio}</div>
-      <div>Data: {fireSpot.data_hora.toLocaleString()}</div>
-      <div>Latitude: {fireSpot.latitude} ({ConvertCoordinateFromDDToDMS(fireSpot.latitude)})</div>
-      <div>Longitude: {fireSpot.longitude} ({ConvertCoordinateFromDDToDMS(parseFloat(fireSpot.longitude))})</div>
-      <div>Satélite: {fireSpot.satelite}</div>
+      <Item>Município: {fireSpot.municipio}</Item>
+      <Item>Data: {fireSpot.data_hora.toLocaleString()}</Item>
+      <Item>Latitude: {fireSpot.latitude} ({ConvertCoordinateFromDDToDMS(fireSpot.latitude)})</Item>
+      <Item>Longitude: {fireSpot.longitude} ({ConvertCoordinateFromDDToDMS(parseFloat(fireSpot.longitude))})</Item>
+      <Item>Satélite: {fireSpot.satelite}</Item>
     </Tooltip>
   );
 }

@@ -35,3 +35,10 @@ export const DarkGrayParagraph = styled.p`
     font-weight: 400;
     margin: 5px 0px;
 `;
+
+export const PopupParagraph = styled.p`
+    color: ${colors.darkGray};
+    font-size: 1.1rem;
+    font-weight: 400;
+    margin: 3px 0px !important;
+`;
