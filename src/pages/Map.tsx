@@ -17,9 +17,11 @@ import { StyledPopup } from '../components/StyledPopup';
 import { StyledTooltip } from '../components/StyledTooltip';
 import { pantanal } from '../polygons/pantanal';
 import flame from '../assets/images/flame/flame.svg';
-import { Search } from '../components/Search';
 import { MapSideMenu } from '../components/MapSideMenu';
 import { Statistics } from '../components/Statistics';
+import { Search } from '../components/Search';
+import { Layers } from '../components/Layers';
+import { colors } from '../resources/theme';
 
 const position: L.LatLngExpression = [
   turf.center(turf.multiPolygon(pantanal.features[0].geometry.coordinates)).geometry.coordinates[1],
@@ -33,33 +35,33 @@ const flameIcon = L.icon({
   popupAnchor: [0, 15],
 });
 
-const defaultPantanalStyle = {
-  color: '#fdf117',
-  fillColor: '#fdf117',
-  weight: 1,
-  fillOpacity: 0,
-};
+// const defaultPantanalStyle = {
+//   color: colors.yellow,
+//   fillColor: colors.yellow,
+//   weight: 1,
+//   fillOpacity: 0,
+// };
 
-const defaultPropertyStyle = {
-  color: '#fdf117',
-  fillColor: '#fdf117',
-  weight: 0.2,
-  fillOpacity: 0,
-};
+// const defaultPropertyStyle = {
+//   color: colors.yellow,
+//   fillColor: colors.yellow,
+//   weight: 0.2,
+//   fillOpacity: 0,
+// };
 
-const hoverPropertyStyle = {
-  color: '#fdf117',
-  fillColor: '#fdf117',
-  weight: 0.1,
-  fillOpacity: 0.5,
-};
+// const hoverPropertyStyle = {
+//   color: colors.yellow,
+//   fillColor: colors.yellow,
+//   weight: 0.1,
+//   fillOpacity: 0.5,
+// };
 
-const foundtPropertyStyle = {
-  color: '#fdf117',
-  fillColor: '#fdf117',
-  weight: 1,
-  fillOpacity: 1,
-};
+// const foundtPropertyStyle = {
+//   color: colors.yellow,
+//   fillColor: colors.yellow,
+//   weight: 1,
+//   fillOpacity: 1,
+// };
 
 export function Map() {
   const { appState, setAppState }: any = React.useContext(AppContext);
@@ -67,6 +69,7 @@ export function Map() {
   const [error, setError] = React.useState('');
   const [searchTerm, setSearchTerm] = React.useState('');
   const [option, setOption] = React.useState('statistics');
+  const [tileLayer, setTileLayer] = React.useState('satellite');
 
   const getData = async () => {
     const serviceStatus = await getServiceStatus();
@@ -103,6 +106,39 @@ export function Map() {
     runGetData();
   }, []);
 
+  const getPantanalPathOptions = () => {
+    const color = tileLayer === 'street' ? colors.red : colors.yellow;
+    const fillColor = tileLayer === 'street' ? colors.red : colors.yellow;
+    const weight = 1;
+    const fillOpacity = 0;
+    return {
+      color, fillColor, weight, fillOpacity,
+    };
+  };
+  const defaultPantanalStyle = getPantanalPathOptions();
+
+  const getPropertiesPathOptions = () => {
+    const color = tileLayer === 'street' ? colors.red : colors.yellow;
+    const fillColor = tileLayer === 'street' ? colors.red : colors.yellow;
+    const weight = searchTerm ? 1 : 0.2;
+    const fillOpacity = searchTerm ? 1 : 0;
+    return {
+      color, fillColor, weight, fillOpacity,
+    };
+  };
+  const defaultPropertyStyle = getPropertiesPathOptions();
+
+  const getPropertiesHoverOptions = () => {
+    const color = tileLayer === 'street' ? colors.red : colors.yellow;
+    const fillColor = tileLayer === 'street' ? colors.red : colors.yellow;
+    const weight = 0.1;
+    const fillOpacity = 0.5;
+    return {
+      color, fillColor, weight, fillOpacity,
+    };
+  };
+  const hoverPropertyStyle = getPropertiesHoverOptions();
+
   const onEachFeature = (feature: any, layer: any) => {
     if (!searchTerm) {
       layer.on('mouseover', () => layer.setStyle(hoverPropertyStyle));
@@ -128,12 +164,14 @@ export function Map() {
           doubleClickZoom
         >
           <ZoomControl position="bottomright" />
-          <TileLayer url="https://server.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}" />
+          {tileLayer === 'satellite' && <TileLayer url="https://server.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}" />}
+          {tileLayer === 'street' && <TileLayer url="https://tile.openstreetmap.org/{z}/{x}/{y}.png" />}
+          {tileLayer === 'hybrid' && <TileLayer url="https://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}" subdomains={['mt0', 'mt1', 'mt2', 'mt3']} />}
 
           <GeoJSON data={pantanal} pathOptions={defaultPantanalStyle} />
 
           {result.map((property: any) => (
-            <GeoJSON key={uuidv4()} data={property} pathOptions={searchTerm ? foundtPropertyStyle : defaultPropertyStyle} onEachFeature={onEachFeature}>
+            <GeoJSON key={uuidv4()} data={property} pathOptions={defaultPropertyStyle} onEachFeature={onEachFeature}>
               <StyledPopup property={property} />
             </GeoJSON>
           ))}
@@ -148,6 +186,7 @@ export function Map() {
       <MapSideMenu setOption={setOption} />
       {option === 'statistics' && <Statistics statistics={appState.statistics} setOption={setOption} />}
       {option === 'search' && <Search setSearchTerm={setSearchTerm} setOption={setOption} />}
+      {option === 'layers' && <Layers setOption={setOption} setTileLayer={setTileLayer} />}
     </>
   );
 }
