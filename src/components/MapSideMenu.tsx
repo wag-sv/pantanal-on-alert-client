@@ -38,7 +38,7 @@ export function MapSideMenu({ setOption }: MapSideMenuProps) {
     <Wrapper>
       <Tippy content="ESTATÍSTICAS"><Option onClick={() => setOption('statistics')}><MdBarChart size="35px" /></Option></Tippy>
       <Tippy content="PESQUISAR"><Option onClick={() => setOption('search')}><MdSearch size="35px" /></Option></Tippy>
-      <Tippy content="TIPO DE MAPA"><Option onClick={() => setOption('layers')}><MdLayers size="35px" /></Option></Tippy>
+      <Tippy content="CAMADAS"><Option onClick={() => setOption('layers')}><MdLayers size="35px" /></Option></Tippy>
     </Wrapper>
   );
 }

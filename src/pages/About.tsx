@@ -115,7 +115,7 @@ export function About() {
             </AboutSection3RowH2>
             <AboutSection3RowParagraph>
               O finalidade do sistema Pantanal em Alerta é permitir que se
-              indentifiquem os locais onde estão ocorrendo prováveis
+              identifiquem os locais onde estão ocorrendo prováveis
               incêndios, bom como os imóveis em que se encontram para que seja
               possível o acionamento de autoridades, proprietários e
               brigadistas voluntários da região, visando minimizar as

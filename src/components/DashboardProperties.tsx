@@ -29,11 +29,12 @@ export function DashboardProperties() {
     setAppState({ ...appState, properties: properties.data });
   };
 
-  const handleEnableProperty = async (propertyId: string) => {
+  const handleDisabled = async (property: any) => {
     try {
       setNegotiating(true);
-      const disabled = false;
-      await api.post('/handle_property', { propertyId, disabled });
+      const propertyId = property._id;
+      const disabled = !property.disabled;
+      await api.post('/handle_disabled', { propertyId, disabled });
       await runGetProperties();
       setNegotiating(false);
     } catch (catched: any) {
@@ -42,11 +43,26 @@ export function DashboardProperties() {
     }
   };
 
-  const handleDisableProperty = async (propertyId: string) => {
+  const handlePriority = async (property: any) => {
     try {
       setNegotiating(true);
-      const disabled = true;
-      await api.post('/handle_property', { propertyId, disabled });
+      const propertyId = property._id;
+      const priority = !property.priority;
+      await api.post('/handle_priority', { propertyId, priority });
+      await runGetProperties();
+      setNegotiating(false);
+    } catch (catched: any) {
+      setNegotiating(false);
+      setError('Erro inesperado. Tente novamente em alguns instantes.');
+    }
+  };
+
+  const handleIgnitionPoint = async (property: any) => {
+    try {
+      setNegotiating(true);
+      const propertyId = property._id;
+      const ignitionPoint = !property.ignitionPoint;
+      await api.post('/handle_ignition_point', { propertyId, ignitionPoint });
       await runGetProperties();
       setNegotiating(false);
     } catch (catched: any) {
@@ -91,14 +107,17 @@ export function DashboardProperties() {
           Município: property.properties.NOM_MUNICI,
           Estado: property.properties.COD_ESTADO,
           'Status no sistema': property.disabled ? 'DESATIVADA' : 'ATIVADA',
+          Prioritária: property.priority ? 'SIM' : 'NÃO',
+          'Ponto de ignição': property.ignitionPoint ? 'SIM' : 'NÃO',
         };
 
         return (
-          <ExpandableItem key={id} id={id} title={title} content={content} show={show} setShow={setShow}>
+          <ExpandableItem key={id} id={id} title={title} content={content} show={show} setShow={setShow} setError={setError}>
             {error && <YellowParagraph>{error}</YellowParagraph>}
             <FlexStartButtons>
-              {property.disabled && <SmallYellowButton onClick={() => handleEnableProperty(id)}>ATIVAR</SmallYellowButton>}
-              {!property.disabled && <SmallYellowButton onClick={() => handleDisableProperty(id)}>DESATIVAR</SmallYellowButton>}
+              <SmallYellowButton onClick={() => handleDisabled(property)}>{property.disabled ? 'ATIVAR' : 'DESATIVAR'}</SmallYellowButton>
+              <SmallYellowButton onClick={() => handlePriority(property)}>{property.priority ? 'NÃO É PRIORITÁRIA' : 'É PRIORITÁRIA'}</SmallYellowButton>
+              <SmallYellowButton onClick={() => handleIgnitionPoint(property)}>{property.ignitionPoint ? 'NÃO É PONTO DE IGNIÇÃO' : 'É PONTO DE IGNIÇÃO'}</SmallYellowButton>
             </FlexStartButtons>
           </ExpandableItem>
         );

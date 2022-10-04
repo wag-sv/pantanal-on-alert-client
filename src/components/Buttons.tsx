@@ -19,7 +19,7 @@ export const FlexStartButtons = styled.div`
     align-items: center;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 10px;
     justify-content: center;
     margin: 10px 0px;
     width: 100%;
@@ -34,7 +34,8 @@ export const FlexStartButtons = styled.div`
         align-items: center;
 
         button {
-            flex-grow: 1;
+            width: auto;
+            min-width: 130px;
         }
     }
 `;

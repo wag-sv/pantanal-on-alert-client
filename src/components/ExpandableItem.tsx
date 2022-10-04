@@ -83,18 +83,19 @@ type DashboardItemProps = {
   content: any;
   show: string;
   setShow: (state: any) => void;
+  setError: (state: any) => void;
 };
 
 export function ExpandableItem({
-  children, id, title, content, show, setShow,
+  children, id, title, content, show, setShow, setError,
 }: DashboardItemProps) {
   return (
     <Wrapper>
       <Header>
         <Title>{title}</Title>
         <Expand>
-          {show !== id && <MdExpandMore size="25px" color={colors.yellow} onClick={() => setShow(id)} />}
-          {show === id && <MdExpandLess size="25px" color={colors.yellow} onClick={() => setShow('')} />}
+          {show !== id && <MdExpandMore size="25px" color={colors.yellow} onClick={() => { setShow(id); setError(''); }} />}
+          {show === id && <MdExpandLess size="25px" color={colors.yellow} onClick={() => { setShow(''); setError(''); }} />}
         </Expand>
       </Header>
       {show === id && (

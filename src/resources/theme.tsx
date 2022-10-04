@@ -7,4 +7,5 @@ export const colors = {
   darkGray: '#333333',
   darkRed: '#a4060d',
   deepRed: '#94080d',
+  orange: 'orange',
 };

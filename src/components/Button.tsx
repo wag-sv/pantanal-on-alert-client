@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { devices } from '../resources/devices';
 import { colors } from '../resources/theme';
 
 export const GreenButton = styled.button`
@@ -73,10 +72,6 @@ export const SmallYellowButton = styled.button`
     &:hover {
         transform: scale(1.03);
     }
-
-    @media ${devices.tablet} {
-        font-size: 1.5rem;
-    }
 `;
 
 export const SmallGreenButton = styled.button`
@@ -94,10 +89,6 @@ export const SmallGreenButton = styled.button`
     &:hover {
         transform: scale(1.03);
     }
-
-    @media ${devices.tablet} {
-        font-size: 1.5rem;
-    }
 `;
 
 export const SmallRedButton = styled.button`
@@ -114,9 +105,5 @@ export const SmallRedButton = styled.button`
 
     &:hover {
         transform: scale(1.03);
-    }
-
-    @media ${devices.tablet} {
-        font-size: 1.5rem;
     }
 `;

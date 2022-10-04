@@ -23,46 +23,6 @@ import { Search } from '../components/Search';
 import { Layers } from '../components/Layers';
 import { colors } from '../resources/theme';
 
-const position: L.LatLngExpression = [
-  turf.center(turf.multiPolygon(pantanal.features[0].geometry.coordinates)).geometry.coordinates[1],
-  turf.center(turf.multiPolygon(pantanal.features[0].geometry.coordinates)).geometry.coordinates[0],
-];
-
-const flameIcon = L.icon({
-  iconUrl: flame,
-  iconSize: [15, 15],
-  iconAnchor: [7.5, 15],
-  popupAnchor: [0, 15],
-});
-
-// const defaultPantanalStyle = {
-//   color: colors.yellow,
-//   fillColor: colors.yellow,
-//   weight: 1,
-//   fillOpacity: 0,
-// };
-
-// const defaultPropertyStyle = {
-//   color: colors.yellow,
-//   fillColor: colors.yellow,
-//   weight: 0.2,
-//   fillOpacity: 0,
-// };
-
-// const hoverPropertyStyle = {
-//   color: colors.yellow,
-//   fillColor: colors.yellow,
-//   weight: 0.1,
-//   fillOpacity: 0.5,
-// };
-
-// const foundtPropertyStyle = {
-//   color: colors.yellow,
-//   fillColor: colors.yellow,
-//   weight: 1,
-//   fillOpacity: 1,
-// };
-
 export function Map() {
   const { appState, setAppState }: any = React.useContext(AppContext);
   const [ready, setReady] = React.useState(false);
@@ -70,6 +30,7 @@ export function Map() {
   const [searchTerm, setSearchTerm] = React.useState('');
   const [option, setOption] = React.useState('statistics');
   const [tileLayer, setTileLayer] = React.useState('satellite');
+  const [showProperties, setShowProperties] = React.useState('all');
 
   const getData = async () => {
     const serviceStatus = await getServiceStatus();
@@ -106,6 +67,18 @@ export function Map() {
     runGetData();
   }, []);
 
+  const position: L.LatLngExpression = [
+    turf.center(turf.multiPolygon(pantanal.features[0].geometry.coordinates)).geometry.coordinates[1],
+    turf.center(turf.multiPolygon(pantanal.features[0].geometry.coordinates)).geometry.coordinates[0],
+  ];
+
+  const flameIcon = L.icon({
+    iconUrl: flame,
+    iconSize: [15, 15],
+    iconAnchor: [7.5, 15],
+    popupAnchor: [0, 15],
+  });
+
   const getPantanalPathOptions = () => {
     const color = tileLayer === 'street' ? colors.red : colors.yellow;
     const fillColor = tileLayer === 'street' ? colors.red : colors.yellow;
@@ -115,9 +88,18 @@ export function Map() {
       color, fillColor, weight, fillOpacity,
     };
   };
-  const defaultPantanalStyle = getPantanalPathOptions();
 
   const getPropertiesPathOptions = () => {
+    if (showProperties === 'priority' || showProperties === 'ignition') {
+      const color = tileLayer === 'street' ? colors.orange : colors.orange;
+      const fillColor = tileLayer === 'street' ? colors.orange : colors.orange;
+      const weight = searchTerm ? 1 : 1;
+      const fillOpacity = searchTerm ? 1 : 1;
+      return {
+        color, fillColor, weight, fillOpacity,
+      };
+    }
+
     const color = tileLayer === 'street' ? colors.red : colors.yellow;
     const fillColor = tileLayer === 'street' ? colors.red : colors.yellow;
     const weight = searchTerm ? 1 : 0.2;
@@ -126,7 +108,6 @@ export function Map() {
       color, fillColor, weight, fillOpacity,
     };
   };
-  const defaultPropertyStyle = getPropertiesPathOptions();
 
   const getPropertiesHoverOptions = () => {
     const color = tileLayer === 'street' ? colors.red : colors.yellow;
@@ -137,6 +118,9 @@ export function Map() {
       color, fillColor, weight, fillOpacity,
     };
   };
+
+  const defaultPantanalStyle = getPantanalPathOptions();
+  const defaultPropertyStyle = getPropertiesPathOptions();
   const hoverPropertyStyle = getPropertiesHoverOptions();
 
   const onEachFeature = (feature: any, layer: any) => {
@@ -146,9 +130,14 @@ export function Map() {
     }
   };
 
-  const result = !searchTerm
-    ? appState.properties
-    : appState.properties.filter((property: any) => property.properties.COD_IMOVEL.includes(searchTerm));
+  const result = (function filterProperties() {
+    let filtered = [];
+    if (showProperties === 'priority') filtered = appState.properties.filter((property: any) => property.priority);
+    else if (showProperties === 'ignition') filtered = appState.properties.filter((property: any) => property.ignitionPoint);
+    else filtered = appState.properties;
+    if (searchTerm) return filtered.filter((property: any) => property.properties.COD_IMOVEL.includes(searchTerm));
+    return filtered;
+  }());
 
   return (
     <>
@@ -164,6 +153,7 @@ export function Map() {
           doubleClickZoom
         >
           <ZoomControl position="bottomright" />
+
           {(tileLayer === 'satellite' || tileLayer === 'hybrid') && <TileLayer url="https://server.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}" />}
           {tileLayer === 'street' && <TileLayer url="http://services.arcgisonline.com/arcgis/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}" />}
           {tileLayer === 'hybrid' && <TileLayer url="http://services.arcgisonline.com/arcgis/rest/services/Reference/World_Transportation/MapServer/tile/{z}/{y}/{x}" />}
@@ -187,7 +177,7 @@ export function Map() {
       <MapSideMenu setOption={setOption} />
       {option === 'statistics' && <Statistics statistics={appState.statistics} setOption={setOption} />}
       {option === 'search' && <Search setSearchTerm={setSearchTerm} setOption={setOption} />}
-      {option === 'layers' && <Layers setOption={setOption} setTileLayer={setTileLayer} />}
+      {option === 'layers' && <Layers setOption={setOption} setTileLayer={setTileLayer} showProperties={showProperties} setShowProperties={setShowProperties} />}
     </>
   );
 }
