@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "npm install && tsc && vite build",
+    "build": "tsc && vite build",
     "preview": "vite preview",
     "lint": "eslint ./src --ext .jsx,.js,.ts,.tsx --quiet --fix --ignore-path ./.gitignore"
   },
@@ -25,9 +25,7 @@
     "react-router-dom": "^6.3.0",
     "styled-components": "^5.3.5",
     "tippy.js": "^6.3.7",
-    "uuid": "^8.3.2"
-  },
-  "devDependencies": {
+    "uuid": "^8.3.2",
     "@types/leaflet": "^1.7.11",
     "@types/pdfmake": "^0.2.1",
     "@types/react": "^18.0.15",
@@ -48,5 +46,8 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "typescript": "^4.8.4",
     "vite": "^3.0.0"
+  },
+  "devDependencies": {
+
   }
 }
