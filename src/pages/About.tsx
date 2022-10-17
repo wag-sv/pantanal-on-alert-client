@@ -1,6 +1,6 @@
 import React from 'react';
 
-import AboutSection1Row1ImgSrc from '../assets/images/wetlandLogo.svg';
+import AboutSection1Row1ImgSrc from '../assets/images/logo/wetlandLogo.svg';
 import satelliteSrc from '../assets/images/icon/satelliteIcon.svg';
 import fireSpotSrc from '../assets/images/icon/fireSpotIcon.svg';
 import markerSrc from '../assets/images/icon/markerIcon.svg';

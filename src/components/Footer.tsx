@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import publicMinistryLogoPath from '../assets/images/publicMinistryLogo.svg';
+import publicMinistryLogoPath from '../assets/images/logo/publicMinistryLogo.svg';
 import { colors } from '../resources/theme';
 
 const Wrapper = styled.div`

@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import wetlandLogoPath from '../assets/images/wetlandLogo.svg';
-import firefightersArmsPath from '../assets/images/firefightersArms.svg';
-import firefightersLogoPath from '../assets/images/firefightersLogo.svg';
+import wetlandLogoPath from '../assets/images/logo/wetlandLogo.svg';
+import firefightersArmsPath from '../assets/images/logo/firefightersArms.svg';
+import firefightersLogoPath from '../assets/images/logo/firefightersLogo.svg';
 import { devices } from '../resources/devices';
 import { colors } from '../resources/theme';
 

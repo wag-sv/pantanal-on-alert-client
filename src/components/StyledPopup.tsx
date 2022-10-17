@@ -42,7 +42,7 @@ const Error = styled.p`
     color: ${colors.red};
     font-size: 1.3rem;
     font-weight: 400;
-    margin: 20px 0px !important;
+    margin: 15px 0px !important;
     text-align: center;
 `;
 
@@ -50,7 +50,7 @@ const Success = styled.p`
     color: ${colors.green};
     font-size: 1.3rem;
     font-weight: 400;
-    margin: 20px 0px !important;
+    margin: 15px 0px !important;
     text-align: center;
 `;
 
@@ -88,11 +88,16 @@ export function StyledPopup({ property } : any) {
 
   const handleChange = (event: any) => {
     const { value } = event.target;
+    setError('');
     setPropertyName(value.toUpperCase());
   };
 
   const handleSubscription = async (event: any) => {
     event.preventDefault();
+    if (!propertyName) {
+      setError('Digite um nome para identificar esta propriedade.');
+      return;
+    }
     const requestParameters = {
       propertyName, propertyCode, propertyCounty, propertyState,
     };
@@ -110,7 +115,8 @@ export function StyledPopup({ property } : any) {
       setSubscribe(false);
     } catch (catched: any) {
       setNegotiating(false);
-      setError('Erro inesperado. Tente novamente em alguns instantes.');
+      if (catched.response.data.error) setError(catched.response.data.error);
+      else setError('Erro inesperado. Tente novamente em alguns instantes.');
     }
   };
 
