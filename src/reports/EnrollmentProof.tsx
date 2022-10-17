@@ -1,9 +1,7 @@
-import pdfMake from 'pdfmake/build/pdfmake';
-import pdfFonts from 'pdfmake/build/vfs_fonts';
+import * as pdfMake from 'pdfmake/build/pdfmake';
+import 'pdfmake/build/vfs_fonts';
 
-function EnrollmentProof(userName: any, cpf: any, propertyName: any, property: any, subscriptionDate: any) {
-  pdfMake.vfs = pdfFonts.pdfMake.vfs;
-
+function EnrollmentProof(userName: any, cpf: any, propertyCode: any, subscriptionDate: any) {
   const title: any = [];
 
   const content = [
@@ -14,7 +12,7 @@ function EnrollmentProof(userName: any, cpf: any, propertyName: any, property: a
     {
       text: `O Sistema Pantanal em Alerta registrou na data ${new Date(
         subscriptionDate,
-      ).toLocaleString()} a inscrição do usuário ${userName} (CPF ${cpf}) para o recebimento de alertas de possíveis incêndios na propriedade com código CAR ${property}.`,
+      ).toLocaleString()} a inscrição do usuário ${userName} (CPF ${cpf}) para o recebimento de alertas de possíveis incêndios na propriedade com código CAR ${propertyCode}.`,
       style: 'body',
       bold: false,
       margin: [0, 50],

@@ -109,7 +109,7 @@ export function DeleteableItem({ subscription }: DeleteableItemProps) {
     }
   };
 
-  const showReport = () => EnrollmentProof(user.name, user.cpf, propertyName, propertyCode, subscriptionDate);
+  const showReport = () => EnrollmentProof(user.name, user.cpf, propertyCode, subscriptionDate);
 
   return (
     <Wrapper>

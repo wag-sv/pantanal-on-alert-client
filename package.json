@@ -12,7 +12,7 @@
   "dependencies": {
     "@tippyjs/react": "^4.2.6",
     "@turf/turf": "^6.5.0",
-    "@types/pdfmake": "^0.2.1",
+    "@types/node": "^18.11.0",
     "axios": "^0.27.2",
     "leaflet": "^1.8.0",
     "leaflet.markercluster": "^1.5.3",
@@ -30,6 +30,7 @@
   },
   "devDependencies": {
     "@types/leaflet": "^1.7.11",
+    "@types/pdfmake": "^0.2.1",
     "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",
     "@types/react-leaflet-markercluster": "^3.0.0",
@@ -46,7 +47,7 @@
     "eslint-plugin-jsx-a11y": "^6.6.1",
     "eslint-plugin-react": "^7.30.1",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "typescript": "^4.6.4",
+    "typescript": "^4.8.4",
     "vite": "^3.0.0"
   }
 }

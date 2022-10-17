@@ -1,9 +1,7 @@
-import pdfMake from 'pdfmake/build/pdfmake';
-import pdfFonts from 'pdfmake/build/vfs_fonts';
+import * as pdfMake from 'pdfmake/build/pdfmake';
+import 'pdfmake/build/vfs_fonts';
 
 export function UsersReport(users: any) {
-  pdfMake.vfs = pdfFonts.pdfMake.vfs;
-
   const title = [
     {
       text: 'Usuários Cadastrados',

@@ -148,7 +148,7 @@ export function DashboardAlerts() {
         };
 
         return (
-          <ExpandableItem key={id} id={id} title={title} content={content} show={show} setShow={setShow} />
+          <ExpandableItem key={id} id={id} title={title} content={content} show={show} setShow={setShow} setError={() => {}} />
         );
       })}
     </Box>
