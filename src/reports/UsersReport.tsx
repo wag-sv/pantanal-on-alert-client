@@ -1,7 +1,10 @@
 import * as pdfMake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
+import 'pdfmake/build/vfs_fonts';
 
-(pdfMake as any).vfs = pdfFonts.pdfMake.vfs;
+if (!import.meta.env.PROD) {
+  (pdfMake as any).vfs = pdfFonts.pdfMake.vfs;
+}
 
 export function UsersReport(users: any) {
   const title = [
@@ -75,5 +78,5 @@ export function UsersReport(users: any) {
     footer,
   };
 
-  pdfMake.createPdf(docDefinitions).open();
+  pdfMake.createPdf(docDefinitions, {}).open();
 }
