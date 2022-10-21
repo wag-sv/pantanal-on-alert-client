@@ -144,7 +144,7 @@ export function DashboardAlerts() {
           'Data do alerta': new Date(alert.alertSentAt).toLocaleString().split(' ')[0],
           'E-mail (tentativa 1)': alert.emailAlert?.attempt1?.response?.includes('250') ? 'RECEBIDO' : alert.emailAlert?.attempt1?.response || '-',
           'E-mail (tentativa 2)': alert.emailAlert?.attempt2?.response?.includes('250') ? 'RECEBIDO' : alert.emailAlert?.attempt2?.response || '-',
-          SMS: alert.smsAlert?.attempt1[0]?.situacao?.includes('OK') ? 'RECEBIDO' : alert.smsAlert?.attempt1[0]?.situacao || '-',
+          SMS: alert.smsAlert?.attempt1?.situacao?.includes('OK') ? 'RECEBIDO' : alert.smsAlert?.attempt1?.situacao || '-',
         };
 
         return (
