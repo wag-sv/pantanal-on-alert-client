@@ -96,7 +96,7 @@ export function DashboardAlerts() {
       <WhiteH2>ALERTAS</WhiteH2>
       {error && <YellowParagraph>{error}</YellowParagraph>}
       {!error && (
-      <Form onSubmit={() => {}}>
+      <Form onSubmit={(event) => { event.preventDefault(); }}>
         <Input
           label="NOME, CPF OU CAR"
           id="searchTerm"

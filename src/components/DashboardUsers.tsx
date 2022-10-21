@@ -59,7 +59,7 @@ export function DashboardUsers() {
       <WhiteH2>USUÁRIOS</WhiteH2>
       {error && <YellowParagraph>{error}</YellowParagraph>}
       {!error && (
-      <Form onSubmit={() => {}}>
+      <Form onSubmit={(event) => { event.preventDefault(); }}>
         <Input
           label="CPF, NOME, E-MAIL OU CELULAR"
           id="searchTerm"

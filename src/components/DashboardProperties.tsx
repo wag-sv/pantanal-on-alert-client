@@ -86,7 +86,7 @@ export function DashboardProperties() {
     <Box backgroundColor={colors.red} width="700px">
       {negotiating && <Loading />}
       <WhiteH2>PROPRIEDADES</WhiteH2>
-      <Form onSubmit={() => {}}>
+      <Form onSubmit={(event) => { event.preventDefault(); }}>
         <Input
           label="CAR OU MUNICÍPIO"
           id="searchTerm"
