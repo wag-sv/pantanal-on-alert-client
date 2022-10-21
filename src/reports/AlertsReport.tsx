@@ -40,9 +40,9 @@ export function AlertsReport(alerts: any) {
         margin: [0, 2, 0, 2],
       },
       {
-        text: alert.smsAlert?.attempt1[0]?.situacao?.includes('OK')
+        text: alert.smsAlert?.attempt1?.situacao?.includes('OK')
           ? 'RECEBIDO'
-          : alert.smsAlert?.attempt1[0]?.situacao || '-',
+          : alert.smsAlert?.attempt1?.situacao || '-',
         fontSize: 9,
         margin: [0, 2, 0, 2],
       },
