@@ -137,6 +137,11 @@ export function DashboardAlerts() {
       </Form>
       )}
       {!error && result.map((alert: any) => {
+        const getSMSStatus = (SMSAlert: any) => {
+          if (SMSAlert.smsAlert?.attempt1?.descricao?.includes('RECEBIDA')) return 'RECEBIDO';
+          if (SMSAlert.smsAlert?.attempt1?.descricao?.includes('ENVIADA')) return 'ENVIADO';
+          return SMSAlert.smsAlert?.attempt1?.descricao || '-';
+        };
         const { _id: id } = alert;
         const title = alert.user?.name;
         const content = {
@@ -144,7 +149,7 @@ export function DashboardAlerts() {
           'Data do alerta': new Date(alert.alertSentAt).toLocaleString().split(' ')[0],
           'E-mail (tentativa 1)': alert.emailAlert?.attempt1?.response?.includes('250') ? 'RECEBIDO' : alert.emailAlert?.attempt1?.response || '-',
           'E-mail (tentativa 2)': alert.emailAlert?.attempt2?.response?.includes('250') ? 'RECEBIDO' : alert.emailAlert?.attempt2?.response || '-',
-          SMS: alert.smsAlert?.attempt1?.situacao?.includes('OK') ? 'RECEBIDO' : alert.smsAlert?.attempt1?.situacao || '-',
+          SMS: getSMSStatus(alert),
         };
 
         return (

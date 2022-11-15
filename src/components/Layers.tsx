@@ -48,11 +48,20 @@ const Close = styled.div`
   }
 `;
 
+const OptionsGroup = styled.div`
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 10px;
+  width: 100%;
+`;
+
 const FlexRow = styled.div`
+  align-items: center;
   display: flex;
   gap: 10px;
   justify-content: center;
-  margin-bottom: 20px;
+  margin: 5px 0px;
   width: 100%;
 `;
 
@@ -83,6 +92,7 @@ const Option = styled.div`
   color:${colors.yellow};
   cursor: pointer;
   display: flex;
+  font-size: 3rem;
   height: 80px;
   justify-content: center;
   min-height: 80px;
@@ -98,6 +108,7 @@ const OptionActive = styled.div`
   color:${colors.red};
   cursor: pointer;
   display: flex;
+  font-size: 3rem;
   height: 80px;
   justify-content: center;
   min-height: 80px;
@@ -106,60 +117,115 @@ const OptionActive = styled.div`
 `;
 
 export const Info = styled.p`
-    align-self: flex-start;
     color: ${colors.yellow};
     font-size: 1.4rem;
     font-weight: 400;
     margin: 3px 0px;
+    margin-bottom: 5px;
 `;
 
 type LayersProps = {
   setOption: (option: string) => void;
+  tileLayer: string;
   setTileLayer: (layer: string) => void;
   showProperties: string;
   setShowProperties: (showProperties: string) => void;
+  showScars: string;
+  setShowScars: (setShowScars: string) => void;
 };
 
 export function Layers({
-  setOption, setTileLayer, showProperties, setShowProperties,
+  setOption, tileLayer, setTileLayer, showProperties, setShowProperties, showScars, setShowScars,
 }: LayersProps) {
   return (
     <Wrapper>
       <Close onClick={() => setOption('')}><MdClose size="20px" color={colors.yellow} /></Close>
-      <YellowH3>TIPO DE MAPA</YellowH3>
-      <FlexRow>
-        <Tippy content="SATÉLITE" placement="bottom"><Layer backgroundImage={satellite} onClick={() => setTileLayer('satellite')} /></Tippy>
-        <Tippy content="ARRUAMENTOS" placement="bottom"><Layer backgroundImage={street} onClick={() => setTileLayer('street')} /></Tippy>
-        <Tippy content="HÍBRIDO" placement="bottom"><Layer backgroundImage={hybrid} onClick={() => setTileLayer('hybrid')} /></Tippy>
-      </FlexRow>
-      <YellowH3>OPÇÕES</YellowH3>
-      <FlexRow>
-        {showProperties === 'all' && (
-          <>
-            <Tippy content="PROPRIEDADES" placement="bottom"><OptionActive><MdVisibility size="40px" /></OptionActive></Tippy>
-            <Tippy content="PROPRIEDADES PRIORITÁRIAS" placement="bottom"><Option onClick={() => setShowProperties('priority')}><MdWarning size="40px" /></Option></Tippy>
-            <Tippy content="PROPRIEDADES DE PONTO DE IGNIÇÃO" placement="bottom"><Option onClick={() => setShowProperties('ignition')}><MdLocalFireDepartment size="40px" /></Option></Tippy>
-          </>
-        )}
-        {showProperties === 'priority' && (
-          <>
-            <Tippy content="PROPRIEDADES" placement="bottom"><Option onClick={() => setShowProperties('all')}><MdVisibility size="40px" /></Option></Tippy>
-            <Tippy content="PROPRIEDADES PRIORITÁRIAS" placement="bottom"><OptionActive><MdWarning size="40px" /></OptionActive></Tippy>
-            <Tippy content="PROPRIEDADES DE PONTO DE IGNIÇÃO" placement="bottom"><Option onClick={() => setShowProperties('ignition')}><MdLocalFireDepartment size="40px" /></Option></Tippy>
-          </>
-        )}
-        {showProperties === 'ignition' && (
-          <>
-            <Tippy content="PROPRIEDADES" placement="bottom"><Option onClick={() => setShowProperties('all')}><MdVisibility size="40px" /></Option></Tippy>
-            <Tippy content="PROPRIEDADES PRIORITÁRIAS" placement="bottom"><Option onClick={() => setShowProperties('priority')}><MdWarning size="40px" /></Option></Tippy>
-            <Tippy content="PROPRIEDADES DE PONTO DE IGNIÇÃO" placement="bottom"><OptionActive><MdLocalFireDepartment size="40px" /></OptionActive></Tippy>
-          </>
-        )}
-
-      </FlexRow>
-      {showProperties === 'all' && <Info>Mostrando todas as propriedades.</Info>}
-      {showProperties === 'priority' && <Info>Mostrando propriedades prioritárias.</Info>}
-      {showProperties === 'ignition' && <Info>Mostrando propriedades consideradas ponto de ignição.</Info>}
+      <OptionsGroup>
+        <YellowH3>TIPO DE MAPA</YellowH3>
+        {tileLayer === 'satellite' && <Info>Selecionado: satélite.</Info>}
+        {tileLayer === 'street' && <Info>Selecionado: arruamentos.</Info>}
+        {tileLayer === 'hybrid' && <Info>Selecionado: híbrido.</Info>}
+        <FlexRow>
+          <Tippy content="SATÉLITE" placement="bottom"><Layer backgroundImage={satellite} onClick={() => setTileLayer('satellite')} /></Tippy>
+          <Tippy content="ARRUAMENTOS" placement="bottom"><Layer backgroundImage={street} onClick={() => setTileLayer('street')} /></Tippy>
+          <Tippy content="HÍBRIDO" placement="bottom"><Layer backgroundImage={hybrid} onClick={() => setTileLayer('hybrid')} /></Tippy>
+        </FlexRow>
+      </OptionsGroup>
+      <OptionsGroup>
+        <YellowH3>PROPRIEDADES</YellowH3>
+        {showProperties === 'all' && <Info>Selecionado: todas.</Info>}
+        {showProperties === 'priority' && <Info>Selecionado: prioritárias.</Info>}
+        {showProperties === 'ignition' && <Info>Selecionado: ponto de ignição.</Info>}
+        <FlexRow>
+          <Tippy content="TODAS" placement="bottom">
+            <>
+              {showProperties !== 'all' && <Option onClick={() => setShowProperties('all')}><MdVisibility size="40px" /></Option>}
+              {showProperties === 'all' && <OptionActive><MdVisibility size="40px" /></OptionActive>}
+            </>
+          </Tippy>
+          <Tippy content="PRIORITÁRIAS" placement="bottom">
+            <>
+              {showProperties !== 'priority' && <Option onClick={() => setShowProperties('priority')}><MdWarning size="40px" /></Option>}
+              {showProperties === 'priority' && <OptionActive><MdWarning size="40px" /></OptionActive>}
+            </>
+          </Tippy>
+          <Tippy content="PONTO DE IGNIÇÃO" placement="bottom">
+            <>
+              {showProperties !== 'ignition' && <Option onClick={() => setShowProperties('ignition')}><MdLocalFireDepartment size="40px" /></Option>}
+              {showProperties === 'ignition' && <OptionActive><MdLocalFireDepartment size="40px" /></OptionActive>}
+            </>
+          </Tippy>
+        </FlexRow>
+      </OptionsGroup>
+      <OptionsGroup>
+        <YellowH3>HISTÓRICO DE QUEIMADAS</YellowH3>
+        {showScars === 'none' && <Info>Selecionado: não mostrar.</Info>}
+        {showScars === '1d' && <Info>Selecionado: 1 dia.</Info>}
+        {showScars === '7d' && <Info>Selecionado: 7 dias.</Info>}
+        {showScars === '15d' && <Info>Selecionado: 15 dias.</Info>}
+        {showScars === '30d' && <Info>Selecionado: 30 dias.</Info>}
+        {showScars === '60d' && <Info>Selecionado: 60 dias.</Info>}
+        <FlexRow>
+          <Tippy content="NÃO MOSTRAR HISTÓRICO" placement="bottom">
+            <>
+              {showScars !== 'none' && <Option onClick={() => setShowScars('none')}><MdClose size="40px" /></Option>}
+              {showScars === 'none' && <OptionActive><MdClose size="40px" /></OptionActive>}
+            </>
+          </Tippy>
+          <Tippy content="HISTÓRICO DE 1 DIA" placement="bottom">
+            <>
+              {showScars !== '1d' && <Option onClick={() => setShowScars('1d')}>1d</Option>}
+              {showScars === '1d' && <OptionActive>1d</OptionActive>}
+            </>
+          </Tippy>
+          <Tippy content="HISTÓRICO DE 7 DIAS" placement="bottom">
+            <>
+              {showScars !== '7d' && <Option onClick={() => setShowScars('7d')}>7d</Option>}
+              {showScars === '7d' && <OptionActive>7d</OptionActive>}
+            </>
+          </Tippy>
+        </FlexRow>
+        <FlexRow>
+          <Tippy content="HISTÓRICO DE 15 DIAS" placement="bottom">
+            <>
+              {showScars !== '15d' && <Option onClick={() => setShowScars('15d')}>15d</Option>}
+              {showScars === '15d' && <OptionActive>15d</OptionActive>}
+            </>
+          </Tippy>
+          <Tippy content="HISTÓRICO DE 30 DIAS" placement="bottom">
+            <>
+              {showScars !== '30d' && <Option onClick={() => setShowScars('30d')}>30d</Option>}
+              {showScars === '30d' && <OptionActive>30d</OptionActive>}
+            </>
+          </Tippy>
+          <Tippy content="HISTÓRICO DE 60 DIAS" placement="bottom">
+            <>
+              {showScars !== '60d' && <Option onClick={() => setShowScars('60d')}>60d</Option>}
+              {showScars === '60d' && <OptionActive>60d</OptionActive>}
+            </>
+          </Tippy>
+        </FlexRow>
+      </OptionsGroup>
     </Wrapper>
   );
 }

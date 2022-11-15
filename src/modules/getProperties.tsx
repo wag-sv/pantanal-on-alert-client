@@ -6,6 +6,6 @@ export const getProperties = async () => {
     const properties = response.data.activeProperties;
     return { data: properties, error: null };
   } catch (catched) {
-    return { data: null, error: 'Erro inesperado. Tente novamente em alguns instantes.' };
+    return { data: null, error: 'Erro de comunicação com o servidor. (002).' };
   }
 };
