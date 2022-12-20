@@ -212,6 +212,7 @@ export function Map() {
         setShowProperties={setShowProperties}
         showScars={showScars}
         setShowScars={setShowScars}
+        serviceStatus={appState.fireScars.serviceStatus}
       />
       )}
     </>
