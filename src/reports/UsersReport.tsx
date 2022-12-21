@@ -1,7 +1,5 @@
 import * as pdfMake from 'pdfmake/build/pdfmake';
-import * as pdfFonts from 'pdfmake/build/vfs_fonts';
-
-(pdfMake as any).vfs = pdfFonts.pdfMake.vfs;
+import 'pdfmake/build/vfs_fonts';
 
 export function UsersReport(users: any) {
   const title = [
