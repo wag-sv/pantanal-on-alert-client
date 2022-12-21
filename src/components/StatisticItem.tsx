@@ -5,7 +5,12 @@ import { devices } from '../resources/devices';
 
 const Wrapper = styled.div`
   display: flex;
+  flex-direction: column;
   width: 100%;
+
+  @media ${devices.mobileM} {
+    flex-direction: row;
+  }
 `;
 
 const Name = styled.div`
@@ -15,15 +20,15 @@ const Name = styled.div`
   color: ${colors.red};
   display: flex;
   flex-grow: 1;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   font-weight: 500;
   height: 40px;
-  justify-content: flex-start;
+  justify-content: center;
   margin: 0px;
-  padding: 10px 20px;
+  padding: 10px;
 
-  @media ${devices.mobileL} {
-    font-size: 1.3rem;
+  @media ${devices.mobileM} {
+    justify-content: flex-start;
   }
 `;
 
@@ -33,18 +38,16 @@ const Number = styled.div`
   border: none;
   color: ${colors.red};
   display: flex;
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   height: 40px;
   justify-content: center;
   margin: 0px;
-  min-width: 80px;
-  padding: 10px 20px;
-  width: 80px;
+  padding: 10px;
+  width: 100%;
 
-  @media ${devices.mobileL} {
-    font-size: 1.3rem;
-    width: 100px;
-    min-width: 100px;
+  @media ${devices.mobileM} {
+    width: 90px;
+    min-width: 90px;
   }
 `;
 

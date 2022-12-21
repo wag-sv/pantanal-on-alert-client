@@ -10,15 +10,10 @@ import { colors } from '../resources/theme';
 import { devices } from '../resources/devices';
 
 const Wrapper = styled.div`
-  align-items: center;
   background-color: ${colors.red};
   border: 1px solid ${colors.yellow};
   display: flex;
-  flex-direction: column;
-  gap: 5px;
-  justify-content: flex-start;
   max-height: calc(var(--content-height) - 43px);
-  overflow-y: auto;
   padding: 20px;
   position: absolute;
   right: 70px;
@@ -31,8 +26,19 @@ const Wrapper = styled.div`
   }
 `;
 
+const Content = styled.div`
+  align-items: center;
+  flex-direction: column;
+  gap: 5px;
+  justify-content: flex-start;
+  overflow-y: auto;
+  width: 100%;
+`;
+
 const Close = styled.div`
   align-items: center;
+  background-color: ${colors.darkRed};
+  border: 1px solid ${colors.yellow};
   cursor: pointer;
   display: flex;
   height: 20px;
@@ -41,11 +47,6 @@ const Close = styled.div`
   right: 10px;
   top: 10px;
   width: 20px;
-
-  &:hover {
-    background-color: ${colors.darkRed};
-    border: 1px solid ${colors.yellow}
-  }
 `;
 
 const DataGroup = styled.div`
@@ -78,24 +79,26 @@ export function Statistics({
   return (
     <Wrapper>
       <Close onClick={() => setOption('')}><MdClose size="20px" color={colors.yellow} /></Close>
-      <DataGroup>
-        <YellowH3>ESTATÍSTICAS</YellowH3>
-        <YellowH4>TEMPO REAL</YellowH4>
-        <StatisticItem name="Focos de calor" number={statistics.fireSpots} />
-        <StatisticItem name="Municípios atingidos" number={statistics.affectedMunicipalities} />
-        <StatisticItem name="Propriedades atingidas" number={statistics.affectedProperties} />
-      </DataGroup>
-      {/* {scarsServiceStatus === 'up' && ( */}
-      <DataGroup>
-        <YellowH4>HISTÓRICO</YellowH4>
-        <YellowH5>(hectares queimados)</YellowH5>
-        <StatisticItem name="1 dia" number={applyMask(scarsStatistics.hectaresBurnedInTheLast1Day) || ''} />
-        <StatisticItem name="7 dias" number={applyMask(scarsStatistics.hectaresBurnedInTheLast7Days) || ''} />
-        <StatisticItem name="15 dias" number={applyMask(scarsStatistics.hectaresBurnedInTheLast15Days) || ''} />
-        <StatisticItem name="30 dias" number={applyMask(scarsStatistics.hectaresBurnedInTheLast30Days) || ''} />
-        <StatisticItem name="60 dias" number={applyMask(scarsStatistics.hectaresBurnedInTheLast60Days) || ''} />
-      </DataGroup>
-      {/* )} */}
+      <Content>
+        <DataGroup>
+          <YellowH3>ESTATÍSTICAS</YellowH3>
+          <YellowH4>TEMPO REAL</YellowH4>
+          <StatisticItem name="Focos de calor" number={statistics.fireSpots} />
+          <StatisticItem name="Municípios atingidos" number={statistics.affectedMunicipalities} />
+          <StatisticItem name="Propriedades atingidas" number={statistics.affectedProperties} />
+        </DataGroup>
+        {/* {scarsServiceStatus === 'up' && ( */}
+        <DataGroup>
+          <YellowH4>HISTÓRICO</YellowH4>
+          <YellowH5>(hectares queimados)</YellowH5>
+          <StatisticItem name="1 dia" number={applyMask(scarsStatistics.hectaresBurnedInTheLast1Day) || ''} />
+          <StatisticItem name="7 dias" number={applyMask(scarsStatistics.hectaresBurnedInTheLast7Days) || ''} />
+          <StatisticItem name="15 dias" number={applyMask(scarsStatistics.hectaresBurnedInTheLast15Days) || ''} />
+          <StatisticItem name="30 dias" number={applyMask(scarsStatistics.hectaresBurnedInTheLast30Days) || ''} />
+          <StatisticItem name="60 dias" number={applyMask(scarsStatistics.hectaresBurnedInTheLast60Days) || ''} />
+        </DataGroup>
+        {/* )} */}
+      </Content>
     </Wrapper>
   );
 }
