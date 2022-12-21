@@ -7,6 +7,15 @@ import RobotoBlack from './assets/fonts/Roboto/Roboto-Black.ttf';
 import 'tippy.js/dist/tippy.css';
 import { colors } from './resources/theme';
 
+// const root = document.getElementById('root');
+
+// if (root !== null) {
+//   const resizeObserver = new ResizeObserver(() => {
+//     console.log(root.clientHeight);
+//   });
+//   resizeObserver.observe(root);
+// }
+
 export const GlobalStyle = createGlobalStyle`  
 
 @font-face {
@@ -51,7 +60,7 @@ export const GlobalStyle = createGlobalStyle`
 
   :root {
     font-size: 10px;
-    --app-height: 100vh;
+    --app-height: -webkit-fill-available;
     --header-height: 80px;
     --navbar-height: 50px;
     --content-height: calc(var(--app-height) - (var(--header-height) + var(--navbar-height) + var(--footer-height)));
