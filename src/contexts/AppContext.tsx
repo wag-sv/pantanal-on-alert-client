@@ -14,6 +14,7 @@ const appContextInitialValue = {
     properties: [],
     fireSpots: [],
     statistics: { fireSpots: '', affectedMunicipalities: '', affectedProperties: '' },
+    fireScars: { statistics: {} },
   },
   setAppState: () => {},
 };

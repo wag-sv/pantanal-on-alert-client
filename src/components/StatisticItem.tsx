@@ -42,7 +42,7 @@ const Number = styled.div`
   height: 50px;
   justify-content: center;
   margin: 0px;
-  min-width: 80px;
+  min-width: 100px;
   padding: 10px 20px;
   width: 100%;
 
