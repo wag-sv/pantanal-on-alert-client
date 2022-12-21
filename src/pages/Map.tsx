@@ -211,7 +211,7 @@ export function Map() {
         </MapContainer>
       ) }
       <MapSideMenu setOption={setOption} />
-      {option === 'statistics' && <Statistics statistics={appState.statistics} scarsStatistics={appState.fireScars.statistics} setOption={setOption} />}
+      {option === 'statistics' && <Statistics statistics={appState.statistics} scarsServiceStatus={appState.fireScars.serviceStatus} scarsStatistics={appState.fireScars.statistics} setOption={setOption} />}
       {option === 'search' && <Search setSearchTerm={setSearchTerm} setOption={setOption} />}
       {option === 'layers' && (
       <Layers

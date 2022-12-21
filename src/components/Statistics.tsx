@@ -15,7 +15,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   gap: 5px;
   justify-content: flex-start;
-  max-height: calc(var(--content-height) - 40px);
+  max-height: calc(var(--content-height) - 43px);
   overflow-y: scroll;
   padding: 20px;
   position: absolute;
@@ -57,6 +57,7 @@ const DataGroup = styled.div`
 
 type StatisticsProps = {
   statistics: any;
+  scarsServiceStatus: string;
   scarsStatistics: any;
   setOption: (option: string) => void;
 };
@@ -69,7 +70,9 @@ const applyMask = (numberOfHectares: any) => {
   return mask(numberOfHectares, '999.999.999');
 };
 
-export function Statistics({ statistics, scarsStatistics, setOption }: StatisticsProps) {
+export function Statistics({
+  statistics, scarsServiceStatus, scarsStatistics, setOption,
+}: StatisticsProps) {
   return (
     <Wrapper>
       <Close onClick={() => setOption('')}><MdClose size="20px" color={colors.yellow} /></Close>
@@ -79,6 +82,7 @@ export function Statistics({ statistics, scarsStatistics, setOption }: Statistic
         <StatisticItem name="Municípios atingidos" number={statistics.affectedMunicipalities} />
         <StatisticItem name="Propriedades atingidas" number={statistics.affectedProperties} />
       </DataGroup>
+      {scarsServiceStatus === 'up' && (
       <DataGroup>
         <YellowH3>HECTARES QUEIMADOS</YellowH3>
         <StatisticItem name="1 dia" number={applyMask(scarsStatistics.hectaresBurnedInTheLast1Day) || ''} />
@@ -87,6 +91,7 @@ export function Statistics({ statistics, scarsStatistics, setOption }: Statistic
         <StatisticItem name="30 dias" number={applyMask(scarsStatistics.hectaresBurnedInTheLast30Days) || ''} />
         <StatisticItem name="60 dias" number={applyMask(scarsStatistics.hectaresBurnedInTheLast60Days) || ''} />
       </DataGroup>
+      )}
     </Wrapper>
   );
 }
