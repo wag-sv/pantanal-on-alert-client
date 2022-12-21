@@ -7,11 +7,18 @@ import RobotoBlack from './assets/fonts/Roboto/Roboto-Black.ttf';
 import 'tippy.js/dist/tippy.css';
 import { colors } from './resources/theme';
 
+const documentHeight = () => {
+  const doc = document.documentElement;
+  doc.style.setProperty('--app-height', `${window.innerHeight}px`);
+};
+window.addEventListener('resize', documentHeight);
+documentHeight();
+
 // const root = document.getElementById('root');
 
 // if (root !== null) {
 //   const resizeObserver = new ResizeObserver(() => {
-//     console.log(root.clientHeight);
+//     resizeIframe(root);
 //   });
 //   resizeObserver.observe(root);
 // }
@@ -60,7 +67,7 @@ export const GlobalStyle = createGlobalStyle`
 
   :root {
     font-size: 10px;
-    --app-height: 100vh;
+    --app-height: 100%;
     --header-height: 80px;
     --navbar-height: 50px;
     --content-height: calc(var(--app-height) - (var(--header-height) + var(--navbar-height) + var(--footer-height)));
@@ -73,6 +80,12 @@ export const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
     font-family: 'Roboto', sans-serif;
     outline-color: ${colors.yellow}
+  }
+
+  html,
+  body {
+    height: 100vh;
+    height: var(--doc-height);
   }
 
   #map {
