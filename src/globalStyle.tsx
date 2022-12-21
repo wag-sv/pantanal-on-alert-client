@@ -14,15 +14,6 @@ const documentHeight = () => {
 window.addEventListener('resize', documentHeight);
 documentHeight();
 
-// const root = document.getElementById('root');
-
-// if (root !== null) {
-//   const resizeObserver = new ResizeObserver(() => {
-//     resizeIframe(root);
-//   });
-//   resizeObserver.observe(root);
-// }
-
 export const GlobalStyle = createGlobalStyle`  
 
 @font-face {
@@ -80,12 +71,6 @@ export const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
     font-family: 'Roboto', sans-serif;
     outline-color: ${colors.yellow}
-  }
-
-  html,
-  body {
-    height: 100vh;
-    height: var(--doc-height);
   }
 
   #map {
