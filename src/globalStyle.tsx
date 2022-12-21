@@ -60,7 +60,7 @@ export const GlobalStyle = createGlobalStyle`
 
   :root {
     font-size: 10px;
-    --app-height: -webkit-fill-available;
+    --app-height: 100vh;
     --header-height: 80px;
     --navbar-height: 50px;
     --content-height: calc(var(--app-height) - (var(--header-height) + var(--navbar-height) + var(--footer-height)));
