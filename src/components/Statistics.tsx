@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { MdClose } from 'react-icons/md';
 import { mask } from 'node-masker';
 import { YellowH3 } from './H3';
+import { YellowH4 } from './H4';
+import { YellowH5 } from './H5';
 import { StatisticItem } from './StatisticItem';
 import { colors } from '../resources/theme';
 import { devices } from '../resources/devices';
@@ -16,7 +18,7 @@ const Wrapper = styled.div`
   gap: 5px;
   justify-content: flex-start;
   max-height: calc(var(--content-height) - 43px);
-  overflow-y: scroll;
+  overflow-y: auto;
   padding: 20px;
   position: absolute;
   right: 70px;
@@ -78,20 +80,22 @@ export function Statistics({
       <Close onClick={() => setOption('')}><MdClose size="20px" color={colors.yellow} /></Close>
       <DataGroup>
         <YellowH3>ESTATÍSTICAS</YellowH3>
+        <YellowH4>TEMPO REAL</YellowH4>
         <StatisticItem name="Focos de calor" number={statistics.fireSpots} />
         <StatisticItem name="Municípios atingidos" number={statistics.affectedMunicipalities} />
         <StatisticItem name="Propriedades atingidas" number={statistics.affectedProperties} />
       </DataGroup>
-      {scarsServiceStatus === 'up' && (
+      {/* {scarsServiceStatus === 'up' && ( */}
       <DataGroup>
-        <YellowH3>HECTARES QUEIMADOS</YellowH3>
+        <YellowH4>HISTÓRICO</YellowH4>
+        <YellowH5>(hectares queimados)</YellowH5>
         <StatisticItem name="1 dia" number={applyMask(scarsStatistics.hectaresBurnedInTheLast1Day) || ''} />
         <StatisticItem name="7 dias" number={applyMask(scarsStatistics.hectaresBurnedInTheLast7Days) || ''} />
         <StatisticItem name="15 dias" number={applyMask(scarsStatistics.hectaresBurnedInTheLast15Days) || ''} />
         <StatisticItem name="30 dias" number={applyMask(scarsStatistics.hectaresBurnedInTheLast30Days) || ''} />
         <StatisticItem name="60 dias" number={applyMask(scarsStatistics.hectaresBurnedInTheLast60Days) || ''} />
       </DataGroup>
-      )}
+      {/* )} */}
     </Wrapper>
   );
 }

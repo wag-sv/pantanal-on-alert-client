@@ -5,12 +5,7 @@ import { devices } from '../resources/devices';
 
 const Wrapper = styled.div`
   display: flex;
-  flex-direction: column;
   width: 100%;
-
-  @media ${devices.mobileL} {
-    flex-direction: row;
-  }
 `;
 
 const Name = styled.div`
@@ -20,15 +15,15 @@ const Name = styled.div`
   color: ${colors.red};
   display: flex;
   flex-grow: 1;
-  font-size: 1.4rem;
+  font-size: 1.1rem;
   font-weight: 500;
-  height: 50px;
-  justify-content: center;
+  height: 40px;
+  justify-content: flex-start;
   margin: 0px;
   padding: 10px 20px;
 
   @media ${devices.mobileL} {
-    justify-content: flex-start;
+    font-size: 1.3rem;
   }
 `;
 
@@ -38,16 +33,18 @@ const Number = styled.div`
   border: none;
   color: ${colors.red};
   display: flex;
-  font-size: 1.5rem;
-  height: 50px;
+  font-size: 1.1rem;
+  height: 40px;
   justify-content: center;
   margin: 0px;
-  min-width: 100px;
+  min-width: 80px;
   padding: 10px 20px;
-  width: 100%;
+  width: 80px;
 
   @media ${devices.mobileL} {
-    width: 80px;
+    font-size: 1.3rem;
+    width: 100px;
+    min-width: 100px;
   }
 `;
 

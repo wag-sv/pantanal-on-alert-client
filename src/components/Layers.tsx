@@ -20,7 +20,7 @@ const Wrapper = styled.div`
   gap: 10px;
   justify-content: flex-start;
   max-height: calc(var(--content-height) - 43px);
-  overflow-y: scroll;
+  overflow-y: auto;
   padding: 20px;
   position: absolute;
   right: 70px;
