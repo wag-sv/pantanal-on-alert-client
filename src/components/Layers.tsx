@@ -178,61 +178,58 @@ export function Layers({
           </Tippy>
         </FlexRow>
       </OptionsGroup>
+      {serviceStatus === 'up' && (
       <OptionsGroup>
         <YellowH3>HISTÓRICO DE QUEIMADAS</YellowH3>
-        {serviceStatus === 'down' && <Info>Indisponível no momento.</Info>}
-        {serviceStatus === 'up' && (
-        <>
-          {showScars === 'none' && <Info>Selecionado: não mostrar.</Info>}
-          {showScars === '1d' && <Info>Selecionado: 1 dia.</Info>}
-          {showScars === '7d' && <Info>Selecionado: 7 dias.</Info>}
-          {showScars === '15d' && <Info>Selecionado: 15 dias.</Info>}
-          {showScars === '30d' && <Info>Selecionado: 30 dias.</Info>}
-          {showScars === '60d' && <Info>Selecionado: 60 dias.</Info>}
-          <FlexRow>
-            <Tippy content="NÃO MOSTRAR HISTÓRICO" placement="bottom">
-              <>
-                {showScars !== 'none' && <Option onClick={() => setShowScars('none')}><MdClose size="40px" /></Option>}
-                {showScars === 'none' && <OptionActive><MdClose size="40px" /></OptionActive>}
-              </>
-            </Tippy>
-            <Tippy content="HISTÓRICO DE 1 DIA" placement="bottom">
-              <>
-                {showScars !== '1d' && <Option onClick={() => setShowScars('1d')}>1d</Option>}
-                {showScars === '1d' && <OptionActive>1d</OptionActive>}
-              </>
-            </Tippy>
-            <Tippy content="HISTÓRICO DE 7 DIAS" placement="bottom">
-              <>
-                {showScars !== '7d' && <Option onClick={() => setShowScars('7d')}>7d</Option>}
-                {showScars === '7d' && <OptionActive>7d</OptionActive>}
-              </>
-            </Tippy>
-          </FlexRow>
-          <FlexRow>
-            <Tippy content="HISTÓRICO DE 15 DIAS" placement="bottom">
-              <>
-                {showScars !== '15d' && <Option onClick={() => setShowScars('15d')}>15d</Option>}
-                {showScars === '15d' && <OptionActive>15d</OptionActive>}
-              </>
-            </Tippy>
-            <Tippy content="HISTÓRICO DE 30 DIAS" placement="bottom">
-              <>
-                {showScars !== '30d' && <Option onClick={() => setShowScars('30d')}>30d</Option>}
-                {showScars === '30d' && <OptionActive>30d</OptionActive>}
-              </>
-            </Tippy>
-            <Tippy content="HISTÓRICO DE 60 DIAS" placement="bottom">
-              <>
-                {showScars !== '60d' && <Option onClick={() => setShowScars('60d')}>60d</Option>}
-                {showScars === '60d' && <OptionActive>60d</OptionActive>}
-              </>
-            </Tippy>
-          </FlexRow>
-        </>
-        )}
-
+        {showScars === 'none' && <Info>Selecionado: não mostrar.</Info>}
+        {showScars === '1d' && <Info>Selecionado: 1 dia.</Info>}
+        {showScars === '7d' && <Info>Selecionado: 7 dias.</Info>}
+        {showScars === '15d' && <Info>Selecionado: 15 dias.</Info>}
+        {showScars === '30d' && <Info>Selecionado: 30 dias.</Info>}
+        {showScars === '60d' && <Info>Selecionado: 60 dias.</Info>}
+        <FlexRow>
+          <Tippy content="NÃO MOSTRAR HISTÓRICO" placement="bottom">
+            <>
+              {showScars !== 'none' && <Option onClick={() => setShowScars('none')}><MdClose size="40px" /></Option>}
+              {showScars === 'none' && <OptionActive><MdClose size="40px" /></OptionActive>}
+            </>
+          </Tippy>
+          <Tippy content="HISTÓRICO DE 1 DIA" placement="bottom">
+            <>
+              {showScars !== '1d' && <Option onClick={() => setShowScars('1d')}>1d</Option>}
+              {showScars === '1d' && <OptionActive>1d</OptionActive>}
+            </>
+          </Tippy>
+          <Tippy content="HISTÓRICO DE 7 DIAS" placement="bottom">
+            <>
+              {showScars !== '7d' && <Option onClick={() => setShowScars('7d')}>7d</Option>}
+              {showScars === '7d' && <OptionActive>7d</OptionActive>}
+            </>
+          </Tippy>
+        </FlexRow>
+        <FlexRow>
+          <Tippy content="HISTÓRICO DE 15 DIAS" placement="bottom">
+            <>
+              {showScars !== '15d' && <Option onClick={() => setShowScars('15d')}>15d</Option>}
+              {showScars === '15d' && <OptionActive>15d</OptionActive>}
+            </>
+          </Tippy>
+          <Tippy content="HISTÓRICO DE 30 DIAS" placement="bottom">
+            <>
+              {showScars !== '30d' && <Option onClick={() => setShowScars('30d')}>30d</Option>}
+              {showScars === '30d' && <OptionActive>30d</OptionActive>}
+            </>
+          </Tippy>
+          <Tippy content="HISTÓRICO DE 60 DIAS" placement="bottom">
+            <>
+              {showScars !== '60d' && <Option onClick={() => setShowScars('60d')}>60d</Option>}
+              {showScars === '60d' && <OptionActive>60d</OptionActive>}
+            </>
+          </Tippy>
+        </FlexRow>
       </OptionsGroup>
+      )}
+
     </Wrapper>
   );
 }

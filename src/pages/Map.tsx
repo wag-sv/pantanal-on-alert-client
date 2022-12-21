@@ -6,6 +6,7 @@ import L from 'leaflet';
 import {
   MapContainer, TileLayer, GeoJSON, Marker, ZoomControl,
 } from 'react-leaflet';
+import MarkerClusterGroup from 'react-leaflet-cluster';
 import { getServiceStatus } from '../modules/getServiceStatus';
 import { getProperties } from '../modules/getProperties';
 import { getFireSpots } from '../modules/getFireSpots';
@@ -175,6 +176,7 @@ export function Map() {
           zoomSnap={1}
           zoomControl={false}
           doubleClickZoom
+          maxZoom={17}
         >
           <ZoomControl position="bottomright" />
 
@@ -191,11 +193,19 @@ export function Map() {
             </GeoJSON>
           ))}
 
-          {appState.fireSpots.map((fireSpot: any) => (
-            <Marker key={uuidv4()} position={[fireSpot.latitude, fireSpot.longitude]} icon={flameIcon}>
-              <StyledTooltip fireSpot={fireSpot} />
-            </Marker>
-          ))}
+          <MarkerClusterGroup
+            chunkedLoading
+            removeOutsideVisibleBounds
+            maxClusterRadius={(zoom: number) => zoom * 7}
+            disableClusteringAtZoom={9}
+            showCoverageOnHover={false}
+          >
+            {appState.fireSpots.map((fireSpot: any) => (
+              <Marker key={uuidv4()} position={[fireSpot.latitude, fireSpot.longitude]} icon={flameIcon}>
+                <StyledTooltip fireSpot={fireSpot} />
+              </Marker>
+            ))}
+          </MarkerClusterGroup>
 
           {fireScars.map((fireScar: any) => <GeoJSON key={fireScar.properties.FID} data={fireScar} pathOptions={fireScarStyle} />)}
         </MapContainer>

@@ -1,10 +1,7 @@
-import * as pdfMake from 'pdfmake/build/pdfmake';
-import * as pdfFonts from 'pdfmake/build/vfs_fonts';
-import 'pdfmake/build/vfs_fonts';
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
 
-if (!import.meta.env.PROD) {
-  (pdfMake as any).vfs = pdfFonts.pdfMake.vfs;
-}
+(pdfMake as any).vfs = pdfFonts.pdfMake.vfs;
 
 export function UsersReport(users: any) {
   const title = [
