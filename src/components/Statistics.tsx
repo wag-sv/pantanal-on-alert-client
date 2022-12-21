@@ -13,8 +13,10 @@ const Wrapper = styled.div`
   border: 1px solid ${colors.yellow};
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 5px;
   justify-content: flex-start;
+  max-height: calc(var(--content-height) - 40px);
+  overflow-y: scroll;
   padding: 20px;
   position: absolute;
   right: 70px;
@@ -48,7 +50,7 @@ const DataGroup = styled.div`
   align-items: center;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 5px;
   padding-bottom: 10px;
   width: 100%;
 `;
