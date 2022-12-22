@@ -199,6 +199,7 @@ export function Map() {
             maxClusterRadius={(zoom: number) => zoom * 7}
             disableClusteringAtZoom={9}
             showCoverageOnHover={false}
+            spiderfyOnMaxZoom={false}
           >
             {appState.fireSpots.map((fireSpot: any) => (
               <Marker key={uuidv4()} position={[fireSpot.latitude, fireSpot.longitude]} icon={flameIcon}>
