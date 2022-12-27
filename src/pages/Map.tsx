@@ -75,6 +75,8 @@ export function Map() {
       setReady(true);
     };
     runGetData();
+    const intervalId = setInterval(async () => runGetData(), 3600000);
+    return () => clearInterval(intervalId);
   }, []);
 
   const position: L.LatLngExpression = [
