@@ -87,7 +87,7 @@ export function Statistics({
           <StatisticItem name="Municípios atingidos" number={statistics.affectedMunicipalities} />
           <StatisticItem name="Propriedades atingidas" number={statistics.affectedProperties} />
         </DataGroup>
-        {scarsServiceStatus === 'up' && (
+        {/* {scarsServiceStatus === 'up' && (
         <DataGroup>
           <YellowH4>HISTÓRICO</YellowH4>
           <YellowH5>(hectares queimados)</YellowH5>
@@ -97,7 +97,7 @@ export function Statistics({
           <StatisticItem name="30 dias" number={applyMask(scarsStatistics.hectaresBurnedInTheLast30Days) || ''} />
           <StatisticItem name="60 dias" number={applyMask(scarsStatistics.hectaresBurnedInTheLast60Days) || ''} />
         </DataGroup>
-        )}
+        )} */}
       </Content>
     </Wrapper>
   );
